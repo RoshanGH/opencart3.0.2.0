@@ -1,0 +1,60 @@
+{% set count = 1 %}
+<style>
+{% for section in sections %}
+	{% if section.bgcolor != '' %}
+		.rich_banner .rbanner{{ mod_id }}-{{ count }} .banner_inner { background: {{ section.bgcolor }}; border: 0; border-radius: 5px; }
+		.rich_banner .rbanner{{ mod_id }}-{{ count }} .info_wrapper { color: #fff; }
+	{% endif %}
+	{{ section.css }}
+	{% set count = count + 1 %}
+{% endfor %}
+</style>
+
+{% if module_title %}
+<div class="contentset center {{ title_visibility }}">
+	<h4 class="inner"><span>{{ module_title }}</span></h4>
+</div>
+{% endif %}
+<div id="adbanner{{ mod_id }}" class="rich_banner">
+	{% set count = 1 %}
+	{% for section in sections %}
+
+		{% set classes = ' col-md-' ~ 12 / columns %}
+		{% if columns > 1 %}
+			{% set classes = classes ~ ' col-sm-6' %}
+		{% endif %}
+
+		{% set classes =  classes ~ ' rbanner' ~ mod_id ~ '-' ~ count  ~ ' ' ~ section.visibility %}
+
+		{% if section.url != '' %}
+
+		<div class="banner {{ classes }}">
+			<a href="{{ section.url }}" class="{% if section.image != '' %}image{% endif %} banner_inner">
+				{% if section.image !='' %}
+					<img class="zoom_image img-responsive" alt="" src="{{ section.image }}" />
+				{% endif %}
+				<span class="info_wrapper">
+					{{ section.description }}
+				</span>
+			</a>
+		</div>
+
+		{% else %}
+
+		<div class="banner {{ classes }}">
+			<div class="{% if section.image != '' %}image{% endif %} banner_inner">
+				{% if section.image !='' %}
+					<img class="zoom_image img-responsive" alt="" src="{{ section.image }}" />
+				{% endif %}
+				<div class="info_wrapper">
+					{{ section.description }}
+				</div>
+			</div>
+		</div>
+
+		{% endif %}
+
+		{% set count = count + 1 %}
+
+	{% endfor %}
+</div>

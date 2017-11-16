@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<name>Testimonials - Sellegance</name>
+	<code>testimonials</code>
+	<version>2.1</version>
+	<author>everthemes.com</author>
+
+	<file path="admin/language/*/common/column_left.php">
+		<operation error="skip">
+			<search><![CDATA[
+			// Text
+			]]></search>
+			<add position="after"><![CDATA[
+				// Extra Tabs text
+				$_['text_testimonial'] = 'Testimonials';
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="admin/controller/common/column_left.php">
+		<operation error="skip">
+			<search><![CDATA[
+				if ($catalog) {
+				]]>
+			</search>
+			<add position="before" trim="true"><![CDATA[
+				if ($this->user->hasPermission('access', 'catalog/testimonial')) {		
+					$catalog[] = array(
+						'name'	   => $this->language->get('text_testimonial'),
+						'href'     => $this->url->link('catalog/testimonial', 'token=' . $this->session->data['token'], true),
+						'children' => array()		
+					);					
+				}
+				]]>
+			</add>
+		</operation>
+	</file>
+
+</modification>

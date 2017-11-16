@@ -1,0 +1,90 @@
+{{ header }}
+
+<div class="centralbox">
+		<div id="account-return" class="container">
+			<div class="container-inner">
+
+	{{ content_top }}
+	
+	<header class="page-header">
+		<h1>{{ heading_title }}</h1>
+	</header>
+
+	<ul class="breadcrumb">
+		{% for breadcrumb in breadcrumbs %}
+		<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+	</ul>
+
+	{% if column_left and column_right %}
+		{% set class = 'col-sm-6 middle sideleft' %}
+	{% elseif column_left or column_right %}
+		{% set class = 'col-sm-9' %}
+	{% else %}
+		{% set class = 'col-sm-12' %}
+	{% endif %}
+	
+	<div class="row">
+
+		{{ column_left }}
+
+		<div id="content" class="{{ class }}">
+
+			<div class="mainborder">
+
+				{% if returns %}
+		      <div class="table-responsive">
+		        <table class="table table-hover">
+		          <thead>
+		            <tr>
+		              <td class="text-right hidden-sm hidden-xs">{{ column_return_id }}</td>
+		              <td class="text-left">{{ column_status }}</td>
+		              <td class="text-left">{{ column_date_added }}</td>
+		              <td class="text-right hidden-xs">{{ column_order_id }}</td>
+		              <td class="text-left hidden-sm hidden-xs">{{ column_customer }}</td>
+		              <td></td>
+		            </tr>
+		          </thead>
+		          <tbody>
+		          
+		          {% for return in returns %}
+		          <tr>
+		            <td class="text-right hidden-sm hidden-xs">#{{ return.return_id }}</td>
+		            <td class="text-left">{{ return.status }}</td>
+		            <td class="text-left">{{ return.date_added }}</td>
+		            <td class="text-right hidden-xs">{{ return.order_id }}</td>
+		            <td class="text-left hidden-sm hidden-xs">{{ return.name }}</td>
+		            <td class="text-right"><a href="{{ return.href }}" title="{{ button_view }}" class="btn btn-default">{{ button_view }}</a></td>
+		          </tr>
+		          {% endfor %}
+		            </tbody>
+		          
+		        </table>
+		      </div>
+		      <div class="row">
+		        <div class="col-sm-6 text-left">{{ pagination }}</div>
+		        <div class="col-sm-6 text-right">{{ results }}</div>
+		      </div>
+
+		    {% else %}
+				
+					<div class="content empty">
+						<p>{{ text_empty }}</p>
+						<div class="buttons">
+							<a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a>
+						</div>
+					</div>
+
+				{% endif %}
+
+			</div>
+
+		</div> <!-- #content -->
+
+		{{ column_right }}
+
+	</div> <!-- .row -->
+
+	{{ content_bottom }}
+
+{{ footer }}

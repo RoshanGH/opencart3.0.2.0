@@ -1,0 +1,265 @@
+
+<!-- Category Links -->
+
+{% set linkidcount = 0 %}
+
+	{% if sellegance_menu_categories == 'inline' %}
+
+		{% if categories %}
+
+			{% for category in categories %}
+
+				{% if category.children %}
+
+					<li id="m{{ linkidcount }}" class="dropdown" ><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ category.name }} <span class="caret"></span></a>
+						
+						<ul class="dropdown-menu">
+							{% if sellegance_menu_category_icons == 1 %}
+								<div class="image">
+									<a href="{{ category.href }}"><img src="{{ category.thumb }}" title="{{ category.name }}" alt="{{ category.name }}" /></a>
+								</div>
+							{% endif %}
+
+							<li>
+
+								{% for children in category.children|batch(category.children|length / category.column|round(1, 'ceil')) %}
+
+							  <ul class="list-unstyled column-menu">
+							    
+							    {% for child in children %}
+							    	
+							    	{% if child.children_level_2 and sellegance_3rd_level_cat == 1 %}
+							    		
+							    		<li class="dropdown-submenu"><a href="{{ child.href }}">{{ child.name }}</a>
+							    			
+							    			<ul class="dropdown-menu thirdmenu">
+							    				
+							    				{% for child2 in child.children_level_2 %}
+						    				  	<li><a href="{{ child2.href }}">{{ child2.name }}</a></li>
+						    					{% endfor %}
+
+						    			  </ul>
+
+						    			</li>
+
+							    	{% else %}
+							    		
+							    		<li><a href="{{ child.href }}">{{ child.name }}</a></li>
+
+							    	{% endif %}
+
+							    {% endfor %}
+							  
+							  </ul>
+
+							  {% endfor %}
+
+							</li>
+
+							<li class="viewall"><a href="{{ category.href }}">{{ text_all }}  {{ category.name }}</a></li>
+
+						</ul>
+
+					</li>
+
+				{% else %}
+				
+					<li id="m{{ linkidcount }}"><a href="{{ category.href }}">{{ category.name }}</a></li>
+
+				{% endif %}
+
+				{% set linkidcount = linkidcount + 1 %}
+
+			{% endfor %} {# for category in categories #}
+
+		{% endif %}
+
+	{% elseif sellegance_menu_categories == 'table' %}
+
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ sellegance_categories_top_title[language_id] ? sellegance_categories_top_title[language_id] : text_menu_categories }} <span class="label" style="background:{{ sellegance_categories_tag_color }}">{{ sellegance_categories_tag[language_id] ? sellegance_categories_tag[language_id] : '' }}</span> <span class="caret"></span></a>
+			<ul class="dropdown-menu cols-{{ sellegance_menu_categories_x_row }}"> 
+
+				{% if categories %}
+
+					{% set count = 0 %}
+
+					{% for category in categories %}
+
+						{% if count > 0 and (count % sellegance_menu_categories_x_row == 0) %}
+							<li class="clearfix"></li>
+						{% endif %}
+
+						<li class="column-item">
+
+							{% if sellegance_menu_category_icons == 1 %}
+								<div class="image">
+									<a href="{{ category.href }}"><img src="{{ category.thumb }}" title="{{ category.name }}" alt="{{ category.name }}" /></a>
+								</div>
+							{% endif %}
+
+							<span class="maincat"><a href="{{ category.href }}">{{ category.name }}</a></span>
+
+							{% if category.children %}
+								
+								<ul>
+
+									<li class="column-menu">
+
+										<ul class="list-unstyled">
+
+									    {% for child in category.children %}
+									    	
+									    	{% if child.children_level_2 and sellegance_3rd_level_cat == 1 %}
+									    		
+									    		<li class="dropdown-submenu"><a href="{{ child.href }}">{{ child.name }}</a>
+									    			
+									    			<ul class="dropdown-menu thirdmenu">
+									    				
+									    				{% for child2 in child.children_level_2 %}
+								    				  	<li><a href="{{ child2.href }}">{{ child2.name }}</a></li>
+								    					{% endfor %}
+
+								    			  </ul>
+
+								    			</li>
+
+									    	{% else %}
+									    		
+									    		<li><a href="{{ child.href }}">{{ child.name }}</a></li>
+
+									    	{% endif %}
+
+									    {% endfor %}
+
+									  </ul>
+
+									</li>
+
+								</ul>
+	
+							{% endif %}
+
+						</li>
+
+						{% set linkidcount = linkidcount + 1 %}
+
+					{% endfor %} {# for category in categories #}
+
+				{% endif %}
+
+			</ul>
+
+		</li>
+
+	{% endif %}
+
+<!-- Brands -->
+
+{% if sellegance_menu_brands != 'hidden' %}
+
+	<li class="dropdown brands">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{sellegance_brands_top_title[language_id] ? sellegance_brands_top_title[language_id] : text_menu_brands }} <span class="label" style="background:{{ sellegance_brands_tag_color }}">{{ sellegance_brands_tag[language_id] ? sellegance_brands_tag[language_id] : '' }}</span> <span class="caret"></span></a>
+
+		<ul class="dropdown-menu cols-{{ sellegance_menu_brands_x_row }}"> 
+
+			{% if manufacturers and manufacturers != '' %}
+				{% for manufacturer in manufacturers %}
+				<li class="column-item {{ sellegance_menu_brands }}">
+					<a href="{{ manufacturer.href }}">
+					<span class="image"><img src="{{ manufacturer.image }}" title="{{ manufacturer.name }}" alt="{{ manufacturer.name }}" /></span>
+					<span class="name">{{ manufacturer.name }}</span></a>
+				</li>
+				{% endfor %}
+			{% endif %}
+		</ul>  
+	</li>
+
+{% endif %}
+
+<!-- Menu block contents -->
+
+{% if sellegance_menu_blocks %}
+
+	{% for menu_block in sellegance_menu_blocks %}
+
+		{% if menu_block.status == 1 and menu_block.visibility != 'desktop' %}
+
+			<li id="menu_block{{ menu_block.id }}" class="menu_block dropdown"><a class="dropdown-toggle" {% if (menu_block.content or menu_block.content =='') and menu_block.url != '' %} href="{{ menu_block.url }}" {% else %} data-toggle="dropdown" role="button" aria-expanded="false" {% endif %}>{{ menu_block.title ? menu_block.title }} {% if menu_block.tag != '' %} <span class="label" style="background:{{ menu_block.tagcolor }}">{{ menu_block.tag }}</span>{% endif %} <span class="caret"></span></a>
+
+				{% if menu_block.content and menu_block.content !='' %}
+
+					<ul class="dropdown-menu">
+						<li>
+						
+						{% if menu_block.url != '' %}
+							<p>Go to <a href="{{ menu_block.url }}">{{ menu_block.title ? menu_block.title : '' }}</a></p>
+						{% endif %}
+
+						{{ menu_block.content }}
+
+						</li>
+					</ul>
+
+				{% endif %}
+
+			</li>
+
+		{% endif %}
+
+	{% endfor %}
+
+{% endif %}
+
+<!-- Information pages -->
+
+{% if sellegance_menu_infopages == 'inline' %}
+
+	{% for information in informations %}
+		<li><a href="{{ information.href }}">{{ information.title }}</a></li>
+	{% endfor %}
+
+{% elseif sellegance_menu_infopages == 'vertical' %}
+
+	<li class="dropdown information-pages">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{sellegance_infopages_top_title[language_id] ? sellegance_infopages_top_title[language_id] : text_menu_information }} <span class="label" style="background: {{ sellegance_infopages_tag_color }}">{{ sellegance_infopages_tag[language_id] ? sellegance_infopages_tag[language_id] : '' }}</span> <span class="caret"></span></a>
+		<ul class="dropdown-menu">
+			{% for information in informations %}
+				<li><a href="{{ information.href }}">{{ information.title }}</a></li>
+			{% endfor %}
+		</ul>
+	</li>
+
+{% endif %}
+
+<!-- Custom links -->
+
+{% for menu_link in sellegance_menu_link %}
+
+	{% if menu_link.status == 1 and menu_link[language_id].url !='' %}
+		<li>
+			<a href="{{ menu_link[language_id].url }}" target="{{ menu_link.target }}">{{ menu_link[language_id].title }}</a>
+		</li>
+	{% endif %}
+	
+{% endfor %}
+
+<!-- Custom dropdown links -->
+
+{% if sellegance_menu_dropdown_status == 1 %}
+
+	<li class="dropdown">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ sellegance_menu_dropdown_title[language_id] }} <span class="label" style="background:{{ sellegance_menu_dropdown_tag_color }}">{{ sellegance_menu_dropdown_tag[language_id] }}</span></a>
+		<ul class="dropdown-menu">
+			{% for menu_drop in sellegance_menu_dropdown %}
+				{% if menu_drop.status == 1 and menu_drop.url !='' %}
+					<li>
+						<a href="{{ menu_drop.url }}" target="{{ menu_drop.target }}">{{ menu_drop[language_id].title }}</a>
+					</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</li>
+
+{% endif %}
+

@@ -1,0 +1,544 @@
+{{ header }}
+{{ column_left }}
+
+{% if not blogsetting_blogs_per_page %} {% set blogsetting_blogs_per_page = 5 %} {% endif %}
+{% if not blogsetting_post_thumbs_w %} {% set blogsetting_post_thumbs_w = 848 %} {% endif %}
+{% if not blogsetting_post_thumbs_h %} {% set blogsetting_post_thumbs_h = 424 %} {% endif %}
+{% if not blogsetting_share %} {% set blogsetting_share = 1 %} {% endif %}
+{% if not blogsetting_post_thumb %} {% set blogsetting_post_thumb = 1 %} {% endif %}
+{% if not blogsetting_post_page_view %} {% set blogsetting_post_page_view = 1 %} {% endif %}
+{% if not blogsetting_post_author %} {% set blogsetting_post_author = 1 %} {% endif %}
+{% if not blogsetting_post_comments_count %} {% set blogsetting_post_comments_count = 1 %} {% endif %}
+{% if not blogsetting_post_date_added %} {% set blogsetting_post_date_added = 1 %} {% endif %}
+{% if not blogsetting_author %} {% set blogsetting_author = 1 %} {% endif %}
+{% if not blogsetting_page_view %} {% set blogsetting_page_view = 1 %} {% endif %}
+{% if not blogsetting_comments_count %} {% set blogsetting_comments_count = 1 %} {% endif %}
+{% if not blogsetting_date_added %} {% set blogsetting_date_added = 1 %} {% endif %}
+{% if not blogsetting_thumbs_h %} {% set blogsetting_thumbs_h = 424 %} {% endif %}
+{% if not blogsetting_thumbs_w %} {% set blogsetting_thumbs_w = 848 %} {% endif %}
+{% if not blogsetting_layout %} {% set blogsetting_layout = 1 %} {% endif %}
+{% if not blogsetting_blogs_per_page %} {% set blogsetting_blogs_per_page = 5 %} {% endif %}
+{% if not blogsetting_rel_blog_per_row %} {% set blogsetting_rel_blog_per_row = 2 %} {% endif %}
+{% if not blogsetting_rel_thumb %} {% set blogsetting_rel_thumb = 1 %} {% endif %}
+{% if not blogsetting_rel_thumbs_w %} {% set blogsetting_rel_thumbs_w = 408 %} {% endif %}
+{% if not blogsetting_rel_thumbs_h %} {% set blogsetting_rel_thumbs_h = 204 %} {% endif %}
+{% if not blogsetting_rel_characters %} {% set blogsetting_rel_characters = 100 %} {% endif %}
+{% if not blogsetting_comment_per_page %} {% set blogsetting_comment_per_page = 5 %} {% endif %}
+{% if not blogsetting_comment_approve %} {% set blogsetting_comment_approve = 1 %} {% endif %}
+{% if not blogsetting_comment_notification %} {% set blogsetting_comment_notification = 1 %} {% endif %}
+{% if not blogsetting_author_change %} {% set blogsetting_author_change = 1 %} {% endif %}
+{% if not blogsetting_rel_prod_width %} {% set blogsetting_rel_prod_width = 266 %} {% endif %}
+{% if not blogsetting_rel_prod_height %} {% set blogsetting_rel_prod_height = 266 %} {% endif %}
+
+
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-settings" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+				<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+				{% endfor %}
+			</ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+  
+    {% if error_warning %}
+		<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		{% if success %}
+		<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ heading_title }}</h3>
+      </div>
+      <div class="panel-body">
+      
+      <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-settings" class="form-horizontal">
+
+        <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10"><legend><h3 style="margin-top:20px;">{{ heading_blog_home }}</h3></legend></div>
+        </div>
+        
+        <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+        <ul class="nav nav-tabs" id="language">
+        {% for language in languages %}
+        <li><a href="#language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+        {% endfor %}
+        </ul>
+        </div>
+        </div>
+        
+        <div class="tab-content">
+				{% for language in languages %}
+        <div class="tab-pane" id="language{{ language.language_id }}">
+        <!-- Multilingual start -->
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_home_title }}</label>
+        <div class="col-sm-10">
+         <input type="text" class="form-control" value="{{ blogsetting_home_title[language.language_id] }}" name="blogsetting_home_title[{{ language.language_id }}]" />
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_home_page_title }}</label>
+        <div class="col-sm-10">
+         <input type="text" class="form-control" value="{{ blogsetting_home_page_title[language.language_id] }}" name="blogsetting_home_page_title[{{ language.language_id }}]" />
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_home_description }}</label>
+        <div class="col-sm-10">         
+         <textarea name="blogsetting_home_description[{{ language.language_id }}]" id="block{{ language.language_id }}" class="form-control" data-toggle="summernote">{{ blogsetting_home_description[language.language_id] ? blogsetting_home_description[language.language_id] }}</textarea>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_home_meta_description }}</label>
+        <div class="col-sm-10">         
+         <textarea name="blogsetting_home_meta_description[{{ language.language_id }}]" id="block{{ language.language_id }}" class="form-control">{{ blogsetting_home_meta_description[language.language_id] ? blogsetting_home_meta_description[language.language_id] }}</textarea>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_home_meta_keyword }}</label>
+        <div class="col-sm-10">
+         <input type="text" class="form-control" value="{{ blogsetting_home_meta_keyword[language.language_id] }}" name="blogsetting_home_meta_keyword[{{ language.language_id }}]" />
+        </div>
+        </div>
+
+        <!-- multilingual ends -->
+        </div>
+        {% endfor %}
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_blogsetting_home_url_h }}">{{ entry_blogsetting_home_url }}</span></label>
+        <div class="col-sm-10">
+        <input name="blog_home_url" class="form-control" value="{{ blog_home_url }}" />
+        </div>
+        </div>
+        
+        <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10"><legend><h3 style="margin-top:20px;">{{ heading_blog_listing }}</h3></legend>
+        {{ heading_blog_listing_h }}<br /><br />
+
+        </div>
+		
+        </div>
+       
+        <div class="form-group required">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_blogs_per_page }}</label>
+        <div class="col-sm-10">
+        <input name="blogsetting_blogs_per_page" class="form-control" value="{{ blogsetting_blogs_per_page }}" />
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_layout }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_layout" class="form-control">
+				{% if blogsetting_layout == '1' %}
+				<option value="1" selected="selected">1</option>
+        {% else %}
+				<option value="1">1</option>
+				{% endif %}
+        {% if blogsetting_layout == '2' %}
+				<option value="2" selected="selected">2</option>
+        {% else %}
+				<option value="2">2</option>
+				{% endif %}
+        {% if blogsetting_layout == '3' %}
+				<option value="3" selected="selected">3</option>
+        {% else %}
+				<option value="3">3</option>
+				{% endif %}
+        {% if blogsetting_layout == '4' %}
+				<option value="4" selected="selected">4</option>
+        {% else %}
+				<option value="4">4</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group required">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_thumb_size }}</label>
+        <div class="col-sm-5">
+        <input name="blogsetting_thumbs_w" class="form-control" value="{{ blogsetting_thumbs_w }}" />
+        </div>
+        <div class="col-sm-5">
+        <input name="blogsetting_thumbs_h" class="form-control" value="{{ blogsetting_thumbs_h }}" />
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_date_added }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_date_added" class="form-control">
+				{% if blogsetting_date_added %}
+					<option value="1" selected="selected">{{ text_yes }}</option>
+					<option value="0">{{ text_no }}</option>
+				{% else %}
+			    <option value="1">{{ text_yes }}</option>
+					<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_comments_count }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_comments_count" class="form-control">
+				{% if blogsetting_comments_count %}
+					<option value="1" selected="selected">{{ text_yes }}</option>
+					<option value="0">{{ text_no }}</option>
+				{% else %}
+					<option value="1">{{ text_yes }}</option>
+					<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_page_view }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_page_view" class="form-control">
+				{% if blogsetting_page_view %}
+					<option value="1" selected="selected">{{ text_yes }}</option>
+					<option value="0">{{ text_no }}</option>
+				{% else %}
+					<option value="1">{{ text_yes }}</option>
+					<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_author }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_author" class="form-control">
+				{% if blogsetting_author %}
+					<option value="1" selected="selected">{{ text_yes }}</option>
+					<option value="0">{{ text_no }}</option>
+				{% else %}
+					<option value="1">{{ text_yes }}</option>
+					<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        
+        <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10"><legend><h3 style="margin-top:20px;">{{ heading_blog_post }}</h3></legend></div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_post_date_added }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_post_date_added" class="form-control">
+				{% if blogsetting_post_date_added %}
+					<option value="1" selected="selected">{{ text_yes }}</option>
+					<option value="0">{{ text_no }}</option>
+				{% else %}
+		       <option value="1">{{ text_yes }}</option>
+					<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_post_comments_count }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_post_comments_count" class="form-control">
+				{% if blogsetting_post_comments_count %}
+					<option value="1" selected="selected">{{ text_yes }}</option>
+					<option value="0">{{ text_no }}</option>
+				{% else %}
+		       <option value="1">{{ text_yes }}</option>
+					<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_post_page_view }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_post_page_view" class="form-control">
+				{% if blogsetting_post_page_view %}
+					<option value="1" selected="selected">{{ text_yes }}</option>
+					<option value="0">{{ text_no }}</option>
+				{% else %}
+		       <option value="1">{{ text_yes }}</option>
+					<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_post_author }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_post_author" class="form-control">
+				{% if blogsetting_post_author %}
+					<option value="1" selected="selected">{{ text_yes }}</option>
+					<option value="0">{{ text_no }}</option>
+				{% else %}
+		       <option value="1">{{ text_yes }}</option>
+					<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_share }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_share" class="form-control">
+				{% if blogsetting_share %}
+					<option value="1" selected="selected">{{ text_yes }}</option>
+					<option value="0">{{ text_no }}</option>
+				{% else %}
+		       <option value="1">{{ text_yes }}</option>
+					<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_post_thumb }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_post_thumb" class="form-control">
+				{% if blogsetting_post_thumb %}
+					<option value="1" selected="selected">{{ text_yes }}</option>
+					<option value="0">{{ text_no }}</option>
+				{% else %}
+					<option value="1">{{ text_yes }}</option>
+					<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group required">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_thumb_size }}</label>
+        <div class="col-sm-5">
+        <input name="blogsetting_post_thumbs_w" class="form-control" value="{{ blogsetting_post_thumbs_w }}" />
+        </div>
+        <div class="col-sm-5">
+        <input name="blogsetting_post_thumbs_h" class="form-control" value="{{ blogsetting_post_thumbs_h }}" />
+        </div>
+        </div>
+        
+        
+		
+        <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10"><legend><h4 style="margin-top:20px;">{{ heading_related }}</h4></legend></div>
+        </div>
+		
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_rel_blog_per_row }}</label>
+        <div class="col-sm-10">        
+        <select name="blogsetting_rel_blog_per_row" class="form-control">
+				{% if blogsetting_rel_blog_per_row == '1' %}
+				<option value="1" selected="selected">1</option>
+				{% else %}
+				<option value="1">1</option>
+				{% endif %}
+		    {% if blogsetting_rel_blog_per_row == '2' %}
+				<option value="2" selected="selected">2</option>
+				{% else %}
+				<option value="2">2</option>
+				{% endif %}
+		    {% if blogsetting_rel_blog_per_row == '3' %}
+				<option value="3" selected="selected">3</option>
+				{% else %}
+				<option value="3">3</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_rel_thumb }}</label>
+        <div class="col-sm-10">
+        <select name="blogsetting_rel_thumb" class="form-control">
+				{% if blogsetting_rel_thumb %}
+				<option value="1" selected="selected">{{ text_yes }}</option>
+				<option value="0">{{ text_no }}</option>
+				{% else %}
+		    <option value="1">{{ text_yes }}</option>
+				<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group required">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_rel_thumbs }}</label>
+        <div class="col-sm-5">
+        <input name="blogsetting_rel_thumbs_w" class="form-control" value="{{ blogsetting_rel_thumbs_w }}" />
+        </div>
+        <div class="col-sm-5">
+        <input name="blogsetting_rel_thumbs_h" class="form-control" value="{{ blogsetting_rel_thumbs_h }}" />
+        </div>
+        </div>
+        
+        <div class="form-group required">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_rel_characters }}</label>
+        <div class="col-sm-10">         
+        <input name="blogsetting_rel_characters" class="form-control" value="{{ blogsetting_rel_characters }}" />
+        </div>
+        </div>
+        
+        
+        
+        
+        <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10"><legend><h4 style="margin-top:20px;">{{ heading_related_products }}</h4></legend></div>
+        </div>
+        
+        
+		
+        <div class="form-group">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_rel_prod_per_row }}</label>
+        <div class="col-sm-10">        
+        <select name="blogsetting_rel_prod_per_row" class="form-control">
+        {% if blogsetting_rel_prod_per_row == '2' %}
+				<option value="2" selected="selected">2</option>
+				{% else %}
+				<option value="2">2</option>
+				{% endif %}
+				{% if blogsetting_rel_prod_per_row == '3' %}
+				<option value="3" selected="selected">3</option>
+				{% else %}
+				<option value="3">3</option>
+				{% endif %}
+				{% if blogsetting_rel_prod_per_row == '4' %}
+				<option value="4" selected="selected">4</option>
+				{% else %}
+				<option value="4">4</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group required">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_rel_prod_thumbs_size }}</label>
+        <div class="col-sm-5">
+        <input name="blogsetting_rel_prod_width" class="form-control" value="{{ blogsetting_rel_prod_width }}" />
+        </div>
+        <div class="col-sm-5">
+        <input name="blogsetting_rel_prod_height" class="form-control" value="{{ blogsetting_rel_prod_height }}" />
+        </div>
+        </div>
+        
+
+     	<div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10"><legend><h3 style="margin-top:20px;">{{ heading_comments }}</h3></legend></div>
+        </div>
+ 
+ 		<div class="form-group required">
+        <label class="col-sm-2 control-label">{{ entry_blogsetting_comment_per_page }}</label>
+        <div class="col-sm-10"> 
+        <input name="blogsetting_comment_per_page" class="form-control" value="{{ blogsetting_comment_per_page }}" />        
+        </div>
+        </div>
+
+		<div class="form-group">
+        <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_blogsetting_comment_approve_h }}">{{ entry_blogsetting_comment_approve }}</span></label>
+        <div class="col-sm-10">
+        <select name="blogsetting_comment_approve" class="form-control">
+				{% if blogsetting_comment_approve %}
+				<option value="1" selected="selected">{{ text_yes }}</option>
+				<option value="0">{{ text_no }}</option>
+				{% else %}
+				<option value="1">{{ text_yes }}</option>
+				<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_blogsetting_comment_notification_h }}">{{ entry_blogsetting_comment_notification }}</span></label>
+        <div class="col-sm-10">
+        <select name="blogsetting_comment_notification" class="form-control">
+				{% if blogsetting_comment_notification %}
+				<option value="1" selected="selected">{{ text_yes }}</option>
+				<option value="0">{{ text_no }}</option>
+				{% else %}
+				<option value="1">{{ text_yes }}</option>
+				<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+        
+        
+        <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10"><legend><h3 style="margin-top:20px;">{{ heading_author }}</h3></legend></div>
+        </div>
+        
+        <div class="form-group">
+        <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_blogsetting_author_change_h }}">{{ entry_blogsetting_author_change }}</span></label>
+        <div class="col-sm-10">
+        <select name="blogsetting_author_change" class="form-control">
+				{% if blogsetting_author_change %}
+				<option value="1" selected="selected">{{ text_yes }}</option>
+				<option value="0">{{ text_no }}</option>
+				{% else %}
+				<option value="1">{{ text_yes }}</option>
+				<option value="0" selected="selected">{{ text_no }}</option>
+				{% endif %}
+				</select>
+        </div>
+        </div>
+
+
+
+
+
+    </form>
+      </div>
+    </div>
+  </div>
+  </div>
+ 
+<script type="text/javascript"><!--
+$('#language a:first').tab('show');
+//--></script>
+
+<script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+<link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+<script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script> 
+<script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+
+{{ footer }}

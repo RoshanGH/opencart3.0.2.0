@@ -1,0 +1,110 @@
+{% if sellegance_special_carousel or sellegance_special_carousel != '' %} 
+	{% set class1= 'product-slider top-arrows' %}
+	{% set class2= 'owl-carousel' %}
+	{% set class3= 'item' %}
+{% else %} 
+	{% set class1= 'box' %}
+	{% set class2= 'row' %}
+	{% set class3= 'product-layout col-lg-3 col-md-3 col-sm-6 col-xs-12' %}
+{% endif %}
+
+	<div id="special-products" class="{{ class1 }}" {{ direction == 'rtl' ? 'style="direction:rtl"' }} >
+
+		<div class="contentset center">
+			<h4 class="inner"><span>{{ heading_title }}</span></h4>
+		</div>
+
+		<div class="{{ class2 }}">
+
+			{% for product in products %}
+				
+				<div class="{{ class3 }}">
+
+					<div class="product-thumb transition">
+
+						{% if product.special %}
+						<span class="onsale">{{ text_onsale }}</span>
+						{% endif %}
+
+						<div class="image hover_fade_in_back">
+
+							<div class="quickview"><a id="qv{{ product.product_id }}" class="button btn btn-link" rel="mp-quickview" href="index.php?route=product/quickview&product_id={{ product.product_id }}" ><i class="fa fa-plus-circle"></i> {{ text_quickview }}</a></div>
+
+							{% if product.thumb and product.thumb_swap and sellegance_rollover_images == 1 %}
+								<div class="front-image">
+									<a href="{{ product.href }}"><img src="{{ product.thumb }}" title="{{ product.name }}" class="img-responsive" alt="{{ product.name }}"/></a>
+								</div>
+								<div class="back-image">
+									<a href="{{ product.href }}"><img src="{{ product.thumb_swap }}" title="{{ product.name }}" class="img-responsive" alt="{{ product.name }}"/></a>
+								</div>
+							{% elseif product.thumb %}
+								<a href="{{ product.href }}"><img src="{{ product.thumb }}" title="{{ product.name }}" class="img-responsive" alt="{{ product.name }}" /></a>
+							{% endif %}
+						</div>
+						
+						<div class="caption">
+
+							<h4 class="name"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+
+							{% if product.price %}
+							<div class="price">
+								{% if not product.special %}
+									{{ product.price }}
+								{% else %}
+									<span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span>
+								{% endif %}
+								{% if product.tax %}
+									<span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+								{% endif %}
+							</div>
+							{% endif %}
+
+							{% if product.rating %}
+							<div class="rating">
+							  {% for i in 5 %}
+							  {% if product.rating < i %}
+							  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+							  {% else %}
+							  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+							  {% endif %}
+							  {% endfor %}
+							</div>
+							{% endif %}
+
+							<div class="cart">
+								<div class="btn-group">
+								<button type="button" onclick="cart.add('{{ product.product_id }}');" class="btn btn-sm btn-cart">{{ button_cart }}</button>
+								<button type="button" data-toggle="tooltip" class="btn btn-link btn-sm wishlist" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart-o"></i></button>
+								<button type="button" data-toggle="tooltip" class="btn btn-link btn-sm compare" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+							</div>
+							</div>
+
+						</div> {# .caption #}
+
+					</div> {# .product-thumb #}
+				
+				</div> {# .item, .product-layout #}
+
+			{% endfor %}
+
+		</div> {# .owl-carousel, .box #}
+
+	</div>
+
+	{% if sellegance_special_carousel != '' %}
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#special-products .owl-carousel').owlCarousel({
+				items: 4,
+				itemsMobile:[479,2],
+				{% if sellegance_carousel_autoplay == 1 %} autoPlay: 3000, {% endif %}
+				navigation: true,
+				navigationText: ['<i class="fa fa-angle-left fa-5x"></i>', '<i class="fa fa-angle-right fa-5x"></i>'],
+				pagination: true,
+				loop:true
+			});
+		});
+	</script>
+
+{% endif %}

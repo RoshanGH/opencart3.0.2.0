@@ -1,0 +1,95 @@
+{{ header }}
+
+<div class="centralbox">
+		<div id="affiliate-login" class="container">
+			<div class="container-inner">
+
+	{{ content_top }}
+
+	<header class="page-header">
+		<h1>{{ heading_title }}</h1>
+	</header>
+
+	<ul class="breadcrumb">
+	  {% for breadcrumb in breadcrumbs %}
+	  <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+	  {% endfor %}
+	</ul>
+
+	{% if success %}
+	  <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}</div>
+	  {% endif %}
+	{% if error_warning %}
+	  <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+	{% endif %}	
+
+	<div id="content">
+
+		<div class="mainborder">
+
+			<div class="cart-inner">
+
+				<div>
+					{{ text_description }}<br>
+				</div>
+
+				<div class="row">
+
+					<div class="col-md-6 col-md-push-3 login">
+
+						<form id="login" action="{{ action }}" method="post" enctype="multipart/form-data">
+							
+							<div class="form-group">
+								<label class="control-label" for="input-email">{{ entry_email }}</label>
+								<input type="text" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+							</div>
+							
+							<div class="form-group">
+								<label class="control-label" for="input-password">{{ entry_password }}</label>
+								<input type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control" />
+							</div>
+
+							<div class="forgotten"><a href="{{ forgotten }}">{{ text_forgotten }}</a></div>
+							
+							<div class="form-actions buttons">
+								<input type="submit" value="{{ button_login }}" class="btn btn-cart btn-block" />
+
+								<div class="contentset center">
+						  		<h4 class="inner"><span>or</span></h4>
+						  	</div>
+
+								<a class="btn btn-primary btn-block" href="{{ register }}">{{ text_new_affiliate }}</a>
+
+								<div class="register-notes">{{ text_register_account }}</div>
+
+							</div>
+
+							{% if redirect %}
+              <input type="hidden" name="redirect" value="{{ redirect }}" />
+              {% endif %}
+
+						</form>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div><!-- #content -->
+
+	{{ content_bottom }}
+
+	<script type="text/javascript">
+
+		$('#login input').keydown(function(e) {
+			if (e.keyCode == 13) {
+				$('#login').submit();
+			}
+		});
+
+	</script>
+
+{{ footer }}

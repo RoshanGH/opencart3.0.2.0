@@ -1,0 +1,159 @@
+﻿<modification>
+	
+	<id>Rollover Product Images</id>
+	<version>1.1</version>
+	<vqmver>2.1</vqmver>
+	<author>everthemes.com</author>
+
+	<file path="catalog/controller/product/" name="category.php,special.php,manufacturer.php,search.php">
+
+		<operation>
+			<search position="after"><![CDATA[
+				if ($result['image']) {
+			]]></search>
+			<add><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($result['product_id']);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+
+		<operation>
+			<search position="after"><![CDATA[
+				=> $image,
+			]]></search>
+			<add><![CDATA[
+				'thumb_swap'  => $this->model_tool_image->resize($swapImg, $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height')),
+			]]></add>
+		</operation>
+		
+	</file>
+
+
+<file path="catalog/controller/module/" name="related.php,bestseller.php,latest.php,special.php">
+
+		<operation>
+			<search position="after"><![CDATA[
+				if ($result['image']) {
+			]]></search>
+			<add><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($result['product_id']);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+
+		<operation>
+			<search position="after"><![CDATA[
+				=> $image,
+			]]></search>
+			<add><![CDATA[
+				'thumb_swap'  => $this->model_tool_image->resize($swapImg, $setting['image_width'], $setting['image_height']),
+			]]></add>
+		</operation>
+		
+	</file>
+
+	<file name="catalog/controller/module/tabbed_products.php">
+
+		<operation>
+			<search position="after"><![CDATA[
+				if ($result['image']) {
+			]]></search>
+			<add><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($result['product_id']);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+
+		<operation>
+			<search position="before"><![CDATA[
+				if ($product_info['image']) {
+			]]></search>
+			<add><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($product_id);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+
+		<operation>
+			<search position="after"><![CDATA[
+				=> $image,
+			]]></search>
+			<add><![CDATA[
+				'thumb_swap'  => $this->model_tool_image->resize($swapImg, $setting['image_width'], $setting['image_height']),
+			]]></add>
+		</operation>
+		
+	</file>
+
+
+	<file name="catalog/controller/module/anylist.php">
+
+		<operation>
+			<search position="after"><![CDATA[
+				if ($result['image']) {
+			]]></search>
+			<add><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($result['product_id']);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+
+		<operation>
+			<search position="after"><![CDATA[
+				=> $image,
+			]]></search>
+			<add><![CDATA[
+				'thumb_swap'  => $this->model_tool_image->resize($swapImg, $setting['width'], $setting['height']),
+			]]></add>
+		</operation>
+		
+	</file>
+
+	<file name="catalog/controller/module/featured.php">
+
+		<operation>
+			<search position="before"><![CDATA[
+				if ($product_info['image']) {
+			]]></search>
+			<add><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($product_id);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+
+		<operation>
+			<search position="after"><![CDATA[
+				=> $image,
+			]]></search>
+			<add><![CDATA[
+				'thumb_swap'  => $this->model_tool_image->resize($swapImg, $setting['image_width'], $setting['image_height']),
+			]]></add>
+		</operation>
+		
+	</file>
+	
+</modification>

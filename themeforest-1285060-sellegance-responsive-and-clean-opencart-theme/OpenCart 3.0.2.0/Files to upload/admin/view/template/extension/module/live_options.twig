@@ -1,0 +1,170 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+          <ul class="nav nav-tabs" id="tabs">
+              <li class="active"><a href="#tab-general" data-toggle="tab"><i class="fa fa-fw fa-wrench"></i> {{ tab_general }}</a></li>
+              <li><a href="#tab-css-style" data-toggle="tab"><i class="fa fa-fw fa-css3"></i> {{ tab_additional }}</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab-general">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-show-type">{{ entry_show_type }}</label>
+                    <div class="col-sm-10">
+                      <select name="live_options_show_type" id="input-show-type" class="form-control">
+                        {% if live_options_show_type %}
+                        <option value="0">{{ text_total }}</option>
+                        <option value="1" selected="selected">{{ text_added }}</option>
+                        {% else %}
+                        <option value="0" selected="selected">{{ text_total }}</option>
+                        <option value="1">{{ text_added }}</option>
+                        {% endif %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-show-options-type">{{ entry_show_options_type }}</label>
+                    <div class="col-sm-10">
+                      <select name="live_options_show_options_type" id="input-show-options-type" class="form-control">
+                        <option value="0" {% if live_options_show_options_type == 0 %} selected="selected" {% endif %}>{{ text_total }}</option>
+                        <option value="1" {% if live_options_show_options_type == 1 %} selected="selected" {% endif %}>{{ text_added }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-use-cache"><span data-toggle="tooltip" title="{{ help_use_cache }}">{{ entry_use_cache }}</span></label>
+                    <div class="col-sm-10">
+                      <select name="live_options_use_cache" id="input-use-cache" class="form-control">
+                        {% if live_options_use_cache %}
+                        <option value="1" selected="selected">{{ text_enabled }}</option>
+                        <option value="0">{{ text_disabled }}</option>
+                        {% else %}
+                        <option value="1">{{ text_enabled }}</option>
+                        <option value="0" selected="selected">{{ text_disabled }}</option>
+                        {% endif %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-calculate-quantity"><span data-toggle="tooltip" title="{{ help_calculate }}">{{ entry_calculate_quantity }}</span></label>
+                    <div class="col-sm-10">
+                      <select name="live_options_calculate_quantity" id="input-calculate-quantity" class="form-control">
+                        {% if live_options_calculate_quantity %}
+                        <option value="1" selected="selected">{{ text_enabled }}</option>
+                        <option value="0">{{ text_disabled }}</option>
+                        {% else %}
+                        <option value="1">{{ text_enabled }}</option>
+                        <option value="0" selected="selected">{{ text_disabled }}</option>
+                        {% endif %}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+                    <div class="col-sm-10">
+                      <select name="module_live_options_status" id="input-status" class="form-control">
+                        {% if module_live_options_status %}
+                        <option value="1" selected="selected">{{ text_enabled }}</option>
+                        <option value="0">{{ text_disabled }}</option>
+                        {% else %}
+                        <option value="1">{{ text_enabled }}</option>
+                        <option value="0" selected="selected">{{ text_disabled }}</option>
+                        {% endif %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="tab-css-style">
+                    <h4>
+                    <div class="alert alert-info"><i class="fa fa-fw fa-exclamation-circle"></i> {{ help_tab_css_desc }}</div>
+                    </h4>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-options-container"><span data-toggle="tooltip" title="{{ help_options_container }}">{{ entry_options_container }}</span></label>
+                        <div class="col-sm-10">
+                          <input type="text" name="live_options_container" value="{{ live_options_container }}" placeholder="{{ entry_options_container }}" id="input-options-container" class="form-control" />
+                          {% if error_options_container %}
+                          <div class="text-danger">{{ error_options_container }}</div>
+                          {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-special-container"><span data-toggle="tooltip" title="{{ help_special_container }}">{{ entry_special_container }}</span></label>
+                        <div class="col-sm-10">
+                          <input type="text" name="live_options_special_container" value="{{ live_options_special_container }}" placeholder="{{ entry_special_container }}" id="input-special-container" class="form-control" />
+                          {% if error_special_container %}
+                          <div class="text-danger">{{ error_special_container }}</div>
+                          {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-price-container"><span data-toggle="tooltip" title="{{ help_price_container }}">{{ entry_price_container }}</span></label>
+                        <div class="col-sm-10">
+                          <input type="text" name="live_options_price_container" value="{{ live_options_price_container }}" placeholder="{{ entry_price_container }}" id="input-price-container" class="form-control" />
+                          {% if error_price_container %}
+                          <div class="text-danger">{{ error_price_container }}</div>
+                          {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-tax-container"><span data-toggle="tooltip" title="{{ help_tax_container }}">{{ entry_tax_container }}</span></label>
+                        <div class="col-sm-10">
+                          <input type="text" name="live_options_tax_container" value="{{ live_options_tax_container }}" placeholder="{{ entry_tax_container }}" id="input-tax-container" class="form-control" />
+                          {% if error_tax_container %}
+                          <div class="text-danger">{{ error_tax_container }}</div>
+                          {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-points-container"><span data-toggle="tooltip" title="{{ help_points_container }}">{{ entry_points_container }}</span></label>
+                        <div class="col-sm-10">
+                          <input type="text" name="live_options_points_container" value="{{ live_options_points_container }}" placeholder="{{ entry_points_container }}" id="input-points-container" class="form-control" />
+                          {% if error_points_container %}
+                          <div class="text-danger">{{ error_points_container }}</div>
+                          {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-reward-container"><span data-toggle="tooltip" title="{{ help_reward_container }}">{{ entry_reward_container }}</span></label>
+                        <div class="col-sm-10">
+                          <input type="text" name="live_options_reward_container" value="{{ live_options_reward_container }}" placeholder="{{ entry_reward_container }}" id="input-reward-container" class="form-control" />
+                          {% if error_reward_container %}
+                          <div class="text-danger">{{ error_reward_container }}</div>
+                          {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript"><!--
+
+//--></script></div>
+{{ footer }}

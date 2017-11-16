@@ -1,0 +1,124 @@
+<modification>
+
+	<id>Previous/Next Product links</id>
+	<version>0.1</version>
+	<vqmver>2.1.2</vqmver>
+	<author>jimmyphong (adapted for Sellegance/Fortuna themes)</author>
+
+	<file name="catalog/model/catalog/product.php">
+		
+		<operation>
+			<search position="before"><![CDATA[public function getTotalProductSpecials() {]]></search>
+			<add><![CDATA[
+		 		public function GetNextandPreLink($data = array()){
+					$filter = '';
+					if (!empty($data['filter_category_id'])) {
+						if (!empty($data['filter_sub_category'])) {
+							$implode_data = array();
+							 
+							$implode_data[] = "p2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+							 
+							$this->load->model('catalog/category');
+							 
+							$categories = $this->model_catalog_category->getCategoriesByParentId($data['filter_category_id']);
+															
+							foreach ($categories as $category_id) {
+								$implode_data[] = "p2c.category_id = '" . (int)$category_id . "'";
+							}
+												
+							$filter .= " AND (" . implode(' OR ', $implode_data) . ")";         
+						} else {
+							$filter .= " AND p2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+						}
+					}
+					$sql1 = "SELECT p.product_id as next,p2d.name next_title FROM ".DB_PREFIX."product p LEFT JOIN ".DB_PREFIX."product_to_category p2c ON(p.product_id = p2c.product_id) LEFT JOIN ".DB_PREFIX."product_description p2d ON(p.product_id = p2d.product_id) LEFT JOIN ".DB_PREFIX."product_to_store p2s ON(p.product_id = p2s.product_id) WHERE p2d.language_id = '".(int)$this->config->get('config_language_id')."' AND p2s.store_id = '".(int)$this->config->get('config_store_id')."' AND p.status = '1' AND p.date_available <= NOW() AND p.product_id > '".$data['product_id']."' ".$filter." ORDER BY p.product_id ASC LIMIT 1";
+					$sql2 = "SELECT p.product_id as prev,p2d.name prev_title FROM ".DB_PREFIX."product p LEFT JOIN ".DB_PREFIX."product_to_category p2c ON(p.product_id = p2c.product_id) LEFT JOIN ".DB_PREFIX."product_description p2d ON(p.product_id = p2d.product_id) LEFT JOIN ".DB_PREFIX."product_to_store p2s ON(p.product_id = p2s.product_id) WHERE p2d.language_id = '".(int)$this->config->get('config_language_id')."' AND p2s.store_id = '".(int)$this->config->get('config_store_id')."' AND p.status = '1' AND p.date_available <= NOW() AND p.product_id < '".$data['product_id']."' ".$filter." ORDER BY p.product_id DESC LIMIT 1";
+					
+					$prev = $this->db->query($sql1)->row;
+					$next = $this->db->query($sql2)->row;
+					$query = array_merge($prev,$next);
+					return $query;
+				}
+			]]></add>
+		</operation>
+	</file>
+
+	<file name="catalog/controller/product/product.php">
+		<operation>
+			<search position="after"><![CDATA[$this->model_catalog_product->updateViewed($this->request->get['product_id']);]]></search>
+			<add><![CDATA[
+				if (isset($this->request->get['path'])) {
+					$path = '';
+			 
+					$parts = explode('_', (string)$this->request->get['path']);
+			 
+					foreach ($parts as $path_id) {
+						if (!$path) {
+							$path = $path_id;
+						} else {
+							$path .= '_' . $path_id;
+						}
+					}     
+	 
+					$category_id = array_pop($parts);
+					$category_link = "&path=".$category_id;
+				 } else {
+					$category_id = 0;
+					$category_link = "";
+				 }
+	 
+			$data = array(
+				'filter_category_id' => $category_id,
+				'product_id' => $product_id
+			);
+			 
+			$results = $this->model_catalog_product->GetNextandPreLink($data);
+			 
+			if(isset($results['next']) && isset($results['next_title'])){
+			 	$this->data['next_url'] = $this->url->link('product/product',$category_link.'&product_id='.$results['next']);
+			 	$this->data['next_title'] = $results['next_title'];
+			} else {
+				$this->data['next_url'] = null;
+				$this->data['next_title']= null;
+			}
+
+			if(isset($results['prev']) && isset($results['prev_title'])){
+			 	$this->data['prev_url'] = $this->url->link('product/product',$category_link.'&product_id='.$results['prev']);
+			 	$this->data['prev_title'] = $results['prev_title'];
+			}else{
+				$this->data['prev_url'] = null;
+				$this->data['prev_title']= null;
+			}
+			]]></add>
+				</operation>
+	</file>
+
+	<file name="catalog/view/theme/*/template/product/product.tpl">
+		<operation>
+			<search position="after"><![CDATA[
+			<!-- PREVNEXT BUTTONS PLACEHOLDER -->
+			]]></search>
+			<add><![CDATA[
+				<div class="prevnext clearfix">
+					<ul class="pager">
+						<li>
+							<?php if (isset($prev_url)) { ?>
+							<a href="<?php echo $prev_url; ?>" rel="tooltip" title="<?php echo $prev_title;?>" class="tooltp">
+								<i class="fa fa-angle-left"></i>
+							</a>
+						<?php } ?>
+					</li>
+						<li>
+							<?php if (isset($next_url)) { ?>
+							<a href="<?php echo $next_url; ?>" rel="tooltip" title="<?php echo $next_title;?>" class="tooltp">
+								<i class="fa fa-angle-right"></i>
+							</a>
+						<?php } ?>
+					</li>
+					</ul>
+				</div>
+			]]></add>
+		</operation>
+	</file>
+
+</modification>

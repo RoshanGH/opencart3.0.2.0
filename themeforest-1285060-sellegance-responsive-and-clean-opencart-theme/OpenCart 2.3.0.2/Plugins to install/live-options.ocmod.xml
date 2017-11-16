@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Ajax Live Options</name>
+    <code>ajax-live-options-percentage</code>
+    <version>2.3.2</version>
+    <author>Denise (rei7092@gmail.com)</author>
+    <link>http://www.everthemes.com/</link>
+    <file path="catalog/model/catalog/product.php">
+        <operation>
+            <search>
+               <![CDATA['weight'                  => $product_option_value['weight'],]]>
+            </search>
+            <add position="before">
+            <![CDATA[
+            // Ajax Live Options
+            'points'        => $product_option_value['points'],
+            'points_prefix' => $product_option_value['points_prefix'],
+            ]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="catalog/view/theme/sellegance/template/product/{product,quickview}.tpl">
+        <operation>
+            <search>
+               <![CDATA[$('.cloud-zoom, .cloud-zoom-gallery').CloudZoom();]]>
+            </search>
+            <add position="after" offset="3">
+            <![CDATA[
+            <script type="text/javascript" src="index.php?route=product/live_options/js&product_id=<?php echo $product_id; ?>"></script>
+            ]]>
+            </add>
+        </operation>
+        <operation>
+            <search>
+               <![CDATA[<?php echo $price; ?>]]>
+            </search>
+            <add position="replace">
+            <![CDATA[
+            <span class="<?php echo $live_options['live_options_price_container']; ?>"><?php echo $price; ?></span>
+            ]]>
+            </add>
+        </operation>
+        <operation>
+            <search>
+               <![CDATA[<?php echo $special; ?>]]>
+            </search>
+            <add position="replace">
+            <![CDATA[
+            <span class="<?php echo $live_options['live_options_special_container']; ?>"><?php echo $special; ?></span>
+            ]]>
+            </add>
+        </operation>
+        <operation>
+            <search>
+               <![CDATA[<?php echo $points; ?>]]>
+            </search>
+            <add position="replace">
+            <![CDATA[
+            <span class="<?php echo $live_options['live_options_points_container']; ?>"><?php echo $points; ?></span>
+            ]]>
+            </add>
+        </operation>
+        <operation>
+            <search>
+               <![CDATA[<?php echo $reward; ?>]]>
+            </search>
+            <add position="replace">
+            <![CDATA[
+            <span class="<?php echo $live_options['live_options_reward_container']; ?>"><?php echo $reward; ?></span>
+            ]]>
+            </add>
+        </operation>
+        <operation>
+            <search>
+               <![CDATA[<?php echo $tax; ?>]]>
+            </search>
+            <add position="replace">
+            <![CDATA[
+            <span class="<?php echo $live_options['live_options_tax_container']; ?>"><?php echo $tax; ?></span>
+            ]]>
+            </add>
+        </operation>
+        
+    </file>
+    <file path="catalog/controller/product/{product,quickview}.php">
+        <operation info="Define CSS calss name">
+            <search><![CDATA[$data['products'] = array();]]></search>
+            <add position="before"><![CDATA[
+            // Ajax Live Options
+            if($this->config->get('live_options_ajax_status')){
+                $data['live_options'] = array(
+                    'live_options_container' => substr($this->config->get('live_options_container'), 1),
+                    'live_options_special_container' => substr($this->config->get('live_options_special_container'), 1),
+                    'live_options_price_container' => substr($this->config->get('live_options_price_container'), 1),
+                    'live_options_tax_container' => substr($this->config->get('live_options_tax_container'), 1),
+                    'live_options_points_container' => substr($this->config->get('live_options_points_container'), 1),
+                    'live_options_reward_container' => substr($this->config->get('live_options_reward_container'), 1),
+                );
+            }
+            ]]></add>
+        </operation>
+        <operation info="Show Full Option Price">
+            <search><![CDATA[foreach ($option['product_option_value'] as $option_value) {]]></search>
+            <add position="after"><![CDATA[
+            // show total amount
+            if($this->config->get('live_options_ajax_status') && !$this->config->get('live_options_show_options_type') && $option_value['price'] > 0){
+                if ($option_value['price_prefix'] == '-' && $option_value['price']) {
+                    $option_value['price'] = (($product_info['special'] ? ($product_info['special'] - $option_value['price']) : ($product_info['price']) - $option_value['price']));
+                } elseif ($option_value['price_prefix'] == '+' && $option_value['price']) {
+                    $option_value['price'] = (($product_info['special'] ? ($product_info['special'] + $option_value['price']) : ($product_info['price']) + $option_value['price']));
+                }
+                $option_value['price_prefix'] = '';
+            }
+            ]]></add>
+        </operation>
+        <operation info="Show Full Option Price">
+            <search><![CDATA[
+                $price = $this->currency->format($this->tax->calculate($option_value['price'], $product_info['tax_class_id'], $this->config->get('config_tax') ? 'P' : false)
+                ]]></search>
+            <add position="before"><![CDATA[
+                if (version_compare(VERSION, '2.0.0.0', '>=') && version_compare(VERSION, '2.2.0.0', '<')) {
+                    $currency_code = false;
+                }
+                elseif(version_compare(VERSION, '2.2.0.0', '>=') && version_compare(VERSION, '2.4.0.0', '<')){
+                    $currency_code = $this->session->data['currency'];
+                }
+                // show total amount
+                if($this->config->get('live_options_ajax_status') && !$this->config->get('live_options_show_options_type')){
+                   $price = $this->currency->format($this->tax->calculate($option_value['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $currency_code);
+                }
+                else
+            ]]></add>
+        </operation>
+    </file>
+</modification>

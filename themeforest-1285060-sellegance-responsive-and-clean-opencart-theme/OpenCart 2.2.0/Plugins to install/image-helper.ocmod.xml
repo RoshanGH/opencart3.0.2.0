@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Image Helper - Sellegance</name>
+	<code>sellegance-image-helper</code>
+	<version>1.1</version>
+	<author>everthemes</author>
+
+	<!-- Cloud Zoom -->
+
+	<file path="catalog/controller/product/{product,quickview}.php">
+		<operation>
+			<search><![CDATA[
+				$data['images'] = array();
+			]]></search>
+			<add position="before"><![CDATA[
+				$this->document->addScript('catalog/view/theme/sellegance/js/jquery.browser.min.js');
+
+				if ($product_info['image']) {
+					$data['small'] = $this->model_tool_image->resize($product_info['image'], $this->config->get($this->config->get('config_theme') . '_image_additional_width'), $this->config->get($this->config->get('config_theme') . '_image_additional_height'));
+				} else {
+					$data['small'] = '';
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[
+				'popup' => $this->model_tool_image->resize($result['image'], $this->config->get($this->config->get('config_theme') . '_image_popup_width'), $this->config->get($this->config->get('config_theme') . '_image_popup_height')),
+			]]></search>
+			<add position="after"><![CDATA[
+				'small' => $this->model_tool_image->resize($result['image'], $this->config->get($this->config->get('config_theme') . '_image_additional_width'), $this->config->get($this->config->get('config_theme') . '_image_additional_height')),
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[
+				'thumb' => $this->model_tool_image->resize($result['image'], $this->config->get($this->config->get('config_theme') . '_image_additional_width'), $this->config->get($this->config->get('config_theme') . '_image_additional_height'))
+			]]></search>
+			<add position="replace"><![CDATA[
+				'thumb' => $this->model_tool_image->resize($result['image'], $this->config->get($this->config->get('config_theme') . '_image_thumb_width'), $this->config->get($this->config->get('config_theme') . '_image_thumb_height'))
+			]]></add>
+		</operation>
+	</file>
+
+	<!-- Rollover Images -->
+
+	<file path="catalog/controller/product/{category,special,manufacturer,search}.php">
+		<operation>
+			<search><![CDATA[
+				if ($result['image']) {
+			]]></search>
+			<add position="after"><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($result['product_id']);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[
+				=> $image,
+			]]></search>
+			<add position="after"><![CDATA[
+				'thumb_swap'  => $this->model_tool_image->resize($swapImg, $this->config->get($this->config->get('config_theme') . '_image_product_width'), $this->config->get($this->config->get('config_theme') . '_image_product_height')),
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/product/product.php">
+		<operation>
+			<search><![CDATA[
+				if ($result['image']) {
+			]]></search>
+			<add position="after"><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($result['product_id']);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[
+				=> $image,
+			]]></search>
+			<add position="after"><![CDATA[
+				'thumb_swap'  => $this->model_tool_image->resize($swapImg, $this->config->get($this->config->get('config_theme') . '_image_related_width'), $this->config->get($this->config->get('config_theme') . '_image_related_height')),
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/module/{bestseller,latest,special}.php">
+		<operation>
+			<search><![CDATA[
+				if ($result['image']) {
+			]]></search>
+			<add position="after"><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($result['product_id']);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[
+				=> $image,
+			]]></search>
+			<add position="after"><![CDATA[
+				'thumb_swap'  => $this->model_tool_image->resize($swapImg, $setting['width'], $setting['height']),
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/module/tabbed_products.php">
+		<operation>
+			<search><![CDATA[
+				if ($result['image']) {
+			]]></search>
+			<add position="after"><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($result['product_id']);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[
+				if ($product_info['image']) {
+			]]></search>
+			<add position="before"><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($product_id);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[
+				=> $image,
+			]]></search>
+			<add position="after"><![CDATA[
+				'thumb_swap'  => $this->model_tool_image->resize($swapImg, $setting['width'], $setting['height']),
+			]]></add>
+		</operation>
+	</file>
+
+
+	<file path="catalog/controller/module/featured.php">
+		<operation>
+			<search><![CDATA[
+				if ($product_info['image']) {
+			]]></search>
+			<add position="before"><![CDATA[
+				$swapImg='';
+				$images = $this->model_catalog_product->getProductImages($product_id);
+
+				if(isset($images[0]['image']) && !empty($images[0]['image'])){
+					$swapImg =$images[0]['image'];
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[
+				=> $image,
+			]]></search>
+			<add position="after"><![CDATA[
+				'thumb_swap'  => $this->model_tool_image->resize($swapImg, $setting['width'], $setting['height']),
+			]]></add>
+		</operation>
+	</file>
+
+	<!-- Subcategory Thumbnail -->
+
+	<file path="catalog/controller/product/category.php">
+		<operation>
+			<search><![CDATA[
+				$data['categories'][] = array(
+				]]></search>
+			<add position="before"><![CDATA[
+				$thumb_width = $this->config->get('sellegance_subcat_thumb_width');
+				$thumb_height = $this->config->get('sellegance_subcat_thumb_height');
+				$image = $this->model_tool_image->resize($result['image'], $thumb_width, $thumb_height);
+				]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[
+				$data['categories'][] = array(
+				]]></search>
+			<add position="after"><![CDATA[
+				'thumb' => $image,
+				]]></add>
+		</operation>
+	</file>
+
+</modification>

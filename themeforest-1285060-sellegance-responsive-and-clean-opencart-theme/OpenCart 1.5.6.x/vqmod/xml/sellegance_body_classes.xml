@@ -1,0 +1,45 @@
+<modification>
+	
+	<id>Add custom classes to body</id>
+	<version>1.0.1</version>
+	<vqmver>2.1</vqmver>
+	<author>everthemes.com</author>
+	
+	<file name="catalog/controller/common/header.php">
+		<operation>
+			<search position="after" index="1" ><![CDATA[$this->data['title'] = $this->document->getTitle();]]></search>
+			<add><![CDATA[
+				$current_path = $this->request->get;
+
+				$external_route = 'common/external';
+				if(!isset($current_path['route'])) { $current_path['route'] = $external_route; }
+				
+				if (empty($current_path) || $current_path['route'] == 'common/home') {
+					$body_classes = 'home';
+				} else {
+					$body_classes = explode('/', str_replace('product/', '', $current_path['route']));
+					unset($current_path['route']);
+
+					if (isset($current_path['_route_'])) {
+						$body_classes = array_merge($body_classes, explode('/', str_replace('-', '_', $current_path['_route_'])));
+						unset($current_path['_route_']);
+					}
+					foreach ($current_path as $key => $value) {
+						$body_classes[] = $key . "_" . $value;
+					}
+					$body_classes = 'page_' . implode(" page_", array_unique($body_classes));
+				}
+				$body_classes .= ' lang_' . $this->language->get('code');
+				$this->data['body_classes'] = $body_classes;
+				]]></add>
+		</operation>
+	</file>
+
+	<file name="catalog/view/theme/*/template/common/header.tpl">
+		<operation>
+			<search position="replace" ><![CDATA[<body class="<?php echo $base_class; ?>">]]></search>
+			<add><![CDATA[<body class="<?php echo $base_class; ?> <?php echo $body_classes; ?>">]]></add>
+		</operation>
+	</file>
+	
+</modification>

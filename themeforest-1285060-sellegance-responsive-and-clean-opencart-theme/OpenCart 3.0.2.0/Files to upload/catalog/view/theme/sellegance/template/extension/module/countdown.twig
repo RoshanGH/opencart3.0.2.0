@@ -1,0 +1,147 @@
+<script type="text/javascript">
+	if (typeof OC == 'undefined') OC = { };
+	OC.Countdown = {
+		TEXT_YEARS 		: '{{ text_years }}',
+		TEXT_MONTHS 	: '{{ text_months }}',
+		TEXT_WEEKS 		: '{{ text_weeks }}',
+		TEXT_DAYS 		: '{{ text_days }}',
+		TEXT_HOURS 		: '{{ text_hours }}',
+		TEXT_MINUTES 	: '{{ text_minutes }}',
+		TEXT_SECONDS 	: '{{ text_seconds }}'
+	};
+</script>
+<script type="text/javascript" src="catalog/view/javascript/jquery.countdown.js"></script>
+
+<div class="countdown_deals">
+
+	<div class="contentset center">
+		<h4 class="inner"><span><i class="fa fa-gift"></i> {{ title }}</span></h4>
+	</div>
+
+	{% if products %}
+
+		<div class="owl-carousel countdown-inner">
+	
+				{% for product in products %}
+			
+					<div class="item">
+
+						<div class="product-thumb transition">
+
+							{% if product.orgprice and product.special %}
+							<span class="onsale">{{ text_onsale }}</span>
+							{% endif %}
+
+							<div class="image hover_fade_in_back">
+
+								<div class="quickview"><a id="qv{{ product.product_id }}" class="button btn btn-link" rel="mp-quickview" href="index.php?route=product/quickview&product_id={{ product.product_id }}" ><i class="fa fa-plus-circle"></i> {{ text_quickview }}</a></div>
+								
+								{% if product.thumb and product.thumb_swap and sellegance_rollover_images == 1 %}
+									<div class="front-image">
+										<a href="{{ product.href }}"><img src="{{ product.thumb }}" title="{{ product.name }}" class="img-responsive" alt="{{ product.name }}"/></a>
+									</div>
+									<div class="back-image">
+										<a href="{{ product.href }}"><img src="{{ product.thumb_swap }}" title="{{ product.name }}" class="img-responsive" alt="{{ product.name }}"/></a>
+									</div>
+								{% elseif product.thumb %}
+									<a href="{{ product.href }}"><img src="{{ product.thumb }}" title="{{ product.name }}" class="img-responsive" alt="{{ product.name }}" /></a>
+								{% endif %}
+							</div>
+
+							<div class="caption">
+
+								<h4 class="name"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+
+								<div class="description">{{ product.description }}</div>
+
+								{% if product.orgprice %}
+									{% if not product.special %}
+										<div class="price-box">
+											<span class="regular-price">
+												<span class="price">{{ product.orgprice }}</span>
+											</span>
+										</div>
+									{% else %}
+										<div class="price-box">
+											<span class="price-old">{{ product.orgprice }}</span> <span class="price-new">{{ product.special }}</span>
+										</div>
+									{% endif %}
+								{% endif %}
+
+								{% if product.rating %}
+								<div class="rating">
+								  {% for i in 5 %}
+								  {% if product.rating < i %}
+								  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+								  {% else %}
+								  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+								  {% endif %}
+								  {% endfor %}
+								</div>
+								{% endif %}
+
+								<div class="cart">
+									<button type="button" onclick="cart.add('{{ product.product_id }}');" class="btn btn-link">{{ button_cart }}</button>
+								</div>
+
+							</div> <!-- .caption -->
+						
+						{% if product.date_end %}
+							<div id="Countdown{{ product.product_id }}" class="box-timer"></div>
+
+							<script type="text/javascript">
+
+								$(function () {
+									var austDay = new Date();
+									austDay = new Date(austDay.getFullYear() + 1, 1 - 1, 26);
+									$('#Countdown{{ product.product_id }}').countdown({
+										until: new Date(
+											{{ product.date_end|date("Y") }},
+											{{ product.date_end|date("m") }} -1, 
+											{{ product.date_end|date("d") }},
+											{{ product.date_end|date("H") }},
+											{{ product.date_end|date("i") }}, 
+											{{ random(59) }}
+											),
+										onExpiry: liftOff 
+									});
+									function liftOff() {
+										$('#Countdown{{ product.product_id }}').parent().addClass ('hide_cart');
+									}
+									/*$('#Countdown{{ product.product_id }}').countdown('pause');*/
+								});
+							</script>
+						{% endif %}
+
+						</div>
+				
+					</div>
+
+				{% endfor %}
+
+		</div>
+
+	{% else %}
+
+		<div class="content empty">
+			<p>{{ text_empty }}</p>
+		</div>
+
+	{% endif %}
+
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.countdown-inner').owlCarousel({
+		autoPlay : {{ config_slide.autoplay ? 'true' : 'false' }},
+		items : {{ config_slide.items ? config_slide.items : 4 }},
+		itemsMobile:[479,2],
+		slideSpeed : {{ config_slide.f_speed ? config_slide.f_speed : 3000 }},
+		navigation: true,
+		navigationText: ['<i class="fa fa-angle-left fa-5x"></i>', '<i class="fa fa-angle-right fa-5x"></i>'],
+		stopOnHover : true,
+		scrollPerPage:true,
+	});
+});
+</script>

@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	
+<name>Theme Options - Sellegance</name>
+	<code>sellegance-theme-options</code>
+	<version>2.1</version>
+	<author>everthemes</author>
+
+	<file path="catalog/controller/common/header.php">
+		<operation error="skip">
+			<search><![CDATA[
+				$data['text_home'] = $this->language->get('text_home');
+				]]></search>
+			<add position="before"><![CDATA[
+				$this->load->language('module/sellegance');
+				$data['text_onsale'] = $this->language->get('text_onsale');
+				$data['text_prev'] = $this->language->get('text_prev');
+				$data['text_next'] = $this->language->get('text_next');
+				$data['text_in_stock'] = $this->language->get('text_in_stock');
+				$data['text_out_stock'] = $this->language->get('text_out_stock');
+				$data['text_zoom'] = $this->language->get('text_zoom');
+				$data['text_quickview'] = $this->language->get('text_quickview');
+				$data['text_more_details'] = $this->language->get('text_more_details');
+				$data['text_menu_categories'] = $this->language->get('text_menu_categories');
+				$data['text_menu_brands'] = $this->language->get('text_menu_brands');
+				$data['text_menu_information'] = $this->language->get('text_menu_information');
+				$data['text_email_friend'] = $this->language->get('text_email_friend');
+				$data['text_get_link'] = $this->language->get('text_get_link');
+				$data['text_browse'] = $this->language->get('text_browse');
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/product/{category,compare,special,manufacturer,search,product,quickview}.php">
+		<operation error="skip">
+			<search><![CDATA[
+				public function index() {
+				]]></search>
+			<add position="after"><![CDATA[
+				$data = $this->language->load('module/sellegance');
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/product/manufacturer.php">
+		<operation error="skip">
+			<search><![CDATA[
+				public function info() {
+				]]></search>
+			<add position="after"><![CDATA[
+				$data = $this->language->load('module/sellegance');
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/module/{featured,featured_categories,latest,special,bestseller,tabbed_products,countdown}.php">
+		<operation error="skip">
+			<search><![CDATA[
+				public function index($setting) {
+				]]></search>
+			<add position="after"><![CDATA[
+				$data = $this->language->load('module/sellegance');
+			]]></add>
+		</operation>
+
+	</file>
+
+<!-- Add new module positions  -->
+
+	<file path="admin/controller/design/layout.php">
+		<operation error="skip">
+			<search><![CDATA[layout_form]]></search>
+			<add position="replace"><![CDATA[layout_form_sellegance]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/common/home.php" error="skip">
+		<operation error="skip">
+			<search><![CDATA[
+			$data['column_left'] = $this->load->controller('common/column_left');
+			]]></search>
+			<add position="before"><![CDATA[
+			$data['home_top'] = $this->load->controller('common/home_top');
+		]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/common/footer.php" error="skip">
+		<operation error="skip">
+			<search><![CDATA[
+			$this->load->model('catalog/information');
+			]]></search>
+			<add position="after"><![CDATA[
+			$data['footer_modules'] = $this->load->controller('common/footer_modules');
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/model/design/layout.php" error="skip">
+		<operation error="skip">
+			<search><![CDATA[
+			class ModelDesignLayout extends Model {
+			]]></search>
+			<add position="after"><![CDATA[
+			// Sellegance code start
+			public function getLayoutForAllPages() {
+				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "layout
+					WHERE name like '%Footer%'
+					LIMIT 1");
+				if ($query->num_rows) {
+					return $query->row['layout_id'];
+			 	} else {
+					return 0;
+			 	}
+			}
+			// Sellegance code end
+			]]></add>
+		</operation>
+	</file>
+
+
+<!-- Add multilanguage support on the Slideshow -->
+
+	<file path="catalog/controller/common/home.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$this->document->setTitle($this->config->get('config_meta_title'));
+			]]></search>
+			<add position="after"><![CDATA[
+			$this->load->model('localisation/language');
+
+			$languages = $this->model_localisation_language->getLanguages();
+			foreach ($languages as $language) {
+				if ($language['code'] == $this->session->data['language']) {
+					$data['language_id'] = $language['language_id'];
+				}
+			}
+				]]></add>
+		</operation>
+	</file>
+
+	<!-- Show only number of items in a bubble o minicart -->
+
+	<file path="catalog/language/*/checkout/cart.php">
+		
+		<operation error="skip">
+			<search><![CDATA[$_['text_next']]]></search>
+			<add position="before"><![CDATA[$_['text_items']    = '<span class="count">%s</span>';]]></add>
+		</operation>
+
+	</file>
+
+
+	<file path="catalog/language/*/common/cart.php">
+		
+		<operation error="skip">
+			<search><![CDATA[$_['text_empty']]]></search>
+			<add position="before"><![CDATA[$_['text_items']    = '<span class="count">%s</span>';]]></add>
+		</operation>
+
+	</file>
+	
+	<!-- megamenu -->
+
+	<file path="catalog/controller/common/header.php">
+
+<operation error="skip">
+			<search><![CDATA[$data['name'] = $this->config->get('config_name');]]></search>
+			<add position="after"><![CDATA[
+			$this->load->model('catalog/information');
+			$data['informations'] = array();
+
+			foreach ($this->model_catalog_information->getInformations() as $result) {
+				if ($result['bottom']) {
+					$data['informations'][] = array(
+						'title' => $result['title'],
+						'href'  => $this->url->link('information/information', 'information_id=' . $result['information_id'])
+					);
+				}
+	    	}
+		  ]]></add>
+		</operation>
+
+		<operation error="skip">
+			<search><![CDATA[$this->load->model('catalog/product');]]></search>
+			<add position="after"><![CDATA[
+			$this->load->model('catalog/manufacturer');
+			$this->load->model('tool/image');
+			$results = $this->model_catalog_manufacturer->getManufacturers();
+			foreach ($results as $result) {	
+				if ($result['image']) {
+							$image = $result['image'];
+						} else {
+							$image = 'no_image.jpg';
+						}			
+				$data['manufacturers'][] = array(
+					'name' => $result['name'],
+					'image' => $this->model_tool_image->resize($image, 100, 50),
+					'href' => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id'])
+				);
+			}
+		  ]]></add>
+		</operation>
+
+<operation error="skip">
+			<search><![CDATA[$children_data[] = array(]]></search>
+			<add position="before"><![CDATA[
+		  	$children_level_2 = $this->model_catalog_category->getCategories($child['category_id']);
+			$children_data_level_2 = array();
+			foreach ($children_level_2 as $child_level_2) {
+				$data_level_2 = array(
+					'filter_category_id'  => $child_level_2['category_id'],
+					'filter_sub_category' => true
+				);
+				$product_total_level_2 = '';
+				if ($this->config->get('config_product_count')) {
+					$product_total_level_2 = ' (' . $this->model_catalog_product->getTotalProducts($data_level_2) . ')';
+				}
+				$children_data_level_2[] = array(
+					'name'  =>  $child_level_2['name'],
+					'href'  => $this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_level_2['category_id']),
+					'id' => $category['category_id']. '_' . $child['category_id']. '_' . $child_level_2['category_id']
+				);
+			}
+		  ]]></add>
+		</operation>
+
+<operation error="skip">
+			<search><![CDATA['name'  => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),]]></search>
+			<add position="replace"><![CDATA[
+			'name'  => $child['name'],
+			'id' => $category['category_id']. '_' . $child['category_id'],
+			'children_level_2' => $children_data_level_2,
+		  ]]></add>
+		</operation>
+
+<operation error="skip">
+			<search><![CDATA[$data['categories'][] = array(]]></search>
+			<add position="replace"><![CDATA[
+			$this->load->model('tool/image');
+            $image = empty($category['image']) ? 'no_image.jpg' : $category['image'];
+            $thumb = $this->model_tool_image->resize($image, 100, 100);
+            $data['categories'][] = array(
+            'thumb'    => $thumb,
+		  ]]></add>
+		</operation>
+
+</file>
+
+	<!-- Previous/Next Products -->
+
+	<file path="catalog/model/catalog/product.php">
+		<operation>
+			<search><![CDATA[public function getTotalProductSpecials() {]]></search>
+			<add position="before"><![CDATA[
+		 		public function GetNextandPreLink($datab = array()){
+					$filter = '';
+					if (!empty($datab['filter_category_id'])) {
+						if (!empty($datab['filter_sub_category'])) {
+							$implode_data = array();
+							 
+							$implode_data[] = "p2c.category_id = '" . (int)$datab['filter_category_id'] . "'";
+							 
+							$this->load->model('catalog/category');
+							 
+							$categories = $this->model_catalog_category->getCategoriesByParentId($datab['filter_category_id']);
+															
+							foreach ($categories as $category_id) {
+								$implode_data[] = "p2c.category_id = '" . (int)$category_id . "'";
+							}
+												
+							$filter .= " AND (" . implode(' OR ', $implode_data) . ")";         
+						} else {
+							$filter .= " AND p2c.category_id = '" . (int)$datab['filter_category_id'] . "'";
+						}
+					}
+					$sql1 = "SELECT p.product_id as next,p2d.name next_title FROM ".DB_PREFIX."product p LEFT JOIN ".DB_PREFIX."product_to_category p2c ON(p.product_id = p2c.product_id) LEFT JOIN ".DB_PREFIX."product_description p2d ON(p.product_id = p2d.product_id) LEFT JOIN ".DB_PREFIX."product_to_store p2s ON(p.product_id = p2s.product_id) WHERE p2d.language_id = '".(int)$this->config->get('config_language_id')."' AND p2s.store_id = '".(int)$this->config->get('config_store_id')."' AND p.status = '1' AND p.date_available <= NOW() AND p.product_id > '".$datab['product_id']."' ".$filter." ORDER BY p.product_id ASC LIMIT 1";
+					
+					$sql2 = "SELECT p.product_id as prev,p2d.name prev_title FROM ".DB_PREFIX."product p LEFT JOIN ".DB_PREFIX."product_to_category p2c ON(p.product_id = p2c.product_id) LEFT JOIN ".DB_PREFIX."product_description p2d ON(p.product_id = p2d.product_id) LEFT JOIN ".DB_PREFIX."product_to_store p2s ON(p.product_id = p2s.product_id) WHERE p2d.language_id = '".(int)$this->config->get('config_language_id')."' AND p2s.store_id = '".(int)$this->config->get('config_store_id')."' AND p.status = '1' AND p.date_available <= NOW() AND p.product_id < '".$datab['product_id']."' ".$filter." ORDER BY p.product_id DESC LIMIT 1";
+					
+					$prev = $this->db->query($sql1)->row;
+					$next = $this->db->query($sql2)->row;
+					$query = array_merge($prev,$next);
+					return $query;
+				}
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/product/product.php">
+		<operation>
+			<search><![CDATA[$this->model_catalog_product->updateViewed($this->request->get['product_id']);]]></search>
+			<add position="after"><![CDATA[
+				if (isset($this->request->get['path'])) {
+					$path = '';
+			 
+					$parts = explode('_', (string)$this->request->get['path']);
+			 
+					foreach ($parts as $path_id) {
+						if (!$path) {
+							$path = $path_id;
+						} else {
+							$path .= '_' . $path_id;
+						}
+					}     
+	 
+					$category_id = array_pop($parts);
+					$category_link = "&path=".$category_id;
+				 } else {
+					$category_id = 0;
+					$category_link = "";
+				 }
+	 
+				$datab = array(
+					'filter_category_id' => $category_id,
+					'product_id' => $product_id
+				);
+				 
+				$results = $this->model_catalog_product->GetNextandPreLink($datab);
+				 
+				if(isset($results['next']) && isset($results['next_title'])){
+				 	$data['next_url'] = $this->url->link('product/product',$category_link.'&product_id='.$results['next']);
+				 	$data['next_title'] = $results['next_title'];
+				} else {
+					$data['next_url'] = null;
+					$data['next_title']= null;
+				}
+
+				if(isset($results['prev']) && isset($results['prev_title'])){
+				 	$data['prev_url'] = $this->url->link('product/product',$category_link.'&product_id='.$results['prev']);
+				 	$data['prev_title'] = $results['prev_title'];
+				}else{
+					$data['prev_url'] = null;
+					$data['prev_title']= null;
+				}
+			]]></add>
+		</operation>
+	</file>
+
+	<!-- Stock Status -->
+
+	<file path="catalog/controller/product/{product,quickview}.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$data['points'] = $product_info['points'];
+			]]></search>
+			<add position="after"><![CDATA[
+			$data['quantity'] = $product_info['quantity'];
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/product/compare.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$data['products'][$product_id] = array(
+			]]></search>
+			<add position="after"><![CDATA[
+			'quantity' => $product_info['quantity'],
+			]]></add>
+		</operation>
+	</file>
+	
+</modification>

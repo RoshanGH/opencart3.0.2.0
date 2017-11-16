@@ -1,0 +1,163 @@
+/*
+Theme Name: Sellegance
+Version: 1.5.4
+Description: RTL compatibility styles
+*/
+
+html {
+	direction:rtl;
+	text-align:right;
+	width: auto; /*iPad fix*/
+}
+
+/*Base Layout*/
+
+@media (min-width: 768px) {
+	.col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+		float: right;
+	}
+	.col-sm-pull-4 { left: 33.33333333333333%; }
+	.col-sm-push-4 { right: 33.33333333333333%; }
+}
+
+/*Product layouts*/
+
+.sideright.col-sm-9 .mainborder {
+	border-right: 0;
+	border-left: 1px solid #DDD;
+	padding: 10px 10px 20px 20px;
+}
+.sideleft.col-sm-9 .mainborder {
+	border-left:0; 
+	border-right: 1px solid #DDD;
+	padding: 10px 20px 20px 10px;
+}
+
+/* Header
+---------------------------------- */
+#welcome, #cart {float: left; }
+.navbar .nav {
+	right: 0;
+	text-align: right;
+	margin: 0;
+	padding: 0;
+	float: none;
+}
+.navbar-toggle {
+	float: right;
+	margin-right: 15px;
+	margin-left: 0;
+}
+.navbar .nav > li {
+	display: block;
+	float: right;
+}
+.navbar-inner { padding-right:0; }
+.navbar .dropdown-menu { text-align: right; }
+.navbar .nav > li > .dropdown-menu,
+.navbar .nav > li > .dropdown-menu:before,
+.navbar .nav > li > .dropdown-menu:after  {
+	left: auto;
+	right: 0;
+}
+.navbar .nav > li > .dropdown-menu { right: 0; }
+.navbar .nav > li > .dropdown-menu:before { right: 9px; }
+.navbar .nav > li > .dropdown-menu:after { right: 10px; }
+
+@media only screen and (max-width: 767px) {
+	.brands .column-item.logoname .name { text-align: right !important; }
+}
+
+/* Header styles
+---------------------------------- */
+.heading { text-align: right; }
+.nav-tabs > li, .nav-pills > li { float: right; }
+
+.flex-direction-nav a { text-indent: 9999px; }
+
+/* fixed navbar */
+@media (min-width: 768px) {
+	.navbar-header { float: right; }
+	.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+		margin-left: 0;
+		margin-right: -15px;
+}
+}
+.navbar-fixed-top #cart {
+	left: 0;
+	right: auto;
+}
+div.flexslider {overflow: hidden;}
+.flex-direction-nav a {
+	text-indent: 9999px;
+}
+
+@media only screen and (max-width: 767px) {
+	.btn-navbar { float: left; }
+	.navbar .nav > li { float: none; }
+	.navbar .button-navbar { float: right; }
+	#cart { 
+		right: auto;
+		left: 0;
+	}
+	#cart .content {
+		right: auto;
+		left: 0;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	#maincontent.span12 .flexslider {
+		margin-right: -10px;
+	}
+}
+
+/* Forms
+---------------------------------- */
+.radio, .checkbox {
+	padding-right: 18px;
+	padding-left:0;
+}
+.radio input[type="radio"], .checkbox input[type="checkbox"] {
+	float: right;
+	margin-right: -18px;
+	margin-left: 0;
+}
+.contentset .inner {
+	text-align:right;
+}
+.contentset.center .inner {
+	text-align: center;
+}
+.form-horizontal .control-label {
+	float: right;
+	text-align: right;
+}
+.form-horizontal .controls { margin-right: 160px; }
+
+/* Categories
+---------------------------------- */
+.category-info .image {
+	float: right;
+	margin-left: 15px;
+	margin-right: 0;
+}
+.category-list ul { float: right; }
+.box-category .expand {
+	right: auto;
+	left: 0;
+}
+
+/* Products */
+
+.prevnext .pager li { float: left; }
+.qty-minus, .qty-plus, .product-info .qty-input-div {float: right;}
+.qty-minus { border-right: 1px solid #ccc; border-left: 0; }
+.qty-plus { border-left: 1px solid #ccc; border-right: 0; }
+
+.product-info .links {
+	text-align: right;
+}
+@media (min-width: 768px) {
+	.cloud-zoom-big { right: 100%; }
+}

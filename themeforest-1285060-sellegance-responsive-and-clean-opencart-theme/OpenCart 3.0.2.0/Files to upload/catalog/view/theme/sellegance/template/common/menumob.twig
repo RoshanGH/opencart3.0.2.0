@@ -1,0 +1,77 @@
+{# mobile menu file for header.twig #}
+{% if direction =='rtl' %}
+	{% set position = "navmenu-fixed-right" %}
+{% else %}
+	{% set position = "navmenu-fixed-left" %}
+{% endif %}
+
+<nav id="mobmenu" class="navbar navbar-default navmenu {{ position }} offcanvas offcanvas-sm offcanvas-md hidden-lg" role="navigation">
+
+	<div class="navcontainer">
+
+		<div class="navbar-collapse">
+
+				<ul class="nav navbar-nav">
+
+					<li><a class="closesidebar" onclick="$('#mobmenu').offcanvas('hide');" data-toggle="tooltip" data-placement="left" title="Close"><span class="line-1"></span><span class="line-2"></span><span class="line-3"></span></a></li>
+
+			    <li class="dropdown account-options"><a href="{{ account }}" title="{{ text_account }}" class="dropdown-toggle" data-toggle="dropdown">{{ text_account }} <span class="caret"></span></a>
+			      <ul class="dropdown-menu dropdown-menu-right">
+			       {% if logged %}
+	            <li><a href="{{ account }}">{{ text_account }}</a></li>
+	            <li><a href="{{ order }}">{{ text_order }}</a></li>
+	            <li><a href="{{ transaction }}">{{ text_transaction }}</a></li>
+	            <li><a href="{{ download }}">{{ text_download }}</a></li>
+	            <li><a href="{{ logout }}">{{ text_logout }}</a></li>
+	            {% else %}
+	            <li><a href="{{ register }}">{{ text_register }}</a></li>
+	            <li><a href="{{ login }}">{{ text_login }}</a></li>
+	            {% endif %}
+	            <li><a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}"><i class="fa fa-heart-o"></i> <span>{{ text_wishlist }}</span></a></li>
+			      </ul>
+			    </li>
+
+				{{ menu }}
+
+				<li>
+					<div class="clearfix browse-options">
+						{{ lang }}
+						{{ currency }}
+					</div>
+				</li>
+
+				<li>
+
+					<div class="social">
+
+					{% if sellegance_social %}
+						{% for key,value in sellegance_social %}
+						{% if value.url %}
+							<a href="{{ value.url }}" class="fa fa-{{ value.class }}" target="{{ value.target}}"></a>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+
+					{% if sellegance_custom_icon %}
+						{% for key,value in sellegance_custom_icon %}
+							{% if value.class != '' %}
+								{% if value.class != '' %}
+									<a href="{{ value.url }}" class="fa fa-{{ value.class }}" target="{{ value.target}}"></a>
+								{% else %}
+									<a class="fa fa-{{ value.class }}"></a>
+								{% endif %}
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+
+					</div>
+
+				</li>
+
+			</ul>
+
+		</div>
+
+	</div>
+
+</nav><!-- #navbar -->

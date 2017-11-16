@@ -1,0 +1,295 @@
+/*  
+Theme Name: Sellegance
+Version:  1.5.5.4
+Description: All Black skin
+*/
+
+#logo-white { display: inline !important; }
+#logo-black { display: none !important; }
+
+body,
+#content-wrapper .centralbox,
+#content-wrapper .container-inner,
+.fullwidth_layout #content-wrapper .centralbox,
+.framed_layout .navbar,
+.framed_layout .header_inner,
+.fullwidth_layout .navbar-fixed-top,
+.boxed_layout .navbar-fixed-top,
+.flexslider,
+.contentset span,
+.htabs a.selected,
+.htabs a.selected:hover,
+.panel,
+.form-actions,
+.nav-tabs>.active>a, 
+.nav-tabs>.active>a:hover,
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:hover,
+.nav-tabs>li.active>a:focus,
+.navbar-inside,
+.list-group-item{
+	color: #fff;
+	background: #000;
+}
+#content-wrapper > .container,
+.navbar-inside .navbar-collapse.fullwidth {
+	background: transparent;
+	border: 0;
+}
+.contentset,
+.grid-box .inner,
+.products-slider ul li .inner,
+.middle.col-sm-6 .mainborder,
+.sideleft.col-sm-9 .mainborder,
+.sideright.col-sm-9 .mainborder,
+.heading,
+.navbar,
+.navbar-default .navbar-collapse,
+.nav-tabs,
+.htabs,
+.product-slider ul li .inner,
+.box-category>ul>li,
+.box-category>ul>li ul li a,
+.product-info .description,
+.product-info .options,
+.product-info .rightcol .price,
+.product-info .review,
+.product-info .share,
+.product-info .tags,
+.product-info .cart,
+.panel,
+.panel-default>.panel-heading+.panel-collapse .panel-body,
+.form-actions,
+.product-info .image-additional a,
+.subcat_thumb a,
+.checkout-content .method-type,
+.table-bordered,
+.table-bordered th, 
+.table-bordered td,
+.banner-carousel,
+#total-cart td,
+#content-wrapper .centralbox,
+.table-bordered>thead>tr>th,
+.table-bordered>tbody>tr>th,
+.table-bordered>tfoot>tr>th,
+.table-bordered>thead>tr>td,
+.table-bordered>tbody>tr>td,
+.table-bordered>tfoot>tr>td,
+.checkout-heading,
+.framed_layout .header_inner,
+.framed_layout .navbar,
+.framed_layout .navcontainer,
+#content-wrapper .container-inner,
+.page-header,
+.topbar_inner,
+.fullwidth_layout #content-wrapper .centralbox,
+.search-trigger,
+.list-group-item {
+	border-color: rgba(255,255,255,0.3);
+}
+#cart .items tr+tr,
+#links a + a,
+.product-grid .grid-box .links,
+.product-info .links span + span a,
+.product-listing .links span + span a,
+.qty-minus, .qty-plus {
+	border-color: #444;
+}
+a, a:visited, 
+.grid-box .name a,
+.box-category > ul > li > a,
+.navbar .nav > li > a,
+.product-info .rightcol .price,
+.product-info .options,
+.checkout_steps.active .checkout-heading,
+.dropd span.selected,
+#cart a.button-cart,
+#style-switcher a,
+.pagination ul>li>a,
+.pagination ul>li>span {
+	color: #fff;
+}
+.btn-inverse,
+.qty-minus:hover, .qty-plus:hover {
+	background: #444;
+	color: #fff;
+}
+
+.product-info .tags a,
+.success a,
+a.button,
+.dropd li a,
+#colorbox,
+#cart .dropdown-menu,
+.modal-content,
+.alert-success a, .alert-danger a, .alert-warning a, .alert-info a {
+	color: #000;
+}
+
+.nav-tabs>.active>a, 
+.nav-tabs>.active>a:hover,
+.htabs a.selected,
+.htabs a.selected:hover,
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:hover,
+.nav-tabs>li.active>a:focus {
+	border-color: #333;
+	border-bottom-color: transparent;
+}
+.nav-tabs>li>a:hover,
+.box-category a:hover,
+.htabs a:hover {
+	background: #111;
+	color: #fff;
+	border-color: transparent;
+}
+
+.pager li>a, .pager li>span,
+#cart .content,
+#cart.active .arrow,
+#search .content,
+#search.active .search-trigger,
+.subcat a:hover,
+#style-switcher,
+.pagination ul>li>a:hover, .pagination ul>.active>a, .pagination ul>.active>span {
+	background-color: #333;
+	border-color: #666;
+}
+legend {
+	color: #666;
+	border-bottom-color: #333;
+}
+.product-filter,
+.cart-module>div,
+.empty,
+.pagination ul>li>a, .pagination ul>li>span {
+	background: #111;
+	border-color: #333;
+}
+.subcat a {
+	text-shadow: none;
+	color: #fff;
+}
+#toggle_sidebar {
+	border-color: #666;
+}
+.sideleft #toggle_sidebar,
+.middle #toggle_sidebar.collapse {
+	background: #000 url(../images/sprite.png) -18px 3px no-repeat;
+}
+.sideleft #toggle_sidebar.collapse,
+.middle #toggle_sidebar.collapse  {
+	background-position: -18px -15px;
+}
+.sideright #toggle_sidebar  {
+	background: #000 url(../images/sprite.png) -18px -15px no-repeat;
+}
+.sideright #toggle_sidebar.collapse  {
+	background-position: -18px 3px;
+}
+.middle #toggle_sidebar {
+	background-color: #FFF;
+	background-position: -95px -29px;
+}
+.cart-icon .cart-icon-body,
+.cart-icon .cart-icon-handle {
+	border-color: #fff;
+	background: #000;
+}
+
+#search .search-trigger{
+	color: #fff;
+	border-left-color: #666;
+}
+#cart .close {
+	color: #ff0000;
+	text-shadow: none;
+}
+.table thead td, .table thead th {
+	background-color: #333;
+	text-shadow: none;
+	color: #fff;
+}
+#cart-info td,
+.product-info .image-additional:hover a {
+	background: transparent !important;
+	border-color: #111;
+}
+.quickview-box .rightcol .price,
+.quickview-box .options {
+	color: #000;
+}
+.quickview-box a {
+	color: #333;
+}
+.quickview-box .image-additional a,
+.quickview-box .image-additional:hover a,
+.quickview-box .description,
+.quickview-box .cart,
+.quickview-box .tags,
+.quickview-box .options	{
+	border-color: #ddd;
+}
+#footer .container,
+#footend .container {
+	border-top: 1px solid #333;
+	padding-top: 10px;
+}
+
+@media only screen and (max-width: 979px) {
+
+	.responsive .btn-navbar span, 
+	.responsive #footer h3.header {
+		color: #fff; 
+	}
+
+	.responsive .navbar-toggle {
+		background-color: #121212;
+		border-color: #777;
+	}
+
+	.responsive .navbar-toggle:hover {
+		background-color: #444;
+		color: #fff !important;
+	}
+	
+}
+
+@media only screen and (max-width: 767px) {
+
+	#mobileMenuWrap {
+		border: 1px solid #333;
+		background: #111;
+	}
+	.responsive .navbar .nav > li > a {
+		color: #333;
+	}
+	.responsive #footer h3.header {
+		background-color: #121212;
+		border-color: #333 #333 #333;
+	}
+
+	.responsive #footer h3.header:hover {
+		background-color: #222;
+		color: #fff !important;
+	}
+
+	.responsive #footer h3.header.active{
+		background: #191919;
+		color: #fff !important;
+	}
+
+	.responsive #footer ul.content {
+		background: #111;
+		border-color: #222;
+	}
+	.responsive #footer ul li a {
+		border-bottom: 1px solid #333;
+		text-shadow: none;
+	}
+	.responsive #footer ul li a:hover, 
+	.responsive #footer ul li a:active {
+		background-color: #202020;
+		color: #fff;
+	}
+}

@@ -1,0 +1,84 @@
+<div id="cart">
+
+	<button type="button" class="btn-default btn-header" data-loading-text="{{ text_loading }}" data-toggle="offcanvas" data-target="#sidecart" data-disable-scrolling="true" data-modal="true">
+		<i class="fa fa-shopping-cart"></i> <span id="cart-total">{{ text_items }}</span>
+	</button>
+
+	{% if direction =='rtl' %}
+		{% set position = "navmenu-fixed-left" %}
+	{% else %}
+		{% set position = "navmenu-fixed-right" %}
+	{% endif %}
+	
+	<ul id="sidecart" class="panel panel-default navmenu {{ position }} offcanvas" role="navigation">
+
+		<li>
+
+			<a class="closesidebar" onclick="$('#sidecart').offcanvas('hide');" data-toggle="tooltip" data-placement="left" title="Close"><span class="line-1"></span><span class="line-2"></span><span class="line-3"></span></a>
+			
+			<h4><a href="{{ cart }}">{{ text_cart }} <span id="cart-total">{{ text_items }}</span></a></h4>
+			
+		</li>
+		
+		{% if products or vouchers %}
+			
+			<li>
+				<table class="table table-items">
+					{% for product in products %}
+						<tr>
+							<td class="text-center" width="20%">
+								{% if product.thumb %}
+									<a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>
+								{% endif %}
+							</td>
+							<td class="text-left" width="70%"><span class="name"><a href="{{ product.href }}">{{ product.name }}</a></span>
+								{% if product.option %}
+									{% for option in product.option %} <br />
+										- <small>{{ option.name }} {{ option.value }}</small>
+									{% endfor %}
+								{% endif %}
+								{% if product.recurring %} <br />
+									- <small>{{ text_recurring }} {{ product.recurring }}</small>
+								{% endif %}
+								<br><span class="badge">{{ product.quantity }}</span> <span class="cart-price">{{ product.total }}</span>
+							</td>
+							<td class="text-center" width="10%"><button type="button" onclick="cart.remove('{{ product.cart_id }}'); $(this).tooltip('destroy')" data-toggle="tooltip" data-placement="left" title="{{ button_remove }}" class="btn btn-remove">&times;</button></td>
+						</tr>
+					{% endfor %}
+					{% for voucher in vouchers %}
+						<tr>
+							<td class="text-center"></td>
+							<td class="text-left">{{ voucher.description }} <br> <span class="badge">1</span> {{ voucher.amount }}</td>
+							<td class="text-center text-danger"><button type="button" onclick="voucher.remove('{{ voucher.key }}'); $(this).tooltip('destroy')" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-remove">&times;</button></td>
+						</tr>
+					{% endfor %}
+				</table>
+				<div class="cart-summary">
+					<table class="table totals">
+						{% for total in totals %}
+	          <tr>
+	            <td class="text-right"><strong>{{ total.title }}</strong></td>
+	            <td class="text-right">{{ total.text }}</td>
+	          </tr>
+	          {% endfor %}
+					</table>
+					<div class="text-right">
+						<a href="{{ cart }}" class="btn btn-primary btn-block"> {{ text_cart }}</a>
+						<a href="{{ checkout }}" class="btn btn-default btn-cart btn-block"> {{ text_checkout }}</a>
+					</div>
+				</div>
+			</li>
+		
+		{% else %}
+
+			<li>
+				<p class="empty white text-center">
+				<i class="fa fa-shopping-cart fa-5x"></i><br>
+				{{ text_empty }}</p>
+			</li>
+		
+		{% endif %}
+	
+	</ul>
+
+</div>

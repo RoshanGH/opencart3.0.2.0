@@ -1,0 +1,159 @@
+<modification>
+
+	<id>Show stock status</id>
+	<version>1.2</version>
+	<vqmver>2.1.5</vqmver>
+	<author>Everthemes</author>
+
+	<file path="catalog/controller/product/" name="product.php,quickview.php">
+		<operation>
+			<search position="after" index="1"><![CDATA[
+			$this->data['points'] = $product_info['points'];
+			]]></search>
+			<add><![CDATA[
+			$this->data['quantity'] = $product_info['quantity'];
+			]]></add>
+		</operation>
+
+		<operation>
+			<search position="after" index="1"><![CDATA[
+			$this->data['products'][] = array(
+			]]></search>
+			<add><![CDATA[
+			'quantity' => $result['quantity'],
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/view/theme/*/template/product/" name="product.tpl,quickview.tpl">
+
+		<operation>
+			<search position="replace"><![CDATA[
+			id="button-cart" class="button btn btn-default"
+			]]></search>
+			<add><![CDATA[
+			id="button-cart" class="button btn btn-default <?php if ($quantity <= 0) { echo 'disabled" disabled="disabled'; } ?>" 
+			]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[
+			<?php echo $stock; ?>
+			]]></search>
+			<add><![CDATA[
+			<?php if ($quantity <= 0) { ?>
+			<span class="outstock"><i class="fa fa-times"></i> <?php echo $stock; ?></span>
+			<?php } else { ?>
+			<span class="instock"><i class="fa fa-check"></i> <?php echo $stock; ?></span>
+			<?php } ?>
+			]]></add>
+		</operation>
+
+	</file>
+
+	
+	<file path="catalog/controller/product/" name="category.php,search.php,special.php,manufacturer.php,compare.php">
+		<operation>
+			<search position="after" index="1"><![CDATA[
+			$this->data['products'][] = array(
+			]]></search>
+			<add><![CDATA[
+			'quantity' => $result['quantity'],
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/view/theme/*/template/product/" name="category.tpl,search.tpl,special.tpl,manufacturer_info.tpl">
+		<operation>
+			<search position="replace"><![CDATA[
+			<input type="button" value="<?php echo $button_cart; ?>" onclick="addToCart('<?php echo $product['product_id']; ?>');" class="button btn btn-default" />
+			]]></search>
+			<add><![CDATA[
+			<?php if ($product['quantity'] <= 0) { ?>
+				<input type="button" value="<?php echo $button_cart; ?>" onclick="addToCart('<?php echo $product['product_id']; ?>');" class="button btn btn-default" <?php if ($product['quantity'] <= 0) { echo 'style="display:none"'; } ?> />
+				<span class="outstock"><?php echo $this->language->get('text_out_stock'); ?></span>
+			<?php } else { ?>
+				<input type="button" value="<?php echo $button_cart; ?>" onclick="addToCart('<?php echo $product['product_id']; ?>');" class="button btn btn-default" />
+			<?php } ?>
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/view/theme/*/template/product/compare.tpl">
+		<operation>
+			<search position="replace"><![CDATA[
+				<input type="button" value="<?php echo $button_cart; ?>" onclick="addToCart('<?php echo $product['product_id']; ?>');" class="button btn btn-default btn-cart btn-sm" />
+			]]></search>
+			<add><![CDATA[
+				<?php if ($product['quantity'] <= 0) { ?>
+					<input type="button" value="<?php echo $button_cart; ?>" onclick="addToCart('<?php echo $product['product_id']; ?>');" class="button btn btn-default btn-cart btn-sm" <?php if ($product['quantity'] <= 0) { echo 'style="display:none"'; } ?> />
+					<span class="outstock"><?php echo $this->language->get('text_out_stock'); ?></span>
+				<?php } else { ?>
+					<input type="button" value="<?php echo $button_cart; ?>" onclick="addToCart('<?php echo $product['product_id']; ?>');" class="button btn btn-default btn-cart btn-sm" />
+				<?php } ?>
+			]]></add>
+		</operation>
+
+	</file>
+	
+	<file path="catalog/controller/module/" name="latest.php,special.php,bestseller.php,related.php">
+		<operation error="skip">
+			<search position="after" index="1"><![CDATA[
+			$this->data['products'][] = array(
+			]]></search>
+			<add><![CDATA[
+			'quantity' => $result['quantity'],
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/view/theme/*/template/module/" name="latest.tpl,special.tpl,bestseller.tpl,related.tpl,featured.tpl,tabbed_products.tpl">
+		<operation error="skip">
+			<search position="replace"><![CDATA[
+			<input type="button" value="<?php echo $button_cart; ?>" onclick="addToCart('<?php echo $product['product_id']; ?>');" class="button btn btn-default" />
+			]]></search>
+			<add><![CDATA[
+			<?php if ($product['quantity'] <= 0) { ?>
+				<input type="button" value="<?php echo $button_cart; ?>" onclick="addToCart('<?php echo $product['product_id']; ?>');" class="button btn btn-default" <?php if ($product['quantity'] <= 0) { echo 'style="display:none"'; } ?> />
+				<span class="outstock"><?php echo $this->language->get('text_out_stock'); ?></span>
+			<?php } else { ?>
+				<input type="button" value="<?php echo $button_cart; ?>" onclick="addToCart('<?php echo $product['product_id']; ?>');" class="button btn btn-default" />
+			<?php } ?>
+			]]></add>
+		</operation>
+
+	</file>
+	
+
+	<file name="catalog/controller/module/featured.php">
+		<operation error="skip">
+			<search position="after" index="1"><![CDATA[
+			$this->data['products'][] = array(
+			]]></search>
+			<add><![CDATA[
+			'quantity' => $product_info['quantity'],
+			]]></add>
+		</operation>
+	</file>
+
+
+	<file name="catalog/controller/module/tabbed_products.php">
+		<operation error="skip">
+			<search position="before"><![CDATA[
+			'product_id' => $result['product_id'],
+			]]></search>
+			<add><![CDATA[
+			'quantity' => $result['quantity'],
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="before"><![CDATA[
+			'product_id' => $product_info['product_id'],
+			]]></search>
+			<add><![CDATA[
+			'quantity' => $product_info['quantity'],
+			]]></add>
+		</operation>
+	</file>
+	
+</modification>

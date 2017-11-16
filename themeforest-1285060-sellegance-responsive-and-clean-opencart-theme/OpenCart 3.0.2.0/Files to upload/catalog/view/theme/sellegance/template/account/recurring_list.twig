@@ -1,0 +1,85 @@
+{{ header }}
+
+<div class="centralbox">
+		<div id="account-recurring" class="container">
+			<div class="container-inner">
+
+	{{ content_top }}
+	
+	<header class="page-header">
+		<h1>{{ heading_title }}</h1>
+	</header>
+
+	<ul class="breadcrumb">
+		{% for breadcrumb in breadcrumbs %}
+		<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+	</ul>
+
+	{% if column_left and column_right %}
+		{% set class = 'col-sm-6 middle sideleft' %}
+	{% elseif column_left or column_right %}
+		{% set class = 'col-sm-9' %}
+	{% else %}
+		{% set class = 'col-sm-12' %}
+	{% endif %}
+	
+	<div class="row">
+
+		{{ column_left }}
+
+		<div id="content" class="{{ class }}">
+
+			<div class="mainborder">
+
+				{% if recurrings %}
+
+					<table class="table table-bordered table-hover">
+	          <thead>
+	            <tr>
+	              <td class="text-right">{{ column_order_recurring_id }}</td>
+	              <td class="text-left">{{ column_product }}</td>
+	              <td class="text-left">{{ column_status }}</td>
+	              <td class="text-left">{{ column_date_added }}</td>
+	              <td class="text-right"></td>
+	            </tr>
+	          </thead>
+	          <tbody>
+	          
+	          {% for recurring in recurrings %}
+	          <tr>
+	            <td class="text-right">#{{ recurring.order_recurring_id }}</td>
+	            <td class="text-left">{{ recurring.product }}</td>
+	            <td class="text-left">{{ recurring.status }}</td>
+	            <td class="text-left">{{ recurring.date_added }}</td>
+	            <td class="text-right"><a href="{{ recurring.view }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+	          </tr>
+	          {% endfor %}
+	          
+	          </tbody>
+	        </table>
+
+					<div class="text-right">{{ pagination }}</div>
+
+				{% else %}
+
+					<div class="content empty">
+						<p>{{ text_empty }}</p>
+						<div class="buttons">
+							<a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a>
+						</div>
+					</div>
+
+				{% endif %}
+
+			</div>
+
+		</div> <!-- #content -->
+
+		{{ column_right }}
+
+	</div> <!-- .row -->
+
+	{{ content_bottom }}
+
+{{ footer }}

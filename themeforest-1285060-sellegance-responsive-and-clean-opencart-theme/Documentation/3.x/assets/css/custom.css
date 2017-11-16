@@ -1,0 +1,46 @@
+section {
+	padding-top: 60px;
+}
+
+.overall {
+	position: relative;
+	text-align: center;
+}
+.overall h1 {
+	margin-bottom: 9px;
+	font-size: 72px;
+	padding-top: 30px;
+	font-weight: bold;
+	letter-spacing: -1px;
+	line-height: 1;
+}
+.overall p {
+	margin-bottom: 18px;
+	font-weight: 300;
+}
+.affix {top:30px;}
+.nav>li.active>a{background: #337ab7; color: #fff;}
+
+.online_docs {
+	text-align: center;
+	margin: 1em 25%;
+	clear: both;
+	font-size: 1.4em;
+}
+
+	/* Footer
+	-------------------------------------------------- */
+	.footer {
+		margin-top: 45px;
+		padding: 35px 0 36px;
+		border-top: 1px solid #e5e5e5;
+	}
+	.footer p {
+		margin-bottom: 0;
+		color: #555;
+	}
+
+
+
+
+

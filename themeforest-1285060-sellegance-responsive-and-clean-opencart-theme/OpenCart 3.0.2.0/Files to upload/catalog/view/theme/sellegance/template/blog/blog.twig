@@ -1,0 +1,337 @@
+{{ header }}
+
+<div class="centralbox">
+		<div class="container">
+			<div class="container-inner">
+
+	{{ content_top }}
+	
+	<header class="page-header">
+		<h1>{{ heading_title }}</h1>
+	</header>
+
+	<ul class="breadcrumb">
+		{% for breadcrumb in breadcrumbs %}
+		<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+	</ul>
+
+	{% if column_left and column_right %}
+		{% set class = 'col-sm-6 middle sideleft' %}
+	{% elseif column_left or column_right %}
+		{% set class = 'col-sm-9' %}
+	{% else %}
+		{% set class = 'col-sm-12' %}
+	{% endif %}
+	
+	<div class="row">
+
+		{{ column_left }}
+
+		<div id="content" class="{{ class }} blog-single">
+
+		<div class="blog_post mainborder">
+
+			{% if main_thumb and blogsetting_post_thumb %}
+				<div class="main_thumb zoom_image_container">
+				<img src="{{ blogsetting_post_thumb }}" class="img-responsive" alt="{{ heading_title }}" title="{{ heading_title }}" />
+				</div>
+			{% endif %}
+
+			<div class="blog_stats">
+				{% if post_date_added_status %}<span><b class="hl">{{ date_added_full }}</b></span>{% endif %}
+				{% if post_author_status %}<span><b class="text">{{ text_posted_by }}</b> <b class="hl">{{ author }}</b></span>{% endif %}
+				{% if post_page_view_status %}<span><b class="text">{{ text_read }}</b> <b class="hl">{{ new_read_counter_value }}</b></span>{% endif %}
+				{% if post_comments_count_status %}<span class="comment_count"><i class="fa fa-comments"></i> <b class="hl">{{ comment_total }}</b></span>{% endif %}
+			</div>
+
+				<div class="main_description">
+					{{ description }}
+				</div>
+
+				{% if tags %}
+				<div class="tags">
+					{{ text_tags }}
+					{% for i in 0..tags|length %}
+					{% if i < (tags|length - 1) %} <a href="{{ tags[i].href }}">{{ tags[i].tag }}</a>,
+					{% else %} <a href="{{ tags[i].href }}">{{ tags[i].tag }}</a> {% endif %}
+					{% endfor %}
+				</div>
+				{% endif %}
+
+				<div class="share">
+
+					<ul>
+						<li><a href="//facebook.com/sharer.php?u={{ share_url }}" target="_blank" title="Facebook" class="facebook" data-toggle="tooltip"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="https://twitter.com/share?url={{ share_url }}" target="_blank" title="Twitter" class="twitter" data-toggle="tooltip"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="https://plus.google.com/share?url={{ share_url }}" target="_blank" title="Google +" class="google-plus" data-toggle="tooltip" onclick="javascript:window.open(this.href,
+								'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" ><i class="fa fa-google-plus"></i></a></li>
+						<li><a href="//pinterest.com/pin/create/button/?url={{ share_url }}&{% if blogsetting_post_thumb %}media={{ blogsetting_post_thumb }}&{% endif %}description={{ heading_title }}" target="_blank" title="Pinterest" class="pinterest" data-toggle="tooltip"><i class="fa fa-pinterest"></i></a></li>
+						<li><a href="mailto:enteryour@addresshere.com?subject={{ heading_title }}&body={{ share_url }}" class="envelope"  title="Email" data-toggle="tooltip"><i class="fa fa-envelope"></i></a></li>
+					</ul>
+
+				</div>
+				
+				<!-- Related Products -->
+				
+				{% if products %}
+				<div class="related-products product-slider">
+					<div class="contentset center">
+						<h4 class="inner"><span>{{ text_related_products }}</span></h4>
+					</div>
+					 <div class="blog_grid_holder blog_products">
+						{% for product in products %}
+							<div class="item">
+								<div class="product-thumb transition">
+
+									<div class="image"><a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a></div>
+								 
+									<div class="caption">
+										
+										<h4 class="name"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+
+										{% if product.price %}
+											<div class="price">
+												{% if not product.special %}
+													{{ product.price }}
+												{% else %}
+													<span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span>
+												{% endif %}
+												{% if product.tax %}
+													<span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+												{% endif %}
+											</div>
+											{% endif %}
+
+										{% if product.rating %}
+											<div class="rating">
+											  {% for j in 1..5 %}
+											  {% if product.rating < j %}
+											  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+											  {% else %}
+											  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+											  {% endif %}
+											  {% endfor %}
+											</div>
+											{% endif %}
+
+										<div class="cart">
+											<button type="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');" class="btn btn-sm btn-cart"><i class="fa fa-shopping-cart visible-xs"></i> <span class="hidden-xs">{{ button_cart }}</span></button>
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+
+					<script type="text/javascript">
+					$(document).ready(function() {
+						
+						$('.blog_grid_holder.blog_products').owlCarousel({
+						itemsCustom: [ [0, 2], [500, 2], [767, {{ rel_prod_per_row }}]],
+						pagination: false,
+						navigation:true,
+						navigationText: ['<i class="fa fa-angle-left fa-5x"></i>', '<i class="fa fa-angle-right fa-5x"></i>'],
+						slideSpeed:500
+						}); 
+
+					});
+					</script>
+
+				{% endif %}
+				
+			 <!-- Related Products End -->
+					
+				
+				{% if related_blogs %}
+				<div class="related-products product-slider">
+					<div class="contentset center">
+						<h4 class="inner"><span>{{ text_related_blog }}</span></h4>
+					</div>
+					<div class="blog_grid_holder related">
+						{% for blog in related_blogs %}
+						<div class="blog_item">
+							{% if blog.image and rel_thumb_status %}
+							<div class="image zoom_image_container">
+							<a href="{{ blog.href }}"><img src="{{ blog.image }}" class="img-responsive" alt="{{ blog.title }}" title="{{ blog.title }}" /></a>
+							</div>
+							{% endif %}
+							
+							<div class="blog_summary">
+							
+									<h2 class="blog_title"><a href="{{ blog.href }}">{{ blog.title }}</a></h2>
+									<div class="blog_stats">
+										{% if date_added_status %}
+											<span class="date"><b class="hl">{{ blog.date_added_full }}</b></span>
+										{% endif %}
+										{% if post_comments_count_status %}
+											<span class="comment_count"><i class="fa fa-comments"></i> <b class="hl">{{ comment_total }}</b></span>
+										{% endif %}
+									</div> <!-- blog-stats ends -->
+									<p>{{ blog.short_description }}</p>
+
+							</div> <!-- summary ends -->
+						</div> <!-- item ends -->
+						{% endfor %}          
+					</div>
+				</div>
+
+					<script type="text/javascript">
+					$(document).ready(function() {
+
+						$('.blog_grid_holder.related').owlCarousel({
+						itemsCustom: [ [0, 1], [500, 2], [767, {{ rel_per_row }}]],
+						pagination: false,
+						navigation:true,
+						navigationText: ['<i class="fa fa-angle-left fa-5x"></i>', '<i class="fa fa-angle-right fa-5x"></i>'],
+						slideSpeed:500
+						}); 
+
+					});
+					</script>
+
+				{% endif %}
+
+				 <!-- Related Blog End -->
+			 
+				<!-- Comment Area start -->
+				{% if allow_comment %}
+			
+					<form id="comment_form" class="row">
+
+						<div class="contentset center">
+							<h4 class="inner"><span>{{ text_comments }}</span></h4>
+						</div>
+
+						<div id="comment"></div>
+
+						<div class="contentset center">
+							<h4 class="inner"><span>{{ text_write_comment }}</span></h4>
+						</div>
+
+						<div id="add-review" class="col-sm-8 col-sm-push-2">
+
+							<div class="form-group required">
+								<label class="control-label" for="input-name">{{ entry_name }}</label>
+								<input type="text" name="name" value="" id="input-name" class="form-control" />
+							</div>
+							<div class="form-group required">
+								<label class="control-label" for="input-email">{{ entry_email }}</label>
+								<input type="text" name="email" value="" id="input-email" class="form-control" />
+							</div>
+							
+							<div class="form-group required">
+									<label class="control-label" for="input-review">{{ entry_comment }}</label>
+									<textarea name="comment" rows="5" id="input-comment" class="form-control"></textarea>
+							</div>
+
+							{{ captcha }}
+
+							<div class="buttons">
+								<button type="button" id="button-comment" class="btn btn-primary">{{ button_send }}</button>
+							</div>
+
+						</div>
+
+					</form>
+
+				{% endif %}
+
+			</div>
+
+		</div> <!-- #content -->
+		
+		{{ column_right }}
+
+	</div> <!-- .row -->
+
+	{{ content_bottom }}
+
+<script type="text/javascript"><!--
+
+$('#comment').delegate('.pagination a', 'click', function(e) {
+	e.preventDefault();
+	$("html,body").animate({scrollTop:(($("#comment").offset().top)-50)},500);
+	$('#comment').fadeOut(50);
+
+	$('#comment').load(this.href);
+
+	$('#comment').fadeIn(500);
+	
+});
+
+$('#comment').load('index.php?route=blog/blog/comment&blog_id={{ blog_id }}');
+//--></script>
+
+<script type="text/javascript"><!--
+
+$('#button-comment').on('click', function() {
+	$.ajax({
+		url: 'index.php?route=blog/blog/write&blog_id={{ blog_id }}',
+		type: 'post',
+		dataType: 'json',
+		data: $("#comment_form").serialize(),
+		
+		complete: function() {
+			$('#button-comment').button('reset');
+			$('#captcha_comment').attr('src', 'index.php?route=blog/blog/captcha#'+new Date().getTime());
+			$('input[name=\'captcha_comment\']').val('');
+		},
+		success: function(json) {
+			$('.alert-dismisible').remove();
+			
+			if (json['error']) {
+				$('#add-review').before('<div class="alert alert-danger alert-dismisible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+			}
+			
+			if (json['success']) {
+				$('#add-review').before('<div class="alert alert-success alert-dismisible"><i class="fa fa-check-circle"></i> ' + json['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				
+				$('input[name=\'name\']').val('');
+				$('input[name=\'email\']').val('');
+				$('textarea[name=\'comment\']').val('');
+				$('input[name=\'captcha_comment\']').val('');
+			}
+		}
+	});
+});     
+</script>
+
+<script type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "NewsArticle",
+"mainEntityOfPage": {
+"@type": "WebPage",
+"@id": "https://google.com/article"
+},
+"headline": {{ heading_title }},
+{% if blogsetting_post_thumb %}
+"image": {
+"@type": "ImageObject",
+"url": {{ blogsetting_post_thumb }},
+"height": {{ img_height }}
+"width": {{ img_width }}},
+{% endif %}
+"datePublished": {{ date_added_full }},
+"dateModified": {{ date_added_full }},
+"author": {
+"@type": "Person",
+"name": {{ author }}
+},
+"publisher": {
+"@type": "Organization",
+"name": {{ store }},
+{% if logo %}
+"logo": {
+"@type": "ImageObject",
+"url": {{ logo }}
+}
+{% endif %}
+},
+"description": {{ short_description }}
+}
+</script>
+
+{{ footer }}

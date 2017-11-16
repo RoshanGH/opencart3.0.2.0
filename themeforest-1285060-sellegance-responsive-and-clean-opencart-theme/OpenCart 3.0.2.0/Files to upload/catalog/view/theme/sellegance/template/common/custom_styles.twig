@@ -1,0 +1,284 @@
+{% for gfont in googlefonts %}
+	<link href='//fonts.googleapis.com/css?family={{ gfont }}:400,300,200,700,800,500{{ cyrillic }}&amp;v1' rel='stylesheet' type='text/css' />
+{% endfor %}
+
+<style type="text/css" media="screen">
+
+	body {
+		
+	{% if sellegance_custom_image != '' %}
+		background-image: url("{{ base}}{{ sellegance_custom_image}}");
+		background-position: top center;
+		background-repeat: no-repeat;
+	{% elseif sellegance_custom_pattern !='' %}
+		background-image: url("{{ base  }} {{ sellegance_custom_pattern }}");
+	{% elseif sellegance_pattern_overlay !='none' %}
+		background-image: url("catalog/view/theme/sellegance/image/patterns/{{ sellegance_pattern_overlay }}.png");
+	{% else %}
+		background-image: none;
+	{% endif %}
+
+	}
+
+	{% if sellegance_responsive_layout == 'normal' %}
+		body.responsive .container { max-width: 982px !important; }
+	{% endif %}
+
+	{% if sellegance_custom_colors == 1 %}
+
+		{% if bodybg_color != '' %}
+			body {
+				background-color: {{ bodybg_color }};
+			}
+		{% endif %}
+		{% if menu_accent != '' %}
+			.navbar-light #menu .navbar,
+			.fullwidth_layout .navbar-light #menu,
+			.dark-skin.boxed_layout #cart-total {
+				border-top-color: {{ menu_accent }};
+			}
+			.navbar-transparent #menu .navbar,
+			.fullwidth_layout .navbar-transparent #menu {
+				border-bottom-color: {{ menu_accent }};
+			}
+			.navbar-dark #menu .navbar,
+			.fullwidth_layout .navbar-dark #menu,
+			#menu .topbar {
+				background-color: {{ menu_accent }};
+			}
+			@media only screen and (max-width: 767px) {
+				.navbar-inside {
+					border-bottom-color: {{ menu_accent }};
+				}
+			}
+		{% endif %}
+		{% if menu_color != '' %}
+			.navbar .nav > li > a,
+			.navbar-dark #menu .navbar .nav > li > a {
+				color: {{ menu_color }};
+			}
+		{% endif %}
+		{% if menu_hover != '' %}
+			.navbar .nav > li:hover > a, .navbar .nav > li > a:hover,
+			.navbar-dark #menu .navbar .nav > li > a:hover,
+			.navbar-dark #menu .navbar .nav > li:hover > a {
+				color: {{ menu_hover }};
+			}
+		{% endif %}
+		{% if dropdown_color != '' %}
+			.navbar .dropdown-menu li>a {
+				color: {{ dropdown_color }};
+			}
+		{% endif %}
+		{% if dropdown_hover != '' %}
+			.navbar .dropdown-menu li>a:hover, .navbar .dropdown-menu li>a:focus, .navbar .dropdown-submenu:hover>a {
+				color: {{ dropdown_hover }};
+			}
+		{% endif %}
+		{% if title_color != '' %}
+			.page-header h1,
+			.page-header h1 a {
+				color: {{ title_color }} !important;
+			}
+		{% endif %}
+		{% if content_links != '' %}
+			.mainborder a {
+				color: {{ content_links }};	
+			}
+		{% endif %}
+		{% if bodytext_color != '' %}
+			.mainborder, .mainborder .nav-tabs > li > a, .category-list a, .product-page, #continue-shopping {
+				color: {{ bodytext_color }};
+			}
+		{% endif %}
+		{% if lighttext_color != '' %}
+			.breadcrumb, .breadcrumb a, .pagination .results, .product-page .price-tax, .product-page .price .reward {
+				color: {{ lighttext_color }};
+			}
+		{% endif %}
+		{% if footer_text != '' %}
+		#footer, #footer h3 {
+			color: {{ footer_text }};
+		}
+		{% endif %}
+		{% if footer_links != '' %}
+		#footer a, #footer a:link, #footer a:visited {
+			color: {{ footer_links }};
+		}
+		{% endif %}
+
+		{% if btninver_normal != '' %}
+		.btn-primary,
+		a.btn-primary,
+		.mainborder a.btn-primary{
+			border-color: {{ btninver_normal }};
+			color: {{ btninver_normal }} !important;
+		}
+		{% endif %}
+		{% if btninver_hover != '' %}
+		.btn-primary:hover,
+		a.btn-primary:hover,
+		.btn-primary:focus,
+		.btn-primary.focus,
+		.btn-primary.active,
+		.btn-primary:active,
+		.btn-primary:active:hover,
+		.btn-primary.active:hover,
+		.btn-primary:active:focus,
+		.btn-primary.active:focus,
+		.btn-primary:active.focus, 
+		.btn-primary.active.focus,
+		.btn-primary.disabled,
+		.btn-primary[disabled] {
+			border-color: {{ btninver_hover }} !important;
+			color: {{ btninver_hover }} !important;
+		}
+		{% endif %}
+
+		{% if btncart_normal != '' %}
+			.payment .right .button,
+			.btn-cart,
+			a.btn-cart,
+			.mainborder a.btn-cart,
+			#button-confirm {
+				border-color: {{ btncart_normal }};
+				background-color: {{ btncart_normal }};
+				color: {{ btncart_text }} !important;
+			}
+			.wishlist i.fa.fa-heart, .wishlist i.fa.fa-heart-o { color: {{ btncart_normal }};	}
+			.owl-controls .owl-page.active span {background-color: {{ btncart_normal }};}
+		{% endif %}
+		{% if btncart_hover != '' %}
+		.payment .right .button:hover,
+		.payment .right .button:active,
+		.payment .right .button:focus,
+		.btn-cart:hover,
+		.btn-cart:active,
+		.btn-cart:focus,
+		.btn-cart:active:focus,
+		a.btn-cart:hover,
+		a.btn-cart:active,
+		a.btn-cart:focus,
+		#button-confirm:hover {
+			border-color: {{ btncart_hover }};
+			background-color: {{ btncart_hover }};
+			color: {{ btncart_text }} !important;
+		}
+		{% endif %}
+
+
+		{% if product_name_color != '' %}
+		.product-thumb .name a,  .product-slider .name a  {
+			color: {{ product_name_color }};	
+		}
+		{% endif %}
+		{% if normal_price != '' %}
+		.product-thumb .price, .product-slider .price, .product-page .price-normal {
+			color: {{ normal_price }};	
+		}
+		{% endif %}
+		{% if old_price != '' %}
+		.price-old {
+			color: {{ old_price }};	
+		}
+		{% endif %}
+		{% if new_price != '' %}
+		.price-new {
+			color: {{ new_price }};	
+		}
+		{% endif %}
+		{% if onsale_bg != '' %}
+		.onsale {
+			background-color: {{ onsale_bg }};
+			color: {{ onsale_text }};
+		}
+		{% endif %}
+		{% if sidebar_active_menu != '' %}
+		.box-category > ul > li a.active {
+			color: {{ sidebar_active_menu }};
+		}
+		{% endif %}
+
+	{% endif %} /*sellegance_custom_colors END*/
+
+
+	{% if sellegance_zoom_position == 'inside' %}
+		.cloud-zoom-big { left:0 !important; }
+	{% endif %}
+
+	{% if sellegance_quickview_modules != 1 %}
+		.content-top .quickview, .content-bottom .quickview { display:none !important; }
+	{% endif %}
+
+	{% if sellegance_quickview_categories != 1 %}
+		#content .quickview { display:none !important; }
+	{% endif %}
+
+	{% if sellegance_quickview_mobile != 1 %}
+		@media only screen and (max-width: 767px) {
+			.quickview { display:none !important; }
+		}
+	{% endif %}
+
+	{% if sellegance_show_wishlist != 1 %}
+		.wishlist, .wishlist-link { display:none !important; }
+	{% endif %}
+
+	{% if sellegance_show_compare != 1 %}
+		.compare, .product-compare { display:none !important; }
+	{% endif %}
+
+	{% if sellegance_show_sale_bubble != 1 %}
+		.onsale { display:none !important; }
+	{% endif %}
+
+
+	/*body font*/
+
+	{% if sellegance_body_font != '' %}
+		{% set sellegance_body_font = sellegance_body_font|replace({'+': ' '}) %}
+		body, p, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .cart .btn, .btn { 
+			font-family: {{ sellegance_body_font }}; 
+		}
+		body, p { 
+			font-size: {{ sellegance_body_font_size }}px;
+		}
+	{% endif %}
+
+
+	/*title font*/
+
+	{% if sellegance_title_font != '' %}
+		{% set sellegance_title_font = sellegance_title_font|replace({'+': ' '}) %}
+		h1,
+		.tp-button, .tp-button:hover, .tp-button:focus,
+		div.tp-caption.bignumbers_white,
+		div.tp-caption.light_heavy_70_shadowed {
+			font-family: {{ sellegance_title_font }}; 
+		}
+		.page-header h1 {
+			font-size: {{ sellegance_title_font_size }}px;
+		}
+	{% endif %}
+
+
+	/*small font*/
+
+	{% if sellegance_small_font != '' %}
+		{% set sellegance_small_font = sellegance_small_font|replace({'+': ' '}) %}
+		h1,
+		small, .wishlist a, .compare a, .remove a, .product-compare, .product-filter, .product-filter .display li, .product-list .price-tax, .product-page .price-tax, .product-page .price .reward, .product-page .minimum, .product-page .tags a, .review-date, span.error, #copy, #footer .info, .breadcrumb a, .pagination .results, .help {
+			font-family: {{ sellegance_small_font }}; 
+		}
+	{% endif %}
+
+	
+	{% if sellegance_custom_css_status == 1 %}
+		{{ sellegance_custom_css }}
+	{% endif %}
+
+</style>
+
+{% if sellegance_custom_stylesheet == 1 %}
+	<link rel="stylesheet" type="text/css" href="catalog/view/theme/sellegance/stylesheet/custom.css"  media="screen" />
+{% endif %}

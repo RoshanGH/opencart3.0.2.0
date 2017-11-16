@@ -1,0 +1,96 @@
+{{ header }}
+<div class="centralbox">
+		<div id="product-manufacturer" class="container">
+			<div class="container-inner">
+
+	{{ content_top }}
+
+	<header class="page-header">
+		<h1>{{ heading_title }}</h1>
+	</header>
+
+	<ul class="breadcrumb">
+		{% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+	</ul>
+
+	{% if column_left and column_right %}
+		{% set class = 'col-sm-6 middle sideleft' %}
+		{% set grid = 'col-lg-6 col-md-6 col-sm-12 col-xs-12' %}
+	{% elseif column_left or column_right %}
+		{% set class = 'col-sm-9' %}
+		{% set grid = 'col-lg-4 col-md-4 col-sm-6 col-xs-1' %}
+	{% else %}
+		{% set class = 'col-sm-12' %}
+		{% set grid = 'col-lg-3 col-md-3 col-sm-6 col-xs-12' %}
+	{% endif %}
+
+	<div class="row">
+
+		{{ column_left }}
+
+		<div id="content" class="{{ class }}" role="main">
+
+			<div class="mainborder">
+
+      	{% if categories %}
+					
+					<ul class="pagination brands">
+						<li><span>{{ text_index }}</span></li>
+						{% for category in categories %}
+							<li>
+								<span><a href="index.php?route=product/manufacturer#{{ category.name }}">{{ category.name }}</a></span>
+							</li>
+						{% endfor %}
+					</ul>
+
+					<div id="manufacturer-list">
+
+						{% for category in categories %}
+							
+							<div class="contentset">
+								<h4 class="inner">
+									<span>{{ category.name }}<a id="{{ category.name }}"></a></span>
+								</h4>
+							</div>
+
+							{% if category.manufacturer %}
+								{% for manufacturers in category.manufacturer|batch(4) %}
+									<ul>
+										{% for manufacturer in manufacturers %}
+										<li><a href="{{ manufacturer.href }}">{{ manufacturer.name }}</a></li>
+										{% endfor %}
+									</ul>
+								{% endfor %}
+							{% endif %}
+
+						{% endfor %}
+
+					</div>
+
+				{% else %}
+
+					<div class="content empty">
+
+						<p>{{ text_empty }}</p>
+
+						<div class="buttons">
+							<a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a>
+						</div>
+
+					</div>
+
+				{% endif %}
+
+			</div>
+
+		</div> <!-- #content -->
+		
+		{{ column_right }}
+
+	</div> <!-- .row -->
+
+	{{ content_bottom }}
+
+{{ footer }}

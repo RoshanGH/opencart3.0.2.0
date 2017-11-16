@@ -1,0 +1,44 @@
+{{ header }}
+
+{% if column_left and column_right %}
+	{% set class = 'col-sm-6 middle sideleft' %}
+{% elseif column_left or column_right %}
+	{% set class = 'col-sm-9' %}
+{% else %}
+	{% set class = 'col-sm-12' %}
+{% endif %}
+
+<div class="centralbox">
+
+	{% if sellegance_main_layout == 'fullwidth' %}
+		{{ home_top }}
+	{% endif %}
+
+	<div id="common-home" class="container">
+
+		{% if sellegance_main_layout != 'fullwidth' %}
+			{{ home_top }}
+		{% endif %}
+
+		<div class="container-inner">
+
+			<div class="row">
+
+				{{ column_left }}
+				
+				<div id="content" class="{{ class }}">
+
+					<div class="mainborder">
+			
+					{{ content_top }}
+					{{ content_bottom }}
+							
+					</div>
+					
+				</div>
+				
+				{{ column_right }}
+
+			</div>
+
+{{ footer }}

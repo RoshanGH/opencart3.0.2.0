@@ -1,0 +1,53 @@
+<div class="box testimonials">
+	<div class="contentset">
+		<h4 class="inner"><span>{{ testimonial_title }}</span></h4>
+	</div>
+	<div class="box-content">
+		<div class="product-grid m{{ module }} {{ testimonial_carousel ? 'carousel' }} ">
+			{% for testimonial in testimonials %}
+				<div class="item testimonial col-md-{{ 12 / testimonial_columns }}">
+					<h4 class="heading"><a href="{{ testimonial.link }}">{{ testimonial.title }}</a></h4>
+					<div class="review">{{ testimonial.description }}</div>
+
+					{% if testimonial.rating %}
+						<span class="rating r{{ testimonial.rating }}">
+							<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+						</span>
+					{% endif %}
+
+					<div class="testimonial_author">
+						<a href="{{ testimonial.link }}">{{ testimonial.name }}</a>, 
+						<span class="city">{{ testimonial.city }}</span>
+					</div>
+
+				</div>
+			{% endfor %}
+		</div>
+
+	{% if testimonial_links %}
+		<div class="testimonials_links">
+			<a href="{{ showall_url }}">{{ show_all }}</a>
+			<a href="{{ href_write_testimonial }}">{{ write_testimonial }}</a>
+		</div>
+	{% endif %}
+
+	</div>
+</div>
+
+{% if testimonial_carousel %}
+<script type="text/javascript"><!--
+	$(document).ready(function() {
+		$('.product-grid.carousel.m{{ module }}').owlCarousel({
+			items:1,
+			singleItem: true,
+			slideSpeed:500,
+			autoPlay: 3000,
+			scrollPerPage:false,
+			navigation:true,
+			navigationText: ['<i class="fa fa-angle-left fa-5x"></i>', '<i class="fa fa-angle-right fa-5x"></i>'],
+			pagination: false,
+			loop: true
+		}); 
+	});	
+//--></script>
+{% endif %}

@@ -1,0 +1,22 @@
+<script type="text/javascript" src="catalog/view/theme/sellegance/js/jquery.dcjqaccordion.js"></script> 
+
+<div class="box category-accordion">
+
+	<a class="btn btn-default visible-xs" role="button" data-toggle="collapse" href="#category_accordion" aria-expanded="false" aria-controls="collapseCategoryAccordion">{{ heading_title }} <i class="fa fa-angle-right"></i></a>
+
+	<div class="box-content box-category collapse" id="category_accordion">{{ category_accordion }}</div>
+	
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#cat_accordion').dcAccordion({
+		classExpand : 'cid{{ category_accordion_cid }}',
+		menuClose: false,
+		autoClose: true,
+		saveState: false,
+		disableLink: false,		
+		autoExpand: true
+	});
+});
+</script>

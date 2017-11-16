@@ -1,0 +1,321 @@
+{{ header }}
+<div class="centralbox">
+		<div id="product-search" class="container">
+			<div class="container-inner">
+
+	{{ content_top }}
+	
+	<header class="page-header">
+		<h1>{{ heading_title }}</h1>
+	</header>
+
+	<ul class="breadcrumb">
+		{% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+	</ul>
+
+	{% if column_left and column_right %}
+		{% set class = 'col-sm-6 middle sideleft' %}
+		{% set grid = 'col-lg-6 col-md-6 col-sm-12 col-xs-12' %}
+	{% elseif column_left or column_right %}
+		{% set class = 'col-sm-9' %}
+		{% set grid = 'col-lg-4 col-md-4 col-sm-6 col-xs-12' %}
+	{% else %}
+		{% set class = 'col-sm-12' %}
+		{% set grid = 'col-lg-3 col-md-3 col-sm-6 col-xs-12' %}
+	{% endif %}
+
+	<div class="row">
+
+		{{ column_left }}
+
+		<div id="content" class="{{ class }} search" role="main">
+
+			<div class="mainborder">
+
+				<div class="search-criteria">
+					
+					<div class="contentset center">
+						<h4 class="inner"><span>{{ entry_search }}</span></h4>
+					</div>
+						
+					<div class="controls">
+						<input type="text" name="search" value="{{ search }}" placeholder="{{ text_keyword }}" id="input-search" class="form-control search-box input-lg" />
+					</div>
+
+					<select name="category_id" class="form-control">
+            <option value="0">{{ text_category }}</option>
+            {% for category_1 in categories %}
+            {% if category_1.category_id == category_id %}
+            <option value="{{ category_1.category_id }}" selected="selected">{{ category_1.name }}</option>
+            {% else %}
+            <option value="{{ category_1.category_id }}">{{ category_1.name }}</option>
+            {% endif %}
+            {% for category_2 in category_1.children %}
+            {% if category_2.category_id == category_id %}
+            <option value="{{ category_2.category_id }}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_2.name }}</option>
+            {% else %}
+            <option value="{{ category_2.category_id }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_2.name }}</option>
+            {% endif %}
+            {% for category_3 in category_2.children %}
+            {% if category_3.category_id == category_id %}
+            <option value="{{ category_3.category_id }}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_3.name }}</option>
+            {% else %}
+            <option value="{{ category_3.category_id }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_3.name }}</option>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+            {% endfor %}
+					</select>
+
+					<div class="controls checkout-options">
+						
+						<label class="checkbox-inline">
+							{% if sub_category %}
+								<input type="checkbox" name="sub_category" value="1" checked="checked" />
+							{% else %}
+								<input type="checkbox" name="sub_category" value="1" />
+							{% endif %}
+							{{ text_sub_category }}
+						</label>
+
+						<label class="checkbox-inline">
+							{% if description %}
+							<input type="checkbox" name="description" value="1" id="description" checked="checked" />
+							{% else %}
+							<input type="checkbox" name="description" value="1" id="description" />
+							{% endif %}
+							{{ entry_description }}
+						</label>
+
+					</div>
+			
+					<div class="buttons">
+						<input type="button" value="{{ button_search }}" id="button-search" class="btn btn-primary" />
+					</div>
+
+				</div>
+
+				<div class="contentset center">
+					<h4 class="inner">
+						<span>{{ text_search }}</span>
+					</h4>
+				</div>
+
+				<!-- Products -->
+
+				{% if products %}
+
+					<!-- Grid/Lis view, filters -->
+
+					<div class="product-filter">
+
+						<div class="btn-group display">
+						  <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_list }}"><i class="fa fa-th-list"></i></button>
+						  <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_grid }}"><i class="fa fa-th"></i></button>
+						</div>
+
+						<span class="product-compare"><a href="{{ compare }}" id="compare-total" data-toggle="tooltip" class="btn btn-default" title="{{ text_compare }}"><i class="fa fa-exchange"></i></a></span>
+						
+						<div class="list-options"> 
+
+							<div class="sort">
+
+								<i class="fa fa-sort-amount-asc" data-toggle="tooltip" title="{{ text_sort }}"></i>
+
+								<div class="btn-group dropdown">
+								  <ul class="dropdown-menu dropdown-menu-right">
+								  	{% set current_sort = '' %}
+								  	{% for sorts in sorts %}
+								  	{% if sorts.value == '%s-%s'|format(sort, order) %}
+								  	<li><a href="{{ sorts.href }}">{{ sorts.text }}</a></li>
+								  	{% set current_sort = sorts.text %}
+								  	{% else %}
+								  	<li><a href="{{ sorts.href }}">{{ sorts.text }}</a></li>
+								  	{% endif %}
+								  	{% endfor %}
+								  </ul>
+								  <button type="button" id="input-sort" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								    {{ current_sort }} <span class="caret"></span>
+								  </button>
+								  
+								</div>
+
+							</div>
+
+							<div class="limit">
+
+								<div class="btn-group dropdown">
+								  <ul class="dropdown-menu dropdown-menu-right">
+								  	{% set current_limit = '' %}
+								  	{% for limits in limits %}
+								  	{% if limits.value == limit %}
+								  	<li><a href="{{ limits.href }}">{{ limits.text }}</a></li>
+								  	{% set current_limit = limits.text %}
+								  	{% else %}
+								  	<li><a href="{{ limits.href }}">{{ limits.text }}</a></li>
+								  	{% endif %}
+								  	{% endfor %}
+								  </ul>
+								  <button type="button" id="input-limit" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								    {{ current_limit }} <span class="caret"></span>
+								  </button>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+				
+					<!-- Product list (Default to Grid) -->
+
+						<div class="row product-listing">
+						{% for product in products %}
+						<div class="product-layout product-grid {{ grid }}">
+								<div class="product-thumb">
+
+								{% if product.special %}
+									<span class="onsale">{{ text_onsale }}</span>
+								{% endif %}
+
+									<div class="image hover_fade_in_back">
+									<div class="quickview"><a id="qv{{ product.product_id }}" class="button btn btn-link" rel="mp-quickview" href="index.php?route=product/quickview&product_id={{ product.product_id }}" ><i class="fa fa-plus-circle"></i> {{ text_quickview }}</a></div>
+									
+									{% if product.thumb and product.thumb_swap and sellegance_rollover_images == 1 %}
+										<div class="front-image">
+											<a href="{{ product.href }}"><img src="{{ product.thumb }}" title="{{ product.name }}" class="img-responsive" alt="{{ product.name }}"/></a>
+										</div>
+										<div class="back-image">
+											<a href="{{ product.href }}"><img src="{{ product.thumb_swap }}" title="{{ product.name }}" class="img-responsive" alt="{{ product.name }}"/></a>
+										</div>
+									{% elseif product.thumb %}
+										<a href="{{ product.href }}"><img src="{{ product.thumb }}" title="{{ product.name }}" class="img-responsive" alt="{{ product.name }}" /></a>
+									{% endif %}
+									</div>
+
+									<div>
+										<div class="caption">
+
+										<h4 class="name"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+										<p class="description">{{ product.description }}</p>
+
+										{% if product.price %}
+											<p class="price">
+											{% if not product.special %}
+												{{ product.price }}
+											{% else %}
+												<span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span>
+											{% endif %}
+											{% if product.tax %}
+												<span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+											{% endif %}
+											</p>
+										{% endif %}
+
+										{% if product.rating %}
+											<div class="rating">
+										  {% for i in 5 %}
+										  {% if product.rating < i %}
+												<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+										  {% else %}
+												<span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+										  {% endif %}
+										  {% endfor %}
+											</div>
+										{% endif %}
+
+										<div class="cart">
+											<div class="btn-group">
+											<button type="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');" class="btn btn-sm btn-cart">{{ button_cart }}</button>
+											<button type="button" data-toggle="tooltip" class="btn btn-link btn-sm wishlist" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart-o"></i></button>
+											<button type="button" data-toggle="tooltip" class="btn btn-link btn-sm compare" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+											</div>
+										</div>
+
+										</div>				              
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="row">
+					  <div class="col-sm-6 text-left">{{ pagination }}</div>
+					  <div class="col-sm-6 text-right">{{ results }}</div>
+						</div>
+
+				{% else %}
+				
+					<div class="content empty">
+
+						<p>{{ text_empty }}</p>
+
+						<div class="buttons">
+							<a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a>
+						</div>
+
+					</div>
+
+				{% endif %}
+
+			</div>
+
+		</div><!-- #content -->
+		
+		{{ column_right }}
+
+	</div> <!-- .row -->
+	
+	{{ content_bottom }}
+
+	<script type="text/javascript"><!--
+	$('#button-search').bind('click', function() {
+		url = 'index.php?route=product/search';
+		
+		var search = $('#content input[name=\'search\']').prop('value');
+		
+		if (search) {
+			url += '&search=' + encodeURIComponent(search);
+		}
+
+		var category_id = $('#content select[name=\'category_id\']').prop('value');
+		
+		if (category_id > 0) {
+			url += '&category_id=' + encodeURIComponent(category_id);
+		}
+		
+		var sub_category = $('#content input[name=\'sub_category\']:checked').prop('value');
+		
+		if (sub_category) {
+			url += '&sub_category=true';
+		}
+			
+		var filter_description = $('#content input[name=\'description\']:checked').prop('value');
+		
+		if (filter_description) {
+			url += '&description=true';
+		}
+
+		location = url;
+	});
+
+	$('#content input[name=\'search\']').bind('keydown', function(e) {
+		if (e.keyCode == 13) {
+			$('#button-search').trigger('click');
+		}
+	});
+
+	$('select[name=\'category_id\']').on('change', function() {
+		if (this.value == '0') {
+			$('input[name=\'sub_category\']').prop('disabled', true);
+		} else {
+			$('input[name=\'sub_category\']').prop('disabled', false);
+		}
+	});
+
+	$('select[name=\'category_id\']').trigger('change');
+	--></script>
+
+{{ footer }}

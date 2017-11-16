@@ -1,0 +1,36 @@
+<modification>
+	<id>Quick View</id>
+	<version>1.1</version>
+	<vqmver>2.1.6</vqmver>
+	<author>Everthemes</author>
+
+	 <file name="catalog/view/theme/*/template/common/header.tpl">
+		 <operation>
+			<search position="before"><![CDATA[
+				<?php foreach ($scripts as $script) { ?>
+			]]></search>
+			<add><![CDATA[
+				<script type="text/javascript" src="catalog/view/theme/sellegance/js/quickview.js"></script>
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/view/theme/*/template/product/" name="category.tpl,special.tpl,manufacturer_info.tpl,search.tpl">
+		<operation>
+			<search position="before" error="log"><![CDATA[<div class="name">]]></search>
+			<add><![CDATA[
+				<div class="quickview" style="visibility:hidden;"><a id="qv<?php echo $product['product_id']; ?>" class="button btn btn-default" href="<?php echo $product['href']; ?>" onClick="ajaxDialog('index.php?route=product/quickview&product_id=<?php echo $product['product_id']; ?>','quickview'); return false;">+ <?php echo $this->language->get('text_quickview'); ?></a></div>
+			]]></add>
+		</operation>
+	</file>
+
+	 <file path="catalog/view/theme/*/template/module/" name="featured.tpl,latest.tpl,special.tpl,anylist.tpl,bestseller.tpl,tabbed_products.tpl,related.tpl">
+		<operation>
+			<search position="before" error="log"><![CDATA[<div class="name">]]></search>
+			<add><![CDATA[
+				<div class="quickview" style="visibility:hidden;"><a id="qv<?php echo $product['product_id']; ?>" class="btn btn-default" href="<?php echo $product['href']; ?>" onClick="ajaxDialog('index.php?route=product/quickview&product_id=<?php echo $product['product_id']; ?>','quickview'); return false;">+ <?php echo $this->language->get('text_quickview'); ?></a></div>
+			]]></add>
+		</operation>
+	</file>
+
+</modification>

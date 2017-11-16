@@ -1,0 +1,49 @@
+<div id="menu">
+
+	<div class="container">
+
+		<nav class="navbar navbar-default hidden-sm hidden-xs" role="navigation">
+
+			<div class="navcontainer">
+
+				<div class="navbar-header">
+					<a class="navbar-brand" href="{{ home }}">
+					 {% if logo %}
+						<img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" />
+					{% else %}
+						<img src="catalog/view/theme/sellegance/image/logo.png" title="{{ name }}" alt="{{ name }}" />
+					{% endif %}
+					</a>
+				</div>
+
+				<div class="navbar-collapse {% if sellegance_fullwidth_dropdown_menu == 1 %} fullwidth {% endif %}">
+
+					<ul class="nav navbar-nav">
+
+						<!-- Home link -->
+
+						<li class="home home-{{ sellegance_homepage_link_style }}"><a href="{{ home }}" title="{{ text_home }}"><i class="fa fa-home"></i> <span>{{ text_home }}</span></a></li>
+
+						{{ menu }}						
+
+					</ul>
+
+					{% if sellegance_sticky_menu == 1 %}
+
+						<ul class="nav navbar-nav navbar-right">
+							{{ cart }}
+						</ul>
+					
+					{% endif %}
+
+				</div>
+
+			</div>
+
+		</nav><!-- #navbar -->
+
+		<div class="topbar visible-sm visible-xs"></div>
+
+	</div>
+
+</div>

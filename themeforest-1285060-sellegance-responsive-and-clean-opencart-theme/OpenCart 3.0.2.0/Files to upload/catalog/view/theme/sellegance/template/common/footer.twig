@@ -1,0 +1,140 @@
+					</div> <!-- .container-inner -->
+
+				</div> <!-- .container -->
+
+			</div> <!-- .centralbox -->
+		
+		</div> <!-- #content_wrapper -->
+
+		<div id="footer">
+
+			<div class="container">
+
+				{{ footer_modules }}
+
+				<div class="container-inner">
+
+					<div class="row">
+
+						<div class="column col-sm-2">
+							<h3 class="header">{{ text_information }}</h3>
+							<ul class="content">
+								{% for information in informations %}
+									<li><a href="{{ information.href }}">{{ information.title }}</a></li>
+								{% endfor %}
+							</ul>
+						</div>
+
+						<div class="column col-sm-2">
+							<h3 class="header">{{ text_contact }}</h3>
+							<ul class="content">
+								<li><a href="{{ contact }}">{{ text_contact }}</a></li>
+			          <li><a href="{{ return }}">{{ text_return }}</a></li>
+			          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+							</ul>
+						</div>
+
+						<div class="column col-sm-2">
+							<h3 class="header">{{ text_manufacturer }}</h3>
+								<ul class="content">
+									<li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+				          <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+				          <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+				          <li><a href="{{ special }}">{{ text_special }}</a></li>
+								</ul>
+						</div>
+
+						<div class="column col-sm-2">
+							<h3 class="header">{{ text_account }}</h3>
+								<ul class="content">
+									<li><a href="{{ account }}">{{ text_account }}</a></li>
+				          <li><a href="{{ order }}">{{ text_order }}</a></li>
+				          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+				          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+								</ul>
+						</div>
+
+						<div class="col-sm-4 contact">
+
+							{% if sellegance_social_footer == 1 %}
+
+								<div class="social">
+
+								{% if sellegance_social %}
+									{% for key,value in sellegance_social %}
+									{% if value.url %}
+										<a href="{{ value.url }}" class="fa fa-{{ value.class }}" target="{{ value.target}}"></a>
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+
+								{% if sellegance_custom_icon %}
+									{% for key,value in sellegance_custom_icon %}
+										{% if value.class != '' %}
+											{% if value.class != '' %}
+												<a href="{{ value.url }}" class="fa fa-{{ value.class }}" target="{{ value.target}}"></a>
+											{% else %}
+												<a class="fa fa-{{ value.class }}"></a>
+											{% endif %}
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+
+								</div>
+
+							{% endif %}
+
+						<div class="footer_info">
+							{{ sellegance_footer_info_text }}
+						</div>
+
+							{% if sellegance_social.facebook.url != '' and sellegance_facebook_widget == 1 %}
+
+								<div id="fb-root"></div>
+								<script>(function(d, s, id) {
+								  var js, fjs = d.getElementsByTagName(s)[0];
+								  if (d.getElementById(id)) return;
+								  js = d.createElement(s); js.id = id;
+								  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=147552342043457";
+								  fjs.parentNode.insertBefore(js, fjs);
+								}(document, 'script', 'facebook-jssdk'));</script>
+
+								<div class="fb-page" data-href="{{ sellegance_social.facebook.url }}" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false" data-show-posts="false"><div class="fb-xfbml-parse-ignore"></div></div>
+
+							{% endif %}
+
+						</div>
+
+					</div> <!-- .row -->
+
+				</div>
+
+			</div> <!-- .container -->
+
+		</div> <!-- #footer -->
+
+		<footer id="footend">
+
+			<div class="container">
+
+				<div class="copy">
+					{{ sellegance_copyright }}
+				</div>
+
+			</div> <!-- .container -->
+
+		</footer> <!-- #footend -->
+
+		</div><!-- .topcanvas -->
+		
+		<script type="text/javascript" src="catalog/view/theme/sellegance/js/respond.min.js"></script>
+		<script type="text/javascript" src="catalog/view/theme/sellegance/js/jquery.easing-1.3.min.js"></script>
+		<script type="text/javascript" src="catalog/view/theme/sellegance/js/cloud-zoom.1.0.3-min.js"></script>
+		<script type="text/javascript" src="catalog/view/theme/sellegance/js/jquery.ui.totop.js"></script>
+		<script type="text/javascript" src="catalog/view/theme/sellegance/js/custom.js"></script>
+
+		{% if sellegance_custom_js_status == 1 and sellegance_custom_js != '' %}
+			{{ sellegance_custom_js }}
+		{% endif %}
+		
+</body></html>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>Add new module positions</id>
+	<version>1.1.5</version>
+	<vqmver>2.3.0</vqmver>
+	<author>Everthemes</author>
+	<file name="catalog/view/theme/sellegance/template/common/footer.tpl">
+		<operation error="skip">
+			<search position="after"><![CDATA[<footer id="footer">]]></search>
+			<add><![CDATA[
+				<?php echo $content_footer; ?>
+				]]></add>
+		</operation>
+	</file>
+	<file name="catalog/view/theme/sellegance/template/common/content_footer.tpl">
+		<operation error="skip">
+			<search position="replace"><![CDATA[$columns=3;]]></search>
+			<add><![CDATA[
+				$columns=2;
+				]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/controller/common/footer.php">
+		<operation>
+			<search position="before"><![CDATA[$this->render();]]></search>
+			<add><![CDATA[
+			$this->children = array(
+			'common/content_footer'
+			);]]></add>
+		</operation>
+	</file>
+	<file name="admin/view/template/module/*.tpl">
+		<operation error="skip">
+			<search position="before"><![CDATA[<option value="column_left"><?php echo $text_column_left; ?></option>';]]></search>
+			<add><![CDATA[
+				html += '      <option value="content_footer"><?php echo $text_content_footer; ?></option>';
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="before"><![CDATA[<?php if ($module['position'] == 'column_left') { ?>]]></search>
+			<add><![CDATA[
+						<?php if ($module['position'] == 'content_footer') { ?>
+						<option value="content_footer" selected="selected"><?php echo $text_content_footer; ?></option>
+						<?php } else { ?>
+						<option value="content_footer"><?php echo $text_content_footer; ?></option>
+						<?php } ?>
+   		]]></add>
+		</operation>
+	</file>
+	<file name="admin/controller/module/*.php" >
+		<operation error="skip">
+			<search position="before"><![CDATA[$this->data['text_column_left'] = $this->language->get('text_column_left');]]></search>
+			<add><![CDATA[
+				$this->data['text_content_footer'] = $this->language->get('text_content_footer');
+			]]></add>
+		</operation>
+	</file>
+	<file name="admin/language/english/module/*.php">
+		<operation >
+			<search position="after"><![CDATA[<?]]></search>
+			<add><![CDATA[
+				$_['text_content_footer']       = 'Footer Modules';
+            ]]></add>
+		</operation>
+	</file>
+
+	<!-- Show on all layouts -->
+
+	<file name="/admin/model/setting/extension.php">
+	    <operation>
+	        <search position="before">
+            <![CDATA[
+            public function install($type, $code) {
+            ]]>
+	        </search>
+	        <add>
+            <![CDATA[
+             public function installAllLayoutPage() {
+                $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "layout
+                  WHERE LOWER(name) like '%footer%'
+                  LIMIT 1");
+                if ($query->num_rows) {
+                   return $query->row['layout_id'];
+                } else {
+                  $sql = "INSERT INTO ".DB_PREFIX."layout SET `name`='Footer'";
+                  $query = $this->db->query( $sql );
+                  $layout_id = $this->db->getLastId();
+                  return $layout_id;
+                }
+                return 0;
+            }
+            ]]>
+	        </add>
+	    </operation>
+	</file>
+	<file name="/admin/controller/extension/module.php">
+	    <operation>
+	        <search position="after">
+	            <![CDATA[
+	            $this->load->model('setting/extension');
+	            ]]>
+	        </search>
+	        <add>
+	            <![CDATA[
+	            $this->model_setting_extension->installAllLayoutPage();
+	            ]]>
+	        </add>
+	    </operation>
+	</file>
+	
+	<file name="/catalog/model/design/layout.php">
+	    <operation>
+	        <search position="before">
+	            <![CDATA[
+	            public function getLayout($route) {
+	            ]]>
+	        </search>
+	        <add>
+	            <![CDATA[
+	            public function getLayoutForAllPages()
+	            {
+                $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "layout
+                    WHERE LOWER(name) like '%footer%'
+                    LIMIT 1");
+                if ($query->num_rows) {
+                    return $query->row['layout_id'];
+                } else {
+                    $sql = "INSERT INTO ".DB_PREFIX."layout SET `name`='Footer'";
+                    $query = $this->db->query( $sql );
+                    $layout_id = $this->db->getLastId();
+                    return $layout_id;
+                }
+                return 0;
+	            }
+	            ]]>
+	        </add>
+	    </operation>
+	</file>
+	<file path="/catalog/controller/common/" name="content_footer.php">
+	    <operation>
+	        <search position="before">
+	            <![CDATA[
+	                $module_data = array();
+	            ]]>
+	        </search>
+	        <add>
+	            <![CDATA[
+	                $all_pages_layout_id = $this->model_design_layout->getLayoutForAllPages();
+	            ]]>
+	        </add>
+	    </operation>
+	</file>
+	<file name="/catalog/controller/common/content_footer.php">
+	    <operation>
+	        <search position="replace">
+	            <![CDATA[
+	                if ($module['layout_id'] == $layout_id && $module['position'] == 'content_footer' && $module['status']) {
+	            ]]>
+	        </search>
+	        <add>
+	            <![CDATA[
+	                if (($module['layout_id'] == $layout_id || $module['layout_id'] == $all_pages_layout_id || $module['layout_id'] == 0 || $module['layout_id'] == 9999) && isset($module['position']) && $module['position'] == 'content_footer' && $module['status']) {
+	            ]]>
+	        </add>
+	    </operation>
+	</file>
+	
+</modification>

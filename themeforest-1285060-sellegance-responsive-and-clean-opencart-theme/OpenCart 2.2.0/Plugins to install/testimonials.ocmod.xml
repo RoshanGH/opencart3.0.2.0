@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<name>Testimonials - Sellegance</name>
+	<code>testimonials</code>
+	<version>2.1</version>
+	<author>everthemes.com</author>
+	
+	<file path="admin/controller/common/menu.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$this->load->language('common/menu');
+			]]></search>
+			<add position="after"><![CDATA[
+			// Testimonial start
+			$this->load->language('catalog/testimonial');
+			$data['text_testimonial'] = $this->language->get('heading_title');
+			// Testimonial ends
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="before"><![CDATA[
+				$data['zone'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'], true);
+				]]></search>
+			<add><![CDATA[
+				$data['testimonial'] = $this->url->link('catalog/testimonial', 'token=' . $this->session->data['token'], true);
+					]]></add>
+		</operation>
+	</file>
+	
+	<file path="admin/view/template/common/menu.tpl">
+		<operation error="skip">
+			<search><![CDATA[
+			<li><a href="<?php echo $review; ?>"><?php echo $text_review; ?></a></li>
+			]]></search>
+			<add position="after"><![CDATA[
+			<li><a href="<?php echo $testimonial; ?>"><?php echo $text_testimonial; ?></a></li>
+			]]></add>
+		</operation>
+	</file>
+</modification>

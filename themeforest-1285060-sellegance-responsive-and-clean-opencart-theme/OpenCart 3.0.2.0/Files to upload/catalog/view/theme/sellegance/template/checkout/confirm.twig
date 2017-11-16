@@ -1,0 +1,82 @@
+{% if not redirect %}
+
+	<div class="checkout-confirm">
+	
+		<table class="table table-confirm table-hover">
+	
+			<thead>
+				<tr>
+					<th>{{ column_name }}</th>
+					<th>{{ column_model }}</th>
+					<th>{{ column_quantity }}</th>
+					<th class="price">{{ column_price }}</th>
+					<th class="total">{{ column_total }}</th>
+				</tr>
+			</thead>
+	
+			<tbody>
+				
+				{% for product in products %}
+					<tr>
+						<td class="name">
+							<a href="{{ product.href }}">{{ product.name }}</a>
+							{% for option in product.option %}
+							<br />
+							<small> - {{ option.name }}: {{ option.value }}</small>
+							{% endfor %}
+							{% if product.recurring %}
+								<small><span class="label label-info">{{ text_recurring }}</span> {{ product.recurring }}</small>
+							{% endif %} 
+						</td>
+						<td class="model">{{ product.model }}</td>
+						<td class="quantity">{{ product.quantity }}</td>
+						<td class="price right">{{ product.price }}</td>
+						<td class="total right">{{ product.total }}</td>
+					</tr>
+	
+				{% endfor %}
+	
+				{% for voucher in vouchers %}
+					<tr>
+						<td class="name">{{ voucher.description }}</td>
+						<td class="model"></td>
+						<td class="quantity">1</td>
+						<td class="price right">{{ voucher.amount }}</td>
+						<td class="total right">{{ voucher.amount }}</td>
+					</tr>
+				{% endfor %}
+	
+			</tbody>
+	
+			<tfoot>
+				
+				{% if totals %} {% set i = 0 %} {% endif %}
+				{% for total in totals %}
+					<tr>
+						<td class="price"></td>
+						<td colspan="2"></td>
+						<td class="total-label right">
+							{{ total.title }}:
+						</td>
+						<td class="total-value {% if i == (totals|length - 1) %} last {% endif %} right">
+							{{ total.text }}
+						</td>
+					</tr>
+				{% set i = i + 1%}
+				{% endfor %}
+	
+			</tfoot>
+	
+		</table>
+	
+		<div class="payment">{{ payment }}</div>
+	
+	</div>
+
+{% else %}
+
+<script type="text/javascript"><!--
+	location = '{{ redirect }}';
+//--></script> 
+
+{% endif %}

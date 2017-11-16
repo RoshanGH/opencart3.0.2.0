@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	
+<name>Theme Options - Sellegance</name>
+	<code>sellegance-theme-options</code>
+	<version>2.1</version>
+	<author>everthemes</author>
+
+	<file path="catalog/controller/common/header.php">
+		<operation error="skip">
+			<search><![CDATA[
+				$data['text_home'] = $this->language->get('text_home');
+				]]></search>
+			<add position="before"><![CDATA[
+				$this->load->language('module/sellegance');
+				$data['text_onsale'] = $this->language->get('text_onsale');
+				$data['text_prev'] = $this->language->get('text_prev');
+				$data['text_next'] = $this->language->get('text_next');
+				$data['text_in_stock'] = $this->language->get('text_in_stock');
+				$data['text_out_stock'] = $this->language->get('text_out_stock');
+				$data['text_zoom'] = $this->language->get('text_zoom');
+				$data['text_quickview'] = $this->language->get('text_quickview');
+				$data['text_more_details'] = $this->language->get('text_more_details');
+				$data['text_menu_categories'] = $this->language->get('text_menu_categories');
+				$data['text_menu_brands'] = $this->language->get('text_menu_brands');
+				$data['text_menu_information'] = $this->language->get('text_menu_information');
+				$data['text_email_friend'] = $this->language->get('text_email_friend');
+				$data['text_get_link'] = $this->language->get('text_get_link');
+				$data['text_browse'] = $this->language->get('text_browse');
+			]]></add>
+		</operation>
+
+		<!-- Add new option variables  -->
+
+		<operation error="skip">
+			<search><![CDATA[
+				$data['telephone'] = $this->config->get('config_telephone');
+				]]></search>
+			<add position="after"><![CDATA[
+				$data['sellegance_responsive_layout'] = $this->config->get('sellegance_responsive_layout');
+				$data['aslider_general_status'] = $this->config->get('aslider_general_status');
+				$data['sellegance_full_background'] = $this->config->get('sellegance_full_background');
+				$data['sellegance_custom_image'] = $this->config->get('sellegance_custom_image');
+				$data['sellegance_social_header'] = $this->config->get('sellegance_social_header');
+				$data['sellegance_social'] = $this->config->get('sellegance_social');
+				$data['sellegance_custom_icon'] = $this->config->get('sellegance_custom_icon');
+				$data['sellegance_logo_position'] = $this->config->get('sellegance_logo_position');
+				$data['sellegance_searchbox_regular'] = $this->config->get('sellegance_searchbox_regular');
+				$data['sellegance_header_info_text'] = $this->config->get('sellegance_header_info_text');
+				$data['sellegance_sticky_menu'] = $this->config->get('sellegance_sticky_menu');
+				$data['language_id'] = $this->config->get('config_language_id');
+				$data['config_url'] = $this->config->get('config_url');
+				$data['config_ssl'] = $this->config->get('config_ssl');
+
+				$data['topbar_bg'] = $this->config->get('sellegance_topbar_background');
+				$data['header_bg'] = $this->config->get('sellegance_header_background_color');
+				$data['topbar_links'] = $this->config->get('sellegance_topbar_links');
+				$data['header_text'] = $this->config->get('sellegance_header_text_color');
+				$data['cart_total'] = $this->config->get('sellegance_cart_total_color');
+				$data['cart_icon'] = $this->config->get('sellegance_cart_icon_color');
+				$data['menu_accent'] = $this->config->get('sellegance_menu_accent');
+				$data['menu_color'] = $this->config->get('sellegance_menu_color');
+				$data['menu_hover'] = $this->config->get('sellegance_menu_hover');
+				$data['dropdown_color'] = $this->config->get('sellegance_dropdown_color');
+				$data['dropdown_hover'] = $this->config->get('sellegance_dropdown_hover');
+				$data['footer_title'] = $this->config->get('sellegance_footer_title_color');
+				$data['footer_text'] = $this->config->get('sellegance_footer_text_color');
+				$data['footer_links'] = $this->config->get('sellegance_footer_links_color');
+				$data['title_color'] = $this->config->get('sellegance_title_color');
+				$data['content_links'] = $this->config->get('sellegance_content_links_color');
+				$data['bodybg_color'] = $this->config->get('sellegance_background_color'); #
+				$data['bodytext_color'] = $this->config->get('sellegance_bodytext_color');
+				$data['lighttext_color'] = $this->config->get('sellegance_lighttext_color');
+				$data['btncart_normal'] = $this->config->get('sellegance_button_normal_bg');
+				$data['btncart_hover'] = $this->config->get('sellegance_button_hover_bg');
+				$data['btncart_text'] = $this->config->get('sellegance_button_text_color');
+				$data['btninver_normal'] = $this->config->get('sellegance_2button_normal_bg');
+				$data['btninver_hover'] = $this->config->get('sellegance_2button_hover_bg');
+				$data['btninver_text'] = $this->config->get('sellegance_2button_text_color');
+				$data['onsale_bg'] = $this->config->get('sellegance_onsale_background_color');
+				$data['onsale_text'] = $this->config->get('sellegance_onsale_text_color');
+				$data['product_name_color'] = $this->config->get('sellegance_product_name_color');
+				$data['normal_price'] = $this->config->get('sellegance_normal_price_color');
+				$data['old_price'] = $this->config->get('sellegance_old_price_color');
+				$data['new_price'] = $this->config->get('sellegance_new_price_color');
+				$data['sidebar_active_menu'] = $this->config->get('sellegance_categories_active_color');
+
+				$data['sellegance_skins'] = $this->config->get('sellegance_skins');
+				$data['sellegance_main_layout'] = $this->config->get('sellegance_main_layout');
+				$data['sellegance_title_font'] = $this->config->get('sellegance_title_font');
+				$data['sellegance_title_font_size'] = $this->config->get('sellegance_title_font_size');
+				$data['sellegance_body_font'] = $this->config->get('sellegance_body_font');
+				$data['sellegance_body_font_size'] = $this->config->get('sellegance_body_font_size');
+				$data['sellegance_small_font'] = $this->config->get('sellegance_small_font');
+				$data['sellegance_small_font_size'] = $this->config->get('sellegance_small_font_size');
+				$data['sellegance_cyrillic_fonts'] = $this->config->get('sellegance_cyrillic_fonts');
+				$data['sellegance_custom_image'] = $this->config->get('sellegance_custom_image');
+				$data['sellegance_custom_pattern'] = $this->config->get('sellegance_custom_pattern');
+				$data['sellegance_pattern_overlay'] = $this->config->get('sellegance_pattern_overlay');
+				$data['sellegance_custom_colors'] = $this->config->get('sellegance_custom_colors');
+
+				$data['sellegance_zoom_position'] = $this->config->get('sellegance_zoom_position');
+				$data['sellegance_quickview_modules'] = $this->config->get('sellegance_quickview_modules');
+				$data['sellegance_quickview_mobile'] = $this->config->get('sellegance_quickview_mobile');
+				$data['sellegance_quickview_categories'] = $this->config->get('sellegance_quickview_categories');
+				$data['sellegance_show_wishlist'] = $this->config->get('sellegance_show_wishlist');
+				$data['sellegance_show_compare'] = $this->config->get('sellegance_show_compare');
+				$data['sellegance_show_sale_bubble'] = $this->config->get('sellegance_show_sale_bubble');
+				$data['sellegance_links_section'] = $this->config->get('sellegance_links_section');
+
+				$data['sellegance_custom_css_status'] = $this->config->get('sellegance_custom_css_status');
+				$data['sellegance_custom_css'] = $this->config->get('sellegance_custom_css');
+				$data['sellegance_custom_stylesheet'] = $this->config->get('sellegance_custom_stylesheet');
+
+				$data['direction'] = $this->language->get('direction');
+
+				$data['sellegance_homepage_link_style'] = $this->config->get('sellegance_homepage_link_style');
+				$data['sellegance_menu_category_icons'] = $this->config->get('sellegance_menu_category_icons');
+				$data['sellegance_3rd_level_cat'] = $this->config->get('sellegance_3rd_level_cat');
+				$data['sellegance_menu_categories'] = $this->config->get('sellegance_menu_categories');
+				$data['sellegance_menu_categories_visibility'] = $this->config->get('sellegance_menu_categories_visibility');
+				$data['sellegance_categories_top_title'] = $this->config->get('sellegance_categories_top_title');
+				$data['sellegance_categories_tag'] = $this->config->get('sellegance_categories_tag');
+				$data['sellegance_categories_tag_color'] = $this->config->get('sellegance_categories_tag_color');
+				$data['sellegance_menu_categories_x_row'] = $this->config->get('sellegance_menu_categories_x_row');
+
+				$data['sellegance_menu_brands'] = $this->config->get('sellegance_menu_brands');
+				$data['sellegance_brands_tag'] = $this->config->get('sellegance_brands_tag');
+				$data['sellegance_brands_top_title'] = $this->config->get('sellegance_brands_top_title');
+				$data['sellegance_brands_tag_color'] = $this->config->get('sellegance_brands_tag_color');
+				$data['sellegance_menu_brands_x_row'] = $this->config->get('sellegance_menu_brands_x_row');
+
+				$data['sellegance_menu_blocks'] = $this->config->get('sellegance_menu_blocks');
+
+				$data['sellegance_menu_infopages'] = $this->config->get('sellegance_menu_infopages');
+				$data['sellegance_infopages_top_title'] = $this->config->get('sellegance_infopages_top_title');
+				$data['sellegance_infopages_tag'] = $this->config->get('sellegance_infopages_tag');
+				$data['sellegance_infopages_tag_color'] = $this->config->get('sellegance_infopages_tag_color');
+
+				$data['sellegance_menu_link'] = $this->config->get('sellegance_menu_link');
+				$data['sellegance_menu_dropdown_status'] = $this->config->get('sellegance_menu_dropdown_status');
+				$data['sellegance_menu_dropdown_title'] = $this->config->get('sellegance_menu_dropdown_title');
+				$data['sellegance_menu_dropdown'] = $this->config->get('sellegance_menu_dropdown');
+				$data['sellegance_menu_dropdown_tag'] = $this->config->get('sellegance_menu_dropdown_tag');
+				$data['sellegance_menu_dropdown_tag_color'] = $this->config->get('sellegance_menu_dropdown_tag_color');
+
+				$data['sellegance_fullwidth_dropdown_menu'] = $this->config->get('sellegance_fullwidth_dropdown_menu');
+				$data['sellegance_menu_style'] = $this->config->get('sellegance_menu_style');
+
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/common/home.php">
+		<operation error="skip">
+			<search><![CDATA[
+				$data['column_left'] = $this->load->controller('common/column_left');
+				]]></search>
+			<add position="before"><![CDATA[
+				$data['sellegance_main_layout'] = $this->config->get('sellegance_main_layout');
+				$data['sellegance_responsive_layout'] = $this->config->get('sellegance_responsive_layout');
+				$data['aslider_general_status'] = $this->config->get('aslider_general_status');
+				$data['aslider_slides_qty'] = $this->config->get('aslider_slides_qty');
+				$data['aslider'] = $this->config->get('aslider');
+				$data['aslider_elements_qty'] = $this->config->get('aslider_elements_qty');
+				$data['aslider_height'] = $this->config->get('aslider_height');
+				$data['aslider_delay'] = $this->config->get('aslider_delay');
+				$data['aslider_shuffle_slides'] = $this->config->get('aslider_shuffle_slides');
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/common/footer.php">
+		<operation error="skip">
+			<search><![CDATA[
+				$data['text_newsletter'] = $this->language->get('text_newsletter');
+				]]></search>
+			<add position="after"><![CDATA[
+				$data['sellegance_social_footer'] = $this->config->get('sellegance_social_footer');
+				$data['sellegance_social'] = $this->config->get('sellegance_social');
+				$data['sellegance_custom_icon'] = $this->config->get('sellegance_custom_icon');
+				$data['sellegance_footer_info_text'] = $this->config->get('sellegance_footer_info_text');
+				$data['language_id'] = $this->config->get('config_language_id');
+				$data['sellegance_facebook_widget'] = $this->config->get('sellegance_facebook_widget');
+				$data['sellegance_copyright'] = $this->config->get('sellegance_copyright');
+				$data['sellegance_custom_js_status'] = $this->config->get('sellegance_custom_js_status');
+				$data['sellegance_custom_js'] = $this->config->get('sellegance_custom_js');
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/common/search.php">
+		<operation error="skip">
+			<search><![CDATA[
+				$data['text_search'] = $this->language->get('text_search');
+				]]></search>
+			<add position="after"><![CDATA[
+				$data['sellegance_logo_position'] = $this->config->get('sellegance_logo_position');
+				$data['sellegance_searchbox_regular'] = $this->config->get('sellegance_searchbox_regular');
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/product/{category,compare,special,manufacturer,search,product,quickview}.php">
+		<operation error="skip">
+			<search><![CDATA[
+				$this->load->model('tool/image');
+				]]></search>
+			<add position="after"><![CDATA[
+				$this->load->language('module/sellegance');
+				$data['text_onsale'] = $this->language->get('text_onsale');
+				$data['text_prev'] = $this->language->get('text_prev');
+				$data['text_next'] = $this->language->get('text_next');
+				$data['text_in_stock'] = $this->language->get('text_in_stock');
+				$data['text_out_stock'] = $this->language->get('text_out_stock');
+				$data['text_zoom'] = $this->language->get('text_zoom');
+				$data['text_quickview'] = $this->language->get('text_quickview');
+				$data['text_more_details'] = $this->language->get('text_more_details');
+				$data['text_menu_categories'] = $this->language->get('text_menu_categories');
+				$data['text_menu_brands'] = $this->language->get('text_menu_brands');
+				$data['text_menu_information'] = $this->language->get('text_menu_information');
+				$data['text_email_friend'] = $this->language->get('text_email_friend');
+				$data['text_get_link'] = $this->language->get('text_get_link');
+				$data['text_browse'] = $this->language->get('text_browse');
+				$data['text_taptozoom'] = $this->language->get('text_taptozoom');
+				$data['text_closezoom'] = $this->language->get('text_closezoom');
+				$data['text_subcategories'] = $this->language->get('text_subcategories');
+		
+				$data['sellegance_cloud_zoom'] = $this->config->get('sellegance_cloud_zoom');
+				$data['sellegance_zoom_autosize'] = $this->config->get('sellegance_zoom_autosize');
+				$data['sellegance_zoom_width'] = $this->config->get('sellegance_zoom_width');
+				$data['sellegance_zoom_height'] = $this->config->get('sellegance_zoom_height');
+				$data['sellegance_zoom_position'] = $this->config->get('sellegance_zoom_position');
+				$data['config_url'] = $this->config->get('config_url');
+				$data['sellegance_product_details_layout'] = $this->config->get('sellegance_product_details_layout');
+				$data['sellegance_product_title_position'] = $this->config->get('sellegance_product_title_position');
+				$data['sellegance_related_carousel'] = $this->config->get('sellegance_related_carousel');
+				$data['sellegance_rollover_images'] = $this->config->get('sellegance_rollover_images');
+				$data['sellegance_carousel_autoplay'] = $this->config->get('sellegance_carousel_autoplay');
+
+				$data['sellegance_subcat_status'] = $this->config->get('sellegance_subcat_status');
+				$data['sellegance_subcat_thumbnails_status'] = $this->config->get('sellegance_subcat_thumbnails_status');
+				$data['sellegance_subcat_thumb_width'] = $this->config->get('sellegance_subcat_thumb_width');
+				$data['sellegance_subcat_thumb_height'] = $this->config->get('sellegance_subcat_thumb_height');
+
+				$data['direction'] = $this->language->get('direction');
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/product/manufacturer.php">
+		<operation error="skip">
+			<search><![CDATA[
+				public function info() {
+				]]></search>
+			<add position="after"><![CDATA[
+				$this->load->language('module/sellegance');
+				$data['text_onsale'] = $this->language->get('text_onsale');
+				$data['text_prev'] = $this->language->get('text_prev');
+				$data['text_next'] = $this->language->get('text_next');
+				$data['text_in_stock'] = $this->language->get('text_in_stock');
+				$data['text_out_stock'] = $this->language->get('text_out_stock');
+				$data['text_zoom'] = $this->language->get('text_zoom');
+				$data['text_quickview'] = $this->language->get('text_quickview');
+				$data['text_more_details'] = $this->language->get('text_more_details');
+				$data['text_menu_categories'] = $this->language->get('text_menu_categories');
+				$data['text_menu_brands'] = $this->language->get('text_menu_brands');
+				$data['text_menu_information'] = $this->language->get('text_menu_information');
+				$data['text_email_friend'] = $this->language->get('text_email_friend');
+				$data['text_get_link'] = $this->language->get('text_get_link');
+				$data['text_browse'] = $this->language->get('text_browse');
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/module/{featured,featured_categories,latest,special,bestseller,tabbed_products,countdown}.php">
+		<operation error="skip">
+			<search><![CDATA[
+				public function index($setting) {
+				]]></search>
+			<add position="after"><![CDATA[
+				$this->load->language('module/sellegance');
+				$data['text_onsale'] = $this->language->get('text_onsale');
+				$data['text_prev'] = $this->language->get('text_prev');
+				$data['text_next'] = $this->language->get('text_next');
+				$data['text_in_stock'] = $this->language->get('text_in_stock');
+				$data['text_out_stock'] = $this->language->get('text_out_stock');
+				$data['text_zoom'] = $this->language->get('text_zoom');
+				$data['text_quickview'] = $this->language->get('text_quickview');
+				$data['text_more_details'] = $this->language->get('text_more_details');
+				$data['text_menu_categories'] = $this->language->get('text_menu_categories');
+				$data['text_menu_brands'] = $this->language->get('text_menu_brands');
+				$data['text_menu_information'] = $this->language->get('text_menu_information');
+				$data['text_email_friend'] = $this->language->get('text_email_friend');
+				$data['text_get_link'] = $this->language->get('text_get_link');
+				$data['text_browse'] = $this->language->get('text_browse');
+		
+				$data['direction'] = $this->language->get('direction');
+				$data['sellegance_featured_carousel'] = $this->config->get('sellegance_featured_carousel');
+				$data['sellegance_latest_carousel'] = $this->config->get('sellegance_latest_carousel');
+				$data['sellegance_special_carousel'] = $this->config->get('sellegance_special_carousel');
+				$data['sellegance_bestseller_carousel'] = $this->config->get('sellegance_bestseller_carousel');
+				$data['sellegance_carousel_autoplay'] = $this->config->get('sellegance_carousel_autoplay');
+				$data['sellegance_rollover_images'] = $this->config->get('sellegance_rollover_images');
+			]]></add>
+		</operation>
+
+</file>
+
+<file path="catalog/controller/common/cart.php">
+	<operation error="skip">
+		<search><![CDATA[
+			$data['products'] = array();
+			]]></search>
+		<add position="after"><![CDATA[
+			$data['direction'] = $this->language->get('direction');
+		]]></add>
+	</operation>
+	</file>
+
+<!-- Add new module positions  -->
+
+	<file path="admin/controller/design/layout.php">
+		<operation error="skip">
+			<search><![CDATA[layout_form]]></search>
+			<add position="replace"><![CDATA[layout_form_sellegance]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/common/home.php" error="skip">
+		<operation error="skip">
+			<search><![CDATA[
+			$data['column_left'] = $this->load->controller('common/column_left');
+			]]></search>
+			<add position="before"><![CDATA[
+			$data['home_top'] = $this->load->controller('common/home_top');
+		]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/common/footer.php" error="skip">
+		<operation error="skip">
+			<search><![CDATA[
+			$this->load->model('catalog/information');
+			]]></search>
+			<add position="after"><![CDATA[
+			$data['footer_modules'] = $this->load->controller('common/footer_modules');
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/model/design/layout.php" error="skip">
+		<operation error="skip">
+			<search><![CDATA[
+			class ModelDesignLayout extends Model {
+			]]></search>
+			<add position="after"><![CDATA[
+			// Sellegance code start
+			public function getLayoutForAllPages() {
+				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "layout
+					WHERE name like '%Footer%'
+					LIMIT 1");
+				if ($query->num_rows) {
+					return $query->row['layout_id'];
+			 	} else {
+					return 0;
+			 	}
+			}
+			// Sellegance code end
+			]]></add>
+		</operation>
+	</file>
+
+
+<!-- Add multilanguage support on the Slideshow -->
+
+	<file path="catalog/controller/common/home.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$this->document->setTitle($this->config->get('config_meta_title'));
+			]]></search>
+			<add position="after"><![CDATA[
+			$this->load->model('localisation/language');
+
+			$languages = $this->model_localisation_language->getLanguages();
+			foreach ($languages as $language) {
+				if ($language['code'] == $this->session->data['language']) {
+					$data['language_id'] = $language['language_id'];
+				}
+			}
+				]]></add>
+		</operation>
+	</file>
+
+	<!-- Show only number of items in a bubble o minicart -->
+
+	<file path="catalog/language/*/checkout/cart.php">
+		
+		<operation error="skip">
+			<search><![CDATA[$_['text_next']]]></search>
+			<add position="before"><![CDATA[$_['text_items']    = '<span class="count">%s</span>';]]></add>
+		</operation>
+
+	</file>
+
+
+	<file path="catalog/language/*/common/cart.php">
+		
+		<operation error="skip">
+			<search><![CDATA[$_['text_empty']]]></search>
+			<add position="before"><![CDATA[$_['text_items']    = '<span class="count">%s</span>';]]></add>
+		</operation>
+
+	</file>
+	
+	<!-- megamenu -->
+
+	<file path="catalog/controller/common/header.php">
+
+<operation error="skip">
+			<search><![CDATA[$data['name'] = $this->config->get('config_name');]]></search>
+			<add position="after"><![CDATA[
+			$this->load->model('catalog/information');
+			$data['informations'] = array();
+
+			foreach ($this->model_catalog_information->getInformations() as $result) {
+				if ($result['bottom']) {
+					$data['informations'][] = array(
+						'title' => $result['title'],
+						'href'  => $this->url->link('information/information', 'information_id=' . $result['information_id'])
+					);
+				}
+	    	}
+		  ]]></add>
+		</operation>
+
+		<operation error="skip">
+			<search><![CDATA[$this->load->model('catalog/product');]]></search>
+			<add position="after"><![CDATA[
+			$this->load->model('catalog/manufacturer');
+			$this->load->model('tool/image');
+			$results = $this->model_catalog_manufacturer->getManufacturers();
+			foreach ($results as $result) {	
+				if ($result['image']) {
+							$image = $result['image'];
+						} else {
+							$image = 'no_image.jpg';
+						}			
+				$data['manufacturers'][] = array(
+					'name' => $result['name'],
+					'image' => $this->model_tool_image->resize($image, 100, 50),
+					'href' => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id'])
+				);
+			}
+		  ]]></add>
+		</operation>
+
+<operation error="skip">
+			<search><![CDATA[$children_data[] = array(]]></search>
+			<add position="before"><![CDATA[
+		  	$children_level_2 = $this->model_catalog_category->getCategories($child['category_id']);
+			$children_data_level_2 = array();
+			foreach ($children_level_2 as $child_level_2) {
+				$data_level_2 = array(
+					'filter_category_id'  => $child_level_2['category_id'],
+					'filter_sub_category' => true
+				);
+				$product_total_level_2 = '';
+				if ($this->config->get('config_product_count')) {
+					$product_total_level_2 = ' (' . $this->model_catalog_product->getTotalProducts($data_level_2) . ')';
+				}
+				$children_data_level_2[] = array(
+					'name'  =>  $child_level_2['name'],
+					'href'  => $this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_level_2['category_id']),
+					'id' => $category['category_id']. '_' . $child['category_id']. '_' . $child_level_2['category_id']
+				);
+			}
+		  ]]></add>
+		</operation>
+
+<operation error="skip">
+			<search><![CDATA['name'  => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),]]></search>
+			<add position="replace"><![CDATA[
+			'name'  => $child['name'],
+			'id' => $category['category_id']. '_' . $child['category_id'],
+			'children_level_2' => $children_data_level_2,
+		  ]]></add>
+		</operation>
+
+<operation error="skip">
+			<search><![CDATA[$data['categories'][] = array(]]></search>
+			<add position="replace"><![CDATA[
+			$this->load->model('tool/image');
+            $image = empty($category['image']) ? 'no_image.jpg' : $category['image'];
+            $thumb = $this->model_tool_image->resize($image, 100, 100);
+            $data['categories'][] = array(
+            'thumb'    => $thumb,
+		  ]]></add>
+		</operation>
+
+</file>
+
+	<!-- Previous/Next Products -->
+
+	<file path="catalog/model/catalog/product.php">
+		<operation>
+			<search><![CDATA[public function getTotalProductSpecials() {]]></search>
+			<add position="before"><![CDATA[
+		 		public function GetNextandPreLink($datab = array()){
+					$filter = '';
+					if (!empty($datab['filter_category_id'])) {
+						if (!empty($datab['filter_sub_category'])) {
+							$implode_data = array();
+							 
+							$implode_data[] = "p2c.category_id = '" . (int)$datab['filter_category_id'] . "'";
+							 
+							$this->load->model('catalog/category');
+							 
+							$categories = $this->model_catalog_category->getCategoriesByParentId($datab['filter_category_id']);
+															
+							foreach ($categories as $category_id) {
+								$implode_data[] = "p2c.category_id = '" . (int)$category_id . "'";
+							}
+												
+							$filter .= " AND (" . implode(' OR ', $implode_data) . ")";         
+						} else {
+							$filter .= " AND p2c.category_id = '" . (int)$datab['filter_category_id'] . "'";
+						}
+					}
+					$sql1 = "SELECT p.product_id as next,p2d.name next_title FROM ".DB_PREFIX."product p LEFT JOIN ".DB_PREFIX."product_to_category p2c ON(p.product_id = p2c.product_id) LEFT JOIN ".DB_PREFIX."product_description p2d ON(p.product_id = p2d.product_id) LEFT JOIN ".DB_PREFIX."product_to_store p2s ON(p.product_id = p2s.product_id) WHERE p2d.language_id = '".(int)$this->config->get('config_language_id')."' AND p2s.store_id = '".(int)$this->config->get('config_store_id')."' AND p.status = '1' AND p.date_available <= NOW() AND p.product_id > '".$datab['product_id']."' ".$filter." ORDER BY p.product_id ASC LIMIT 1";
+					
+					$sql2 = "SELECT p.product_id as prev,p2d.name prev_title FROM ".DB_PREFIX."product p LEFT JOIN ".DB_PREFIX."product_to_category p2c ON(p.product_id = p2c.product_id) LEFT JOIN ".DB_PREFIX."product_description p2d ON(p.product_id = p2d.product_id) LEFT JOIN ".DB_PREFIX."product_to_store p2s ON(p.product_id = p2s.product_id) WHERE p2d.language_id = '".(int)$this->config->get('config_language_id')."' AND p2s.store_id = '".(int)$this->config->get('config_store_id')."' AND p.status = '1' AND p.date_available <= NOW() AND p.product_id < '".$datab['product_id']."' ".$filter." ORDER BY p.product_id DESC LIMIT 1";
+					
+					$prev = $this->db->query($sql1)->row;
+					$next = $this->db->query($sql2)->row;
+					$query = array_merge($prev,$next);
+					return $query;
+				}
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/product/product.php">
+		<operation>
+			<search><![CDATA[$this->model_catalog_product->updateViewed($this->request->get['product_id']);]]></search>
+			<add position="after"><![CDATA[
+				if (isset($this->request->get['path'])) {
+					$path = '';
+			 
+					$parts = explode('_', (string)$this->request->get['path']);
+			 
+					foreach ($parts as $path_id) {
+						if (!$path) {
+							$path = $path_id;
+						} else {
+							$path .= '_' . $path_id;
+						}
+					}     
+	 
+					$category_id = array_pop($parts);
+					$category_link = "&path=".$category_id;
+				 } else {
+					$category_id = 0;
+					$category_link = "";
+				 }
+	 
+				$datab = array(
+					'filter_category_id' => $category_id,
+					'product_id' => $product_id
+				);
+				 
+				$results = $this->model_catalog_product->GetNextandPreLink($datab);
+				 
+				if(isset($results['next']) && isset($results['next_title'])){
+				 	$data['next_url'] = $this->url->link('product/product',$category_link.'&product_id='.$results['next']);
+				 	$data['next_title'] = $results['next_title'];
+				} else {
+					$data['next_url'] = null;
+					$data['next_title']= null;
+				}
+
+				if(isset($results['prev']) && isset($results['prev_title'])){
+				 	$data['prev_url'] = $this->url->link('product/product',$category_link.'&product_id='.$results['prev']);
+				 	$data['prev_title'] = $results['prev_title'];
+				}else{
+					$data['prev_url'] = null;
+					$data['prev_title']= null;
+				}
+			]]></add>
+		</operation>
+	</file>
+
+	<!-- Stock Status -->
+
+	<file path="catalog/controller/product/{product,quickview}.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$data['points'] = $product_info['points'];
+			]]></search>
+			<add position="after"><![CDATA[
+			$data['quantity'] = $product_info['quantity'];
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/product/compare.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$data['products'][$product_id] = array(
+			]]></search>
+			<add position="after"><![CDATA[
+			'quantity' => $product_info['quantity'],
+			]]></add>
+		</operation>
+	</file>
+	
+</modification>

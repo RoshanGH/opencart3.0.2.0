@@ -1,0 +1,2676 @@
+{{ header }}
+
+{# Default values #}
+
+{% if sellegance_title_font is empty %} {% set sellegance_title_font = 'Lato' %} {% endif %}
+{% if sellegance_body_font is empty %} {% set sellegance_body_font = 'Lato' %} {% endif %}
+{% if sellegance_small_font is empty %} {% set sellegance_small_font = 'Lato' %} {% endif %}
+{% if sellegance_title_font_size is empty %} {% set sellegance_title_font_size = '31' %} {% endif %}
+{% if sellegance_body_font_size is empty %} {% set sellegance_body_font_size = '13' %} {% endif %}
+{% if sellegance_small_font_size is empty %} {% set sellegance_small_font_size = '11' %} {% endif %}
+{% if sellegance_zoom_width is empty %} {% set sellegance_zoom_width = '360' %} {% endif %}
+{% if sellegance_zoom_height is empty %} {% set sellegance_zoom_height = '360' %} {% endif %}
+{% if sellegance_subcat_thumb_width is empty %} {% set sellegance_subcat_thumb_width = '90' %} {% endif %}
+{% if sellegance_subcat_thumb_height is empty %} {% set sellegance_subcat_thumb_height = '90' %} {% endif %}
+{% if sellegance_footer_modules is empty %} {% set sellegance_footer_modules = 3 %} {% endif %}
+{% if sellegance_menu_style is empty %} {% set sellegance_menu_style = 'light' %} {% endif %}
+
+{# Switches #}
+
+{% if sellegance_subcat_status is empty %} {% set sellegance_subcat_status = 1 %} {% endif %}
+{% if sellegance_subcat_thumbnails_status is empty %} {% set sellegance_subcat_thumbnails_status = 1 %} {% endif %}
+{% if sellegance_rollover_images is empty %} {% set sellegance_rollover_images = 1 %} {% endif %}
+{% if sellegance_zoom_autosize is empty %} {% set sellegance_zoom_autosize = 1 %} {% endif %}
+{% if sellegance_toggle_sidebar is empty %} {% set sellegance_toggle_sidebar = 1 %} {% endif %}
+{% if sellegance_show_wishlist is empty %} {% set sellegance_show_wishlist = 1 %} {% endif %}
+{% if sellegance_show_compare is empty %} {% set sellegance_show_compare = 1 %} {% endif %}
+{% if sellegance_show_sale_bubble is empty %} {% set sellegance_show_sale_bubble = 1 %} {% endif %}
+{% if sellegance_quickview_categories is empty %} {% set sellegance_quickview_categories = 1 %} {% endif %}
+{% if sellegance_quickview_modules is empty %} {% set sellegance_quickview_modules = 1 %} {% endif %}
+{% if sellegance_quickview_zoom is empty %} {% set sellegance_quickview_zoom = 0 %} {% endif %}
+{% if sellegance_quickview_mobile is empty %} {% set sellegance_quickview_mobile = 0 %} {% endif %}
+{% if sellegance_searchbox_regular is empty %} {% set sellegance_searchbox_regular = 0 %} {% endif %}
+{% if sellegance_sticky_menu is empty %} {% set sellegance_sticky_menu = 1 %} {% endif %}
+
+
+
+<style type="text/css">
+	.nav-pills {margin-bottom: 25px;}
+	.input-group + .input-group { margin-top: 5px; }
+
+	.box>.content h2 { border-bottom: 0; }
+	.customhelp { color: #666; }
+	.hey {color: #ff0000;}
+
+	.pttrn {
+		width:32px; 
+		display: inline-block;
+		text-align: center;
+	}
+	.small_field { width: 40px; }
+	.large_field { width: 330px; }
+	.slideitem { padding: 10px 25px; }
+	.status-on { width:56px;height:24px;background:url(view/image/on.png) top left no-repeat;cursor:pointer;margin-top:5px; }
+	.status-off { width:56px;height:24px;background:url(view/image/off.png) top left no-repeat;cursor:pointer;margin-top:5px; }
+	.contentset {
+		margin: 22px 0 12px;
+		text-align:left;
+		padding-left: 10px;
+		text-transform:uppercase;
+		color:#000;
+		border-top:1px solid #DDD;
+	}
+		.contentset.center { text-align:center; padding:0; }
+			.contentset .inner { margin: -0.8em auto 0; font-weight: normal; font-size: 1em; }
+			.contentset span { background:#FFF; padding: 0 12px; color: #5fbf00; }
+	code { background: #f2f2f2; padding: 0 3px; color: #444;}
+
+	#title_font_preview {
+		font-size: {{ sellegance_title_font_size }}px; 
+		font-family: "{{ sellegance_title_font }}";
+	}
+	#body_font_preview {
+		font-size: {{ sellegance_body_font_size }}px; 
+		font-family: "{{ sellegance_body_font }}";
+	}
+	#small_font_preview {
+		font-size: {{ sellegance_small_font_size }}px; 
+		font-family: "{{ sellegance_small_font }}";
+	}
+	input.color {
+		height: 35px;
+		padding: 8px 13px;
+		display: inline-block;
+		width: 78px;
+		margin-right: 12px;
+		font-size: 12px;
+		line-height: 1.42857143;
+		border: 1px solid #cccccc;
+		border-radius: 3px;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+		-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+		-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+		transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	}
+	.list {border:0;}
+	.list td {border-right: 0;}
+	.list th {font-weight: normal; color: #777; text-transform: uppercase; border-bottom: 2px solid #ccc;}
+
+	.menu-style label.btn {
+		margin-right: 3px;
+		font-weight: bold;
+		padding: 16px 8px;
+		background: #e6e6e6;
+		border-radius: 0;
+		border-color: transparent;
+	}
+	.menu-style label.btn.active {
+		border: 4px solid #1e91cf;
+		margin-top: -3px;
+	}
+	label.btn span {
+		padding: 6px 13px;
+		border: 1px solid #ccc;
+	}
+	label.btn.light span {
+		background-color: #fff;
+		color: #555;
+		border-top: 4px solid #333;
+	}
+	label.btn.dark span {
+		background-color: #333;
+		border-color: #333;
+		color: #fff;
+	}
+	label.btn.transparent span {
+		border: 0;
+		border-bottom: 4px solid #333;
+	}
+
+	span.badge:after { display: none; }
+
+</style>
+
+{{ column_left }}
+
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+				<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+			<h1>{{ heading_title }}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+				<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		{% if error_warning %}
+		<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		{% if success %}
+		<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ heading_title }} <span class="label label-default">{{ theme_version }}</span></h3>
+			</div>
+			<div class="panel-body">
+
+				<div class="row form-horizontal">
+					<div class="col-sm-6 col-md-5 col-lg-4">
+
+
+						{% if stores|length > 1 %}
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="sellegance_store_id">{{ entry_store }}</label>
+								<div class="col-sm-10 ">
+									<select name="sellegance_store_id" id="sellegance_store_id" class="form-control input">
+										{% for store in stores %}
+										<option value="{{ HTTPS_SERVER }}index.php?route=extension/module/sellegance&store_id={{ store.store_id }}&user_token={{ user_token }}" {% if store_id == store.store_id %} selected="selected" {% endif %}>
+											{{ store.name }}
+											</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>					
+
+							<script type="text/javascript">
+								$(document).ready(function (){
+									$("#sellegance_store_id").bind("change", function() {
+										window.location = $(this).val();
+									});
+								});
+							</script>
+
+						{% endif %}
+
+					</div>
+				</div>
+
+				<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-sellegance" class="form-horizontal">
+
+					<input type="hidden" name="store_id" value="{{ store_id }}" />
+					<input type="hidden" name="module_sellegance_status" value="1" />
+
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#layout_settings" data-toggle="tab"><i class="fa fa-cog"></i> {{ entry_tab_layout }}</a></li>
+						<li><a href="#design_settings" data-toggle="tab"><i class="fa fa-pencil"></i> {{ entry_tab_design }}</a></li>
+						<li><a href="#menu_settings" data-toggle="tab"><i class="fa fa-bars"></i> {{ entry_tab_menu }}</a></li>
+						<li><a href="#header_settings" data-toggle="tab"><i class="fa fa-level-up"></i> {{ entry_tab_header }}</a></li>
+						<li><a href="#footer_settings" data-toggle="tab"><i class="fa fa-level-down"></i> {{ entry_tab_footer }}</a></li>
+						<li><a href="#social_settings" data-toggle="tab"><i class="fa fa-share-alt"></i> {{ entry_social_sub }}</a></li>
+						<li><a href="#custom_code_settings" data-toggle="tab"><i class="fa fa-code"></i> {{ entry_tab_custom_code }}</a></li>
+					</ul>
+					<div class="tab-content">
+
+						<div class="tab-pane fade in active" id="layout_settings">
+
+							<ul class="nav nav-pills">
+								<li class="active"><a href="#general-layout" data-toggle="tab">{{ entry_layout_sub }}</a></li>
+								<li><a href="#category-layout" data-toggle="tab">{{ entry_category_layout_sub }}</a></li>
+								<li><a href="#product-layout" data-toggle="tab">{{ entry_product_layout_sub }}</a></li>
+								<li><a href="#quickview-layout" data-toggle="tab">{{ entry_quickview_layout_sub }}</a></li>
+								<li><a href="#extras-layout" data-toggle="tab">{{ entry_extras_sub }}</a></li>
+								<li><a href="#effects-carousel" data-toggle="tab">{{ entry_carousel_sub }}</a></li>
+							</ul>
+
+							<div class="tab-content">
+								<div class="tab-pane fade in active" id="general-layout">
+
+									<fieldset>
+											
+										<legend>{{ entry_layout_sub }}</legend>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_main_layout">{{ entry_main_layout }}</label>
+											<div class="col-sm-10">
+												<select name="sellegance_main_layout" id="sellegance_main_layout" class="form-control">
+													{% for key,value  in sitelayouts %}
+													{% if sellegance_main_layout == key %} 
+														{% set current = 'selected' %}
+													{% else %}
+														{% set current = '' %}
+													{% endif %}
+														<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_responsiv_layout">{{ entry_responsive_layout }}</label>
+											<div class="col-sm-10">
+												<select name="sellegance_responsive_layout" id="sellegance_responsive_layout" class="form-control">
+													{% for key,value  in responsive %}
+													{% if sellegance_responsiv_layout == key %} 
+														{% set current = 'selected' %}
+													{% else %}
+														{% set current = '' %}
+													{% endif %}
+														<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+													{% endfor %}
+												</select><br />
+												<span class="help-block">{{ entry_responsive_layout_help }}</span>
+											</div>
+										</div>
+
+									</fieldset>
+
+								</div>
+
+								<div class="tab-pane fade" id="category-layout">
+									
+									<fieldset>
+
+										<legend>{{ entry_category_layout_sub }}</legend>
+										
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_rollover_images">{{ entry_rollover_images }} <span title="{{ entry_rollover_images_help }}" data-toggle="tooltip"></span></label>
+											<div class="col-sm-10">
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_rollover_images == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_rollover_images" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_rollover_images" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_rollover_images" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_rollover_images" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+												<span class="help-block">{{ entry_rollover_images_help }}</span>
+
+											</div>
+										</div>
+
+										<legend>{{ entry_subcategory }}</legend>
+
+					
+										<div class="form-group">
+											<label for="sellegance_subcat_status" class="col-sm-2 control-label">{{ entry_subcategory_show }}</label>
+											<div class="col-sm-10">
+
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_subcat_status == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_subcat_status" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_subcat_status" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_subcat_status" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_subcat_status" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="sellegance_subcat_thumbnails_status" class="col-sm-2 control-label">{{ entry_subcategory_thumb_show }}</label>
+											<div class="col-sm-10">
+
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_subcat_thumbnails_status == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_subcat_thumbnails_status" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_subcat_thumbnails_status" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_subcat_thumbnails_status" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_subcat_thumbnails_status" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{ entry_subcategory_thumb_size }}</label>
+											<div class="col-sm-10">
+
+												<div class="row">
+													<div class="col-sm-3">
+														<span class="help-block">{{ entry_width_caption }}</span>
+														<div class="input-group">
+															<input type="text" class="form-control" name="sellegance_subcat_thumb_width" value="{{ sellegance_subcat_thumb_width }}" class="small_field" />
+															<span class="input-group-addon">px</span>
+														</div>
+													</div>
+													<div class="col-sm-3">
+														<span class="help-block">{{ entry_height_caption }}</span>
+														<div class="input-group">
+															<input type="text" class="form-control" name="sellegance_subcat_thumb_height" value="{{ sellegance_subcat_thumb_height }}" class="small_field" />
+															<span class="input-group-addon">px</span>
+														</div>
+													</div>
+												</div>
+												
+											</div>
+										</div>
+
+									</fieldset>
+								</div>
+
+								<div class="tab-pane fade" id="product-layout">
+
+									<fieldset>
+
+										<legend>{{ entry_product_layout_sub }}</legend>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_product_details_layout">{{ entry_product_layout }}</label>
+											<div class="col-sm-10">
+												<select name="sellegance_product_details_layout" id="sellegance_product_details_layout" class="form-control">
+													{% for key,value  in product_details %}
+													{% if sellegance_product_details_layout == key %} 
+														{% set current = 'selected' %}
+													{% else %}
+														{% set current = '' %}
+													{% endif %}
+														<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+													{% endfor %}
+												</select>
+												<span class="help-block">{{ entry_product_layout_help }}</span>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_product_title_position">{{ entry_product_title }}</label>
+											<div class="col-sm-10">
+												<select name="sellegance_product_title_position" id="sellegance_product_title_position" class="form-control">
+													{% for key,value  in title_position %}
+													{% if sellegance_product_title_position == key %} 
+														{% set current = 'selected' %}
+													{% else %}
+														{% set current = '' %}
+													{% endif %}
+														<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+
+									</fieldset>
+
+									<fieldset>
+
+										<legend>{{ entry_zoom_sub }}</legend>
+
+										<div class="form-group">
+											<label for="sellegance_cloud_zoom" class="col-sm-2 control-label">{{ entry_cloud_zoom }}</label>
+											<div class="col-sm-10">
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_cloud_zoom == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_cloud_zoom" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_cloud_zoom" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_cloud_zoom" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_cloud_zoom" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+												<span class="help-block">{{ entry_cloud_zoom_help }}</span>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_zoom_position">{{ entry_zoom_position }}</label>
+											<div class="col-sm-10">
+												<select name="sellegance_zoom_position" id="sellegance_zoom_position" class="form-control">
+													{% for key,value  in zoom %}
+													{% if sellegance_zoom_position == key %} 
+														{% set current = 'selected' %}
+													{% else %}
+														{% set current = '' %}
+													{% endif %}
+														<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+													{% endfor %}
+												</select>
+												<span class="help-block">{{ entry_zoom_position_help }}</span>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{ entry_zoom_size }}</label>
+											<div class="col-sm-10">
+
+												<div class="row">
+													<div class="col-sm-3">
+														<span class="help-block">{{ entry_width_caption }}</span>
+														<div class="input-group">
+															<input type="text" class="form-control" name="sellegance_zoom_width" value="{{ sellegance_zoom_width }}" class="small_field" />
+															<span class="input-group-addon">px</span>
+														</div>
+													</div>
+													<div class="col-sm-3">
+														<span class="help-block">{{ entry_height_caption }}</span>
+														<div class="input-group">
+															<input type="text" class="form-control" name="sellegance_zoom_height" value="{{ sellegance_zoom_height }}" class="small_field" />
+															<span class="input-group-addon">px</span>
+														</div>
+													</div>
+												</div><br />
+
+												<div class="well">
+
+													<div class="btn-group btn-toggle" data-toggle="buttons">
+														{% if sellegance_zoom_autosize == 1 %}
+															<label class="btn btn-primary btn-sm active">
+																<input type="radio" name="sellegance_zoom_autosize" value="1" checked="checked">ON
+															</label>
+															<label class="btn btn-default btn-sm">
+																<input type="radio" name="sellegance_zoom_autosize" value="0">OFF
+															</label>
+														{% else %}
+															<label class="btn btn-default btn-sm">
+																<input type="radio" name="sellegance_zoom_autosize" value="1">ON
+															</label>
+															<label class="btn btn-primary btn-sm active">
+																<input type="radio" name="sellegance_zoom_autosize" value="0" checked="checked">OFF
+															</label>
+														{% endif %}
+													</div>
+
+													<span>{{ entry_zoom_auto }}</span>
+												</div>
+
+											</div>
+										</div>
+
+									</fieldset>
+
+								</div>
+
+								<div class="tab-pane fade" id="quickview-layout">
+
+									<fieldset>
+											
+										<legend>{{ entry_quickview_layout_sub }}</legend>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_quickview_categories">{{ entry_quickview_categories }}</label>
+											<div class="col-sm-10">
+
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_quickview_categories == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_quickview_categories" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_quickview_categories" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_quickview_categories" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_quickview_categories" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_quickview_modules">{{ entry_quickview_modules }}</label>
+											<div class="col-sm-10">
+
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_quickview_modules == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_quickview_modules" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_quickview_modules" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_quickview_modules" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_quickview_modules" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+												<span class="help-block">{{ entry_quickview_help }}</span>
+
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_quickview_mobile">{{ entry_quickview_mobile }}</label>
+											<div class="col-sm-10">
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_quickview_mobile == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_quickview_mobile" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_quickview_mobile" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_quickview_mobile" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_quickview_mobile" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+
+									</fieldset>
+
+								</div>
+
+								<div class="tab-pane fade" id="extras-layout">
+
+									<fieldset>
+											
+										<legend>{{ entry_extras_sub }}</legend>
+										
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_show_wishlist">{{ entry_wishlist }}</label>
+											<div class="col-sm-10">
+
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_show_wishlist == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_show_wishlist" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_show_wishlist" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_show_wishlist" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_show_wishlist" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_show_compare">{{ entry_compare }}</label>
+											<div class="col-sm-10">
+
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_show_compare == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_show_compare" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_show_compare" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_show_compare" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_show_compare" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_show_sale_bubble">{{ entry_sale_bubble }}</label>
+											<div class="col-sm-10">
+
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_show_sale_bubble == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_show_sale_bubble" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_show_sale_bubble" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_show_sale_bubble" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_show_sale_bubble" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+
+											</div>
+										</div>
+
+									</fieldset>
+
+								</div>
+
+								<div class="tab-pane fade" id="effects-carousel">
+
+									<fieldset>
+										
+										<legend>{{ entry_slider_sub }}</legend>
+										<p class="help-block">{{ entry_carousel_sub_help }}</p>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_featured_carousel" class="form-control">{{ entry_featured }}</label>
+											<div class="col-sm-10">
+												<input type="checkbox" name="sellegance_featured_carousel" {% if sellegance_featured_carousel %} checked="checked" {% endif %} class="form-control">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_bestseller_carousel" class="form-control">{{ entry_bestseller }}</label>
+											<div class="col-sm-10">
+												<input type="checkbox" name="sellegance_bestseller_carousel" {% if sellegance_bestseller_carousel %} checked="checked" {% endif %} class="form-control">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_latest_carousel" class="form-control">{{ entry_latest }}</label>
+											<div class="col-sm-10">
+												<input type="checkbox" name="sellegance_latest_carousel" {% if sellegance_latest_carousel %} checked="checked" {% endif %} class="form-control">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_special_carousel" class="form-control">{{ entry_special }}</label>
+											<div class="col-sm-10">
+												<input type="checkbox" name="sellegance_special_carousel" {% if sellegance_special_carousel %} checked="checked" {% endif %} class="form-control">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_related_carousel" class="form-control">{{ entry_related }}</label>
+											<div class="col-sm-10">
+												<input type="checkbox" name="sellegance_related_carousel" {% if sellegance_related_carousel %} checked="checked" {% endif %} class="form-control">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_ebay_carousel" class="form-control">{{ entry_ebay }}</label>
+											<div class="col-sm-10">
+												<input type="checkbox" name="sellegance_ebay_carousel" {% if sellegance_ebay_carousel %} checked="checked" {% endif %} class="form-control">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_carousel_autoplay">{{ entry_carousel_autoplay }}</label>
+											<div class="col-sm-10">
+
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_carousel_autoplay == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_carousel_autoplay" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_carousel_autoplay" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_carousel_autoplay" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_carousel_autoplay" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+
+											</div>
+										</div>
+
+									</fieldset>
+
+								</div>
+
+							</div>
+
+						</div>
+
+						<div class="tab-pane fade" id="design_settings">
+
+							<ul class="nav nav-pills">
+								<li class="active"><a href="#design-colors" data-toggle="tab">{{ entry_design_colors }}</a></li>
+								<li><a href="#design-background" data-toggle="tab">{{ entry_pattern_sub }}</a></li>
+								<li><a href="#design-fonts" data-toggle="tab">{{ entry_fonts_sub }}</a></li>
+							</ul>
+							<div class="tab-content">
+
+								<div class="tab-pane fade in active" id="design-colors">
+
+									<fieldset>
+										<legend>{{ entry_skins_sub }}</legend>
+										<p class="help-block">{{ entry_skins_sub_help }}</p>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_skins">{{ entry_skin }}</label>
+											<div class="col-sm-10">
+												<select name="sellegance_skins" class="form-control">
+													{% for key,value  in skins %}
+													{% if sellegance_skins == key %} 
+														{% set current = 'selected' %}
+													{% else %}
+														{% set current = '' %}
+													{% endif %}
+														<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+									</fieldset>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{ entry_custom_colors_help }}</label>
+											<div class="col-sm-10">
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_custom_colors == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_custom_colors" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_custom_colors" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_custom_colors" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_custom_colors" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+												<span class="alert alert-warning"><i class="fa fa-info-circle"></i> {{ entry_colors_sub_help }}</span>
+											</div>
+										</div>
+
+										
+											
+										<fieldset id="colors-header">
+
+											<legend>{{ entry_header_bold }}</legend>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_menu_accent }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="sellegance_menu_accent" value="{{ sellegance_menu_accent }}" size="6" class="color {required:false,hash:true}"  />
+													<span class="help-block">{{ entry_menu_accent_help }}</span>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_menu_color }}</label>
+													<div class="col-sm-10">
+														<span>Normal:</span>
+														<input type="text" name="sellegance_menu_color" value="{{ sellegance_menu_color }}" size="6" class="color {required:false,hash:true}"  />
+														<span>Hover:</span> <input type="text" name="sellegance_menu_hover" value="{{ sellegance_menu_hover }}" size="6" class="color {required:false,hash:true}" />
+														<span class="help-block"><b>Default</b> Normal:<code>#000000</code>, Hover:<code>#000000</code></span>
+													</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_dropdown_color }}</label>
+												<div class="col-sm-10">
+													<span class="customhelp">Normal</span>
+													<input type="text" name="sellegance_dropdown_color" value="{{ sellegance_dropdown_color }}" size="6" class="color {required:false,hash:true}"  />
+													<span class="customhelp">Hover:</span> <input type="text" name="sellegance_dropdown_hover" value="{{ sellegance_dropdown_hover }}" size="6" class="color {required:false,hash:true}" />
+													<span class="help-block"><b>Default</b> Normal:<code>#777777</code>, Hover:<code>#333333</code></span>
+												</div>
+											</div>
+
+										</fieldset>
+
+										<fieldset id="colors-body">
+
+											<legend>{{ entry_body_bold }}</legend>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_background_color }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="sellegance_background_color" value="{{ sellegance_background_color }}" size="6" class="color {required:false,hash:true}"  />
+													<span class="help-block"><b>Default</b> <code>#FFFFFF</code></span>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_title_color }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="sellegance_title_color" value="{{ sellegance_title_color }}" size="6" class="color {required:false,hash:true}"  />
+													<span class="help-block">{{ entry_title_color_help }}</span>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_textcolor_caption }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="sellegance_bodytext_color" value="{{ sellegance_bodytext_color }}" size="6" class="color {required:false,hash:true}"  />
+													<span class="help-block">{{ entry_body_color_help }}</span>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_links_caption }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="sellegance_content_links_color" value="{{ sellegance_content_links_color }}" size="6" class="color {required:false,hash:true}" />
+													<span class="help-block"><b>Default</b> <code>#111111</code></span>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_light_color }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="sellegance_lighttext_color" value="{{ sellegance_lighttext_color }}" size="6" class="color {required:false,hash:true}"  />
+														<span class="help-block">{{ entry_light_color_help }}</span>
+												</div>
+											</div>
+
+										</fieldset>
+
+										<fieldset id="colors-footer">
+
+											<legend>{{ entry_footer_bold }}</legend>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_textcolor_caption }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="sellegance_footer_text_color" value="{{ sellegance_footer_text_color }}" size="6" class="color {required:false,hash:true}" />
+													<span class="help-block"><b>Default</b> <code>#333333</code></span>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_links_caption }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="sellegance_footer_links_color" value="{{ sellegance_footer_links_color }}" size="6" class="color {required:false,hash:true}" />
+													<span class="help-block"><b>Default</b> <code>#777777</code></span>
+												</div>
+											</div>
+
+										</fieldset>
+
+										<fieldset id="colors-buttons">
+
+											<legend>{{ entry_buttons_bold }}</legend>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_button_color }}</label>
+												<div class="col-sm-10">
+													<span class="customhelp">Normal:</span> <input type="text" name="sellegance_button_normal_bg" value="{{ sellegance_button_normal_bg }}" size="6" class="color {required:false,hash:true}" />
+													<span class="customhelp">{{ entry_hover_caption }}</span> <input type="text" name="sellegance_button_hover_bg" value="{{ sellegance_button_hover_bg }}" size="6" class="color {required:false,hash:true}" />
+													<span class="customhelp">{{ entry_textcolor_caption }}</span> <input type="text" name="sellegance_button_text_color" value="{{ sellegance_button_text_color }}" size="6" class="color {required:false,hash:true}" />
+													<span class="help-block"><b>Default</b> Normal:<code>#333333</code>, Hover:<code>#333333</code>, Text:<code>#FFFFFF</code></span>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_2button_color }}</label>
+												<div class="col-sm-10">
+													<span class="customhelp">Normal:</span> <input type="text" name="sellegance_2button_normal_bg" value="{{ sellegance_2button_normal_bg }}" size="6" class="color {required:false,hash:true}" />
+													<span class="customhelp">{{ entry_hover_caption }}</span> <input type="text" name="sellegance_2button_hover_bg" value="{{ sellegance_2button_hover_bg }}" size="6" class="color {required:false,hash:true}" />
+													<span class="help-block"><p>Colors will be applied to border and text. Background is transparent.</p><b>Default</b> Normal:<code>#555555</code>, Hover:<code>#555555</code></code></span>
+												</div>
+											</div>
+
+										</fieldset>
+
+										<fieldset id="colors-products">
+
+											<legend>{{ entry_products_bold }}</legend>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_product_name }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="sellegance_product_name_color" value="{{ sellegance_product_name_color }}" size="6" class="color {required:false,hash:true}" />
+													<span class="help-block">{{ entry_product_name_help }}. <b>Default</b>:<code>#333333</code></span>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_product_price }}</label>
+												<div class="col-sm-10">
+													<span class="customhelp">{{ entry_normal_price }}</span> <input type="text" name="sellegance_normal_price_color" value="{{ sellegance_normal_price_color }}" size="6" class="color {required:false,hash:true}" />
+													<span class="customhelp">{{ entry_old_price }}</span> <input type="text" name="sellegance_old_price_color" value="{{ sellegance_old_price_color }}" size="6" class="color {required:false,hash:true}" />
+													<span class="customhelp">{{ entry_promotion_price }}</span> <input type="text" name="sellegance_new_price_color" value="{{ sellegance_new_price_color }}" size="6" class="color {required:false,hash:true}" />
+													<span class="help-block"><b>Default</b> Normal:<code>#333333</code>, Old:<code>#191919</code>, New:<code>#FF3B40</code></span>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_onsale_color }}</label>
+												<div class="col-sm-10">
+													<span class="customhelp">{{ entry_background_caption }}</span> <input type="text" name="sellegance_onsale_background_color" value="{{ sellegance_onsale_background_color }}" size="6" class="color {required:false,hash:true}" />
+													<span class="customhelp">{{ entry_textcolor_caption }}</span> <input type="text" name="sellegance_onsale_text_color" value="{{ sellegance_onsale_text_color }}" size="6" class="color {required:false,hash:true}" />
+													<span class="help-block"><b>Default</b> Normal:<code>#3498DB</code>, Text:<code>#FFFFFF</code></span>
+												</div>
+											</div>
+
+										</fieldset>
+
+										<fieldset id="colors-other">
+
+											<legend>{{ entry_other_bold }}</legend>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_category_menu }}</label>
+												<div class="col-sm-10">
+													<input type="text" name="sellegance_categories_active_color" value="{{ sellegance_categories_active_color }}" size="6" class="color {required:false,hash:true}" />
+													<span class="help-block"><b>Default</b> <code>#111111</code></span>
+												</div>
+											</div>
+
+										</fieldset>
+
+								</div>
+
+								<div class="tab-pane fade" id="design-background">
+
+									<fieldset>
+
+										<legend>{{ entry_pattern_sub }}</legend>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_pattern_overlay">{{ entry_pattern_overlay }}</label>
+											<div class="col-sm-10">
+												<div>
+													{% for i in 1..42 %}
+														<div class="pttrn"><span class="customhelp">{{ i }}</span><img src="view/image/patterns/{{ i }}.png" alt="pattern {{ i }}"></div>
+													{% endfor %}
+												</div> <br />
+												<select name="sellegance_pattern_overlay" class="form-control">
+													<option value="none"selected="selected">none</option>
+													{% for i in 1..42 %}
+														{% if sellegance_pattern_overlay == i %} 
+															{% set currentpat = 'selected' %}
+														{% else %}
+															{% set currentpat = '' %}
+														{% endif %}
+														<option value="{{ i }}" {{ currentpat }} >{{ i }}</option>
+													{% endfor %}
+												</select>
+												<span class="help-block">{{ entry_pattern_overlay_help }}</span>
+											</div>
+										</div>
+
+										<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_custom_pattern }}</label>
+												<div class="col-sm-10">
+													<a href="" id="custom_pattern" data-toggle="image" class="img-thumbnail"><img src="{{ sellegance_pattern_preview }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+													<input type="hidden" name="sellegance_custom_pattern" value="{{ sellegance_custom_pattern }}" id="sellegance_custom_pattern" />
+												</div>
+										</div>
+
+										<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_custom_image }}</label>
+												<div class="col-sm-10">
+													<a href="" id="custom_image" data-toggle="image" class="img-thumbnail"><img src="{{ sellegance_image_preview }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+													<input type="hidden" name="sellegance_custom_image" value="{{ sellegance_custom_image }}" id="sellegance_custom_image" />
+													<span class="help-block">{{ entry_custom_image_help }}</span>
+												</div>
+										</div>
+
+										{# <div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_full_background }}</label>
+												<div class="col-sm-10">
+													<div class="btn-group btn-toggle" data-toggle="buttons">
+														{% if sellegance_full_background == 1 %}
+															<label class="btn btn-primary btn-sm active">
+																<input type="radio" name="sellegance_full_background" value="1" checked="checked">ON
+															</label>
+															<label class="btn btn-default btn-sm">
+																<input type="radio" name="sellegance_full_background" value="0">OFF
+															</label>
+														{% else %}
+															<label class="btn btn-default btn-sm">
+																<input type="radio" name="sellegance_full_background" value="1">ON
+															</label>
+															<label class="btn btn-primary btn-sm active">
+																<input type="radio" name="sellegance_full_background" value="0" checked="checked">OFF
+															</label>
+														{% endif %}
+													</div>
+													<span class="help-block">{{ entry_full_background_help }}</span>
+												</div>
+										</div> #}
+
+									</fieldset>
+
+								</div>
+
+								<div class="tab-pane fade" id="design-fonts">
+
+									<fieldset>
+										<legend>{{ entry_fonts_sub }}</legend>
+										<p class="help-block">{{ entry_fonts_sub_help }}</p>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="sellegance_title_font">{{ entry_title_font }}</label>
+												<div class="col-sm-10">
+													<div class="row">
+														<div class="col-sm-4">
+															<select name="sellegance_title_font" id="sellegance_title_font" class="font_select form-control">
+																{% for key,value  in fonts %}
+																{% if sellegance_title_font == key %} 
+																	{% set current = 'selected' %}
+																{% else %}
+																	{% set current = '' %}
+																{% endif %}
+																	<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+																{% endfor %}
+															</select>
+														</div>
+														<div class="col-sm-2">
+															<select name="sellegance_title_font_size" id="sellegance_title_font_size" class="size_select form-control">
+																{% for i in 20..48 %}
+																	{% if sellegance_title_font_size == i %} 
+																		{% set currentpat = 'selected' %}
+																	{% else %}
+																		{% set currentpat = '' %}
+																	{% endif %}
+																	<option value="{{ i }}" {{ currentpat }} >{{ i }} px</option>
+																{% endfor %}
+															</select>
+														</div>
+													</div>
+
+													<span class="help-block">{{ entry_title_font_help }}</span>
+
+													<div class="well">
+														<h1 id="title_font_preview">{{ entry_dummy_text }}</h1>
+													</div>
+
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="sellegance_body_font">{{ entry_body_font }}</label>
+												<div class="col-sm-10">
+													<div class="row">
+														<div class="col-sm-4">
+															<select name="sellegance_body_font" id="sellegance_body_font" class="font_select form-control">
+																{% for key,value  in fonts %}
+																{% if sellegance_body_font == key %} 
+																	{% set current = 'selected' %}
+																{% else %}
+																	{% set current = '' %}
+																{% endif %}
+																	<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+																{% endfor %}
+															</select>
+														</div>
+														<div class="col-sm-2">
+															<select name="sellegance_body_font_size" id="sellegance_body_font_size" class="size_select form-control">
+																{% for i in 10..18 %}
+																	{% if sellegance_body_font_size == i %} 
+																		{% set currentpat = 'selected' %}
+																	{% else %}
+																		{% set currentpat = '' %}
+																	{% endif %}
+																	<option value="{{ i }}" {{ currentpat }} >{{ i }} px</option>
+																{% endfor %}
+															</select>
+														</div>
+													</div>
+
+													<span class="help-block">{{ entry_body_font_help }}</span>
+
+													<div class="well">
+														<p id="body_font_preview">{{ entry_dummy_text }}</p>
+													</div>
+
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="sellegance_small_font">{{ entry_small_font }}</label>
+												<div class="col-sm-10">
+													<div class="row">
+														<div class="col-sm-4">
+															<select name="sellegance_small_font" id="sellegance_small_font" class="font_select form-control">
+																{% for key,value  in fonts %}
+																{% if sellegance_small_font == key %} 
+																	{% set current = 'selected' %}
+																{% else %}
+																	{% set current = '' %}
+																{% endif %}
+																	<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+																{% endfor %}
+															</select>
+														</div>
+														<div class="col-sm-2">
+															<select name="sellegance_small_font_size" id="sellegance_small_font_size" class="size_select form-control">
+																{% for i in 7..14 %}
+																	{% if sellegance_small_font_size == i %} 
+																		{% set currentpat = 'selected' %}
+																	{% else %}
+																		{% set currentpat = '' %}
+																	{% endif %}
+																	<option value="{{ i }}" {{ currentpat }} >{{ i }} px</option>
+																{% endfor %}
+															</select>
+														</div>
+													</div>
+
+													<span class="help-block">{{ entry_small_font_help }}</span>
+
+													<div class="well">
+														<p id="small_font_preview">{{ entry_dummy_text }}</p>
+													</div>
+
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="sellegance_cyrillic_fonts">{{ entry_cyrillic_fonts }}</label>
+												<div class="col-sm-10">
+
+													<div class="btn-group btn-toggle" data-toggle="buttons">
+														{% if sellegance_cyrillic_fonts == 1 %}
+															<label class="btn btn-primary btn-sm active">
+																<input type="radio" name="sellegance_cyrillic_fonts" value="1" checked="checked">ON
+															</label>
+															<label class="btn btn-default btn-sm">
+																<input type="radio" name="sellegance_cyrillic_fonts" value="0">OFF
+															</label>
+														{% else %}
+															<label class="btn btn-default btn-sm">
+																<input type="radio" name="sellegance_cyrillic_fonts" value="1">ON
+															</label>
+															<label class="btn btn-primary btn-sm active">
+																<input type="radio" name="sellegance_cyrillic_fonts" value="0" checked="checked">OFF
+															</label>
+														{% endif %}
+													</div>
+
+												</div>
+											</div>
+
+									</fieldset>
+
+								</div>
+
+							</div>
+						</div>
+
+						<div class="tab-pane fade"  id="menu_settings">
+
+							<ul class="nav nav-pills">
+								<li class="active"><a href="#menu-general" data-toggle="tab">{{ entry_menu_general_sub }}</a></li>
+								<li><a href="#menu-categories" data-toggle="tab">{{ entry_menu_categories_sub }}</a></li>
+								<li><a href="#menu-brands" data-toggle="tab">{{ entry_menu_brands_sub }}</a></li>
+								<li><a href="#menu-toplinks" data-toggle="tab">{{ entry_menu_links_sub }}</a></li>
+								<li><a href="#menu-dropdown" data-toggle="tab">{{ entry_menu_dropdown_sub }}</a></li>
+								<li><a href="#menu-blocks" data-toggle="tab">{{ entry_menu_custom_blocks_sub }}</a></li>
+								<li><a href="#menu-infopages" data-toggle="tab">{{ entry_menu_infopages_sub }}</a></li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active" id="menu-general">
+
+									<fieldset>
+
+										{# <div class="alert alert-info">Don't forget to choose your preferred menu style on the <b><i class="fa fa-pencil"></i> Design Options</b> tab</div> #}
+
+										<div class="well">
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_menu_style">Main menu style</label>
+											<div class="col-sm-10">
+
+												<div class="btn-group menu-style" data-toggle="buttons">
+
+													{% for key,value  in menu_style %}
+														<label class="btn btn-default {{ key }} {% if sellegance_menu_style == key %} active {% endif %}">
+															<span>
+															<input type="radio" name="sellegance_menu_style" value="{{ key }}" autocomplete="off" {% if sellegance_menu_style == key %} checked="checked" {% endif %} > {{ value }}
+															</span>
+														</label>
+													{% endfor %}
+													
+												</div>
+
+											</div>
+										</div>
+
+										</div>
+
+											<legend>{{ entry_menu_general_sub }}</legend>
+
+											<div class="form-group">
+													<label class="col-sm-2 control-label">{{ entry_menu_sticky }}</label>
+													<div class="col-sm-10">
+														<div class="btn-group btn-toggle" data-toggle="buttons">
+														{% if sellegance_sticky_menu == 1 %}
+															<label class="btn btn-primary btn-sm active">
+																<input type="radio" name="sellegance_sticky_menu" value="1" checked="checked">ON
+															</label>
+															<label class="btn btn-default btn-sm">
+																<input type="radio" name="sellegance_sticky_menu" value="0">OFF
+															</label>
+														{% else %}
+															<label class="btn btn-default btn-sm">
+																<input type="radio" name="sellegance_sticky_menu" value="1">ON
+															</label>
+															<label class="btn btn-primary btn-sm active">
+																<input type="radio" name="sellegance_sticky_menu" value="0" checked="checked">OFF
+															</label>
+														{% endif %}
+													</div>
+														<span class="help-block">{{ entry_menu_sticky_help }}</span>
+													</div>
+											</div>
+
+											{# <div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_menu_fullwidth_dropdown }}</label>
+												<div class="col-sm-10">
+													<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_fullwidth_dropdown_menu == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_fullwidth_dropdown_menu" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_fullwidth_dropdown_menu" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_fullwidth_dropdown_menu" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_fullwidth_dropdown_menu" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+													<span class="help-block">{{ entry_menu_fullwidth_dropdown_help }}</span>
+												</div>
+										</div> #}
+
+										<legend>{{ entry_homepage_link_sub }}</legend>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{ entry_homepage_link_style }}</label>
+											<div class="col-sm-10">
+												<select name="sellegance_homepage_link_style" class="form-control">
+													{% for key,value  in homepage_link %}
+													{% if sellegance_homepage_link_style == key %} 
+														{% set current = 'selected' %}
+													{% else %}
+														{% set current = '' %}
+													{% endif %}
+														<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+
+									</fieldset>
+
+								</div>
+								
+								<div class="tab-pane" id="menu-categories">
+
+									<fieldset>
+
+										<legend>{{ entry_menu_categories_sub }}</legend>
+
+									 	<div class="form-group">
+											<label class="col-sm-2 control-label">{{ entry_menu_category_style }}</label>
+											<div class="col-sm-10">
+												<select name="sellegance_menu_categories" class="form-control">
+													{% for key,value  in menu_category_style %}
+													{% if sellegance_menu_categories == key %} 
+														{% set current = 'selected' %}
+													{% else %}
+														{% set current = '' %}
+													{% endif %}
+														<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Visibility</label>
+											<div class="col-sm-10">
+												<select name="sellegance_menu_categories_visibility" class="form-control">
+													{% for key,value  in visibility %}
+													{% if sellegance_menu_categories_visibility == key %} 
+														{% set current = 'selected' %}
+													{% else %}
+														{% set current = '' %}
+													{% endif %}
+														<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Top link title</label>
+											<div class="col-sm-10">
+												<span class="help-block">Only in <em>Vertical</em> or <em>Dropdown Table</em> mode</span>
+												{% for language in languages %}
+													<div class="input-group">
+														<input type="text" name="sellegance_categories_top_title[{{ language.language_id }}]" id="sellegance_categories_top_title_{{ language.language_id }}" value="{{ sellegance_categories_top_title[language.language_id] ? sellegance_categories_top_title[language.language_id] }}" class="form-control" />
+														<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{ entry_menu_category_icons }}</label>
+											<div class="col-sm-10">
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_menu_category_icons == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_menu_category_icons" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_menu_category_icons" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_menu_category_icons" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_menu_category_icons" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{ entry_menu_categories_x_row }} <span title="{{ entry_menu_categories_x_row_help }}" data-toggle="tooltip"></span></label>
+											<div class="col-sm-10">
+												<select name="sellegance_menu_categories_x_row" class="form-control">
+													{% for i in 3..6 %}
+														{% if sellegance_menu_categories_x_row == i %} 
+															{% set currentpat = 'selected' %}
+														{% else %}
+															{% set currentpat = '' %}
+														{% endif %}
+														<option value="{{ i }}" {{ currentpat }} >{{ i }} px</option>
+													{% endfor %}
+												</select>
+												<span class="help-block">{{ entry_menu_categories_x_row_help }}</span>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{ entry_menu_3rd_level }}</label>
+											<div class="col-sm-10">
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+												{% if sellegance_3rd_level_cat == 1 %}
+													<label class="btn btn-primary btn-sm active">
+														<input type="radio" name="sellegance_3rd_level_cat" value="1" checked="checked">ON
+													</label>
+													<label class="btn btn-default btn-sm">
+														<input type="radio" name="sellegance_3rd_level_cat" value="0">OFF
+													</label>
+												{% else %}
+													<label class="btn btn-default btn-sm">
+														<input type="radio" name="sellegance_3rd_level_cat" value="1">ON
+													</label>
+													<label class="btn btn-primary btn-sm active">
+														<input type="radio" name="sellegance_3rd_level_cat" value="0" checked="checked">OFF
+													</label>
+												{% endif %}
+											</div>
+												</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Categories menu tag</label>
+											<div class="col-sm-10">
+												<div class="row">
+													<div class="col-sm-3">
+														<span class="help-block">{{ entry_textcolor_caption }}</span>
+														{% for language in languages %}
+															<div class="input-group">
+																<input type="text" name="sellegance_categories_tag[{{ language.language_id }}]" id="sellegance_categories_tag_{{ language.language_id }}" value="{{ sellegance_categories_tag[language.language_id] ? sellegance_categories_tag[language.language_id] }}" class="form-control" />
+																<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+															</div>
+														{% endfor %}
+													</div>
+													<div class="col-sm-2">
+														<span class="help-block">{{ entry_background_caption }}</span>
+														<input type="text" name="sellegance_categories_tag_color" value="{{ sellegance_categories_tag_color }}" size="6" class="color {required:false,hash:true}" />
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</fieldset>
+
+								</div>
+
+								<div class="tab-pane" id="menu-brands">
+
+									<fieldset>
+
+										<legend>{{ entry_menu_brands_sub }}</legend>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{ entry_menu_brands_style }}</label>
+											<div class="col-sm-10">
+												<select name="sellegance_menu_brands" class="form-control">
+													{% if sellegance_menu_brands == '' %} 
+														{% set sellegance_menu_brands = 'logoname' %}
+													{% endif %}
+
+													{% for key,value  in menu_brands_style %}
+													{% if sellegance_menu_brands == key %} 
+														{% set current = 'selected' %}
+													{% else %}
+														{% set current = '' %}
+													{% endif %}
+														<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Top link title</label>
+											<div class="col-sm-10">
+												{% for language in languages %}
+													<div class="input-group">
+														<input type="text" name="sellegance_brands_top_title[{{ language.language_id }}]" id="sellegance_brands_top_title_{{ language.language_id }}" value="{{ sellegance_brands_top_title[language.language_id] ? sellegance_brands_top_title[language.language_id] }}" class="form-control" />
+														<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{ entry_menu_brands_x_row }}</label>
+											<div class="col-sm-10">
+												<select name="sellegance_menu_brands_x_row" class="form-control">
+													{% for i in 3..8 %}
+														{% if sellegance_menu_brands_x_row == i %} 
+															{% set currentpat = 'selected' %}
+														{% else %}
+															{% set currentpat = '' %}
+														{% endif %}
+														<option value="{{ i }}" {{ currentpat }} >{{ i }} px</option>
+													{% endfor %}
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Brands menu tag</label>
+											<div class="col-sm-10">
+												<div class="row">
+													<div class="col-sm-3">
+														<span class="help-block">{{ entry_textcolor_caption }}</span>
+														{% for language in languages %}
+															<div class="input-group">
+																<input type="text" name="sellegance_brands_tag[{{ language.language_id }}]" id="sellegance_brands_tag_{{ language.language_id }}" value="{{ sellegance_brands_tag[language.language_id] ? sellegance_brands_tag[language.language_id] }}" class="form-control" />
+																<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+															</div>
+														{% endfor %}
+													</div>
+													<div class="col-sm-2">
+														<span class="help-block">{{ entry_background_caption }}</span>
+														<input type="text" name="sellegance_brands_tag_color" value="{{ sellegance_brands_tag_color }}" size="6" class="color {required:false,hash:true}" />
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</fieldset>
+
+								</div>
+
+								<div class="tab-pane" id="menu-toplinks">
+
+									<fieldset>
+										<legend>{{ entry_menu_links_sub }}</legend>
+
+										<div class="table-responsive">
+											<table class="table table-hover">
+												<thead>
+													<tr>
+														<th class="left" width="10%">Link</th>
+														<th class="left" width="10%">Status</th>
+														<th class="left" width="30%">{{ text_title }}</th>
+														<th class="left" width="30%">URL</th>
+														<th class="left" width="20%">Target</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for i in 1..9 %}
+													<tr>
+														<td>Link {{ i }}:</td>
+														<td>
+																<div class="btn-group btn-toggle" data-toggle="buttons">
+																{% if sellegance_menu_link[i].status == 1 %}
+																	<label class="btn btn-primary btn-sm active">
+																		<input type="radio" name="sellegance_menu_link[{{ i }}][status]" value="1" checked="checked">ON
+																	</label>
+																	<label class="btn btn-default btn-sm">
+																		<input type="radio" name="sellegance_menu_link[{{ i }}][status]" value="0">OFF
+																	</label>
+																{% else %}
+																	<label class="btn btn-default btn-sm">
+																		<input type="radio" name="sellegance_menu_link[{{ i }}][status]" value="1">ON
+																	</label>
+																	<label class="btn btn-primary btn-sm active">
+																		<input type="radio" name="sellegance_menu_link[{{ i }}][status]" value="0" checked="checked">OFF
+																	</label>
+																{% endif %}
+															</div>
+
+														</td>
+														<td>
+															{% for language in languages %}
+																<div class="input-group">
+																	<input type="text" name="sellegance_menu_link[{{ i }}][{{ language.language_id }}][title]" id="sellegance_menu_link_{{ i }}_{{ language.language_id }}_title" value="{{ sellegance_menu_link[i][language.language_id].title ? sellegance_menu_link[i][language.language_id].title }}" class="form-control" />
+																	<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+																</div>
+															{% endfor %}
+														</td>
+														<td>
+															{% for language in languages %}
+																<div class="input-group">
+																	<input type="text" name="sellegance_menu_link[{{ i }}][{{ language.language_id }}][url]" id="sellegance_menu_link_{{ i }}_{{ language.language_id }}_url" value="{{ sellegance_menu_link[i][language.language_id].url ? sellegance_menu_link[i][language.language_id].url }}" class="form-control" />
+																	<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+																</div>
+															{% endfor %}
+														</td>
+														<td>
+															<select name="sellegance_menu_link[{{ i }}][target]" class="form-control">
+																{% for key,value  in menu_target %}
+																{% if sellegance_menu_link[i].target == key %} 
+																	{% set current = 'selected' %}
+																{% else %}
+																	{% set current = '' %}
+																{% endif %}
+																	<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+																{% endfor %}
+															</select>
+														</td>
+													</tr>
+													{% endfor %} {# for i in 1..9  #}
+												</tbody>
+											</table>
+										</div>
+
+									</fieldset>
+											
+								</div>
+
+								<div class="tab-pane" id="menu-dropdown">
+
+									<fieldset>
+										
+										<legend>{{ entry_menu_dropdown_sub }}</legend>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Show custom dropdown menu</label>
+											<div class="col-sm-10">
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_menu_dropdown_status == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_menu_dropdown_status" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_menu_dropdown_status" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_menu_dropdown_status" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_menu_dropdown_status" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">{{ text_title }}</label>
+											<div class="col-sm-10">
+												{% for language in languages %}
+													<div class="input-group">
+														<input type="text" name="sellegance_menu_dropdown_title[{{ language.language_id }}]" id="sellegance_menu_dropdown_title_{{ language.language_id }}" value="{{ sellegance_menu_dropdown_title[language.language_id] ? sellegance_menu_dropdown_title[language.language_id] }}" class="form-control" />
+														<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+													</div>
+												{% endfor %}
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">Custom dropdown tag</label>
+												<div class="col-sm-10">
+													<div class="row">
+														<div class="col-sm-3">
+														<span class="help-block">{{ entry_textcolor_caption }}</span>
+														{% for language in languages %}
+															<div class="input-group">
+																<input type="text" name="sellegance_menu_dropdown_tag[{{ language.language_id }}]" id="sellegance_menu_dropdown_tag_{{ language.language_id }}" value="{{ sellegance_menu_dropdown_tag[language.language_id] ? sellegance_menu_dropdown_tag[language.language_id] }}" class="form-control" />
+																<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+															</div>
+														{% endfor %}
+													</div>
+													<div class="col-sm-2">
+														<span class="help-block">{{ entry_background_caption }}</span>
+														<input type="text" name="sellegance_menu_dropdown_tag_color" value="{{ sellegance_menu_dropdown_tag_color }}" size="6" class="color {required:false,hash:true}" />
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="table-responsive">
+											<table class="table table-hover">
+												<thead>
+													<tr>
+														<th class="left" width="10%">Link</th>
+														<th class="left" width="10%">Status</th>
+														<th class="left" width="20%">{{ text_title }}</th>
+														<th class="left" width="20%">URL</th>
+														<th class="left" width="20%">Target</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for i in 1..9 %}
+													<tr>
+														<td>Link {{ i }}</td>
+														<td>
+															<div class="btn-group btn-toggle" data-toggle="buttons">
+																{% if sellegance_menu_dropdown[i].status == 1 %}
+																	<label class="btn btn-primary btn-sm active">
+																		<input type="radio" name="sellegance_menu_dropdown[{{ i }}][status]" value="1" checked="checked">ON
+																	</label>
+																	<label class="btn btn-default btn-sm">
+																		<input type="radio" name="sellegance_menu_dropdown[{{ i }}][status]" value="0">OFF
+																	</label>
+																{% else %}
+																	<label class="btn btn-default btn-sm">
+																		<input type="radio" name="sellegance_menu_dropdown[{{ i }}][status]" value="1">ON
+																	</label>
+																	<label class="btn btn-primary btn-sm active">
+																		<input type="radio" name="sellegance_menu_dropdown[{{ i }}][status]" value="0" checked="checked">OFF
+																	</label>
+																{% endif %}
+															</div>
+
+														</td>
+														<td>
+															{% for language in languages %}
+																<div class="input-group">
+																	<input type="text" name="sellegance_menu_dropdown[{{ i }}][{{ language.language_id }}][title]" id="sellegance_menu_dropdown_{{ i }}_{{ language.language_id }}_title" value="{{ sellegance_menu_dropdown[i][language.language_id].title ? sellegance_menu_dropdown[i][language.language_id].title }}" class="form-control" />
+																	<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+																</div>
+															{% endfor %}
+														</td>
+														<td>
+															<input type="text" name="sellegance_menu_dropdown[{{ i }}][url]" value="{{ sellegance_menu_dropdown[i].url }}" class="form-control" />
+														</td>
+														<td>
+															<select name="sellegance_menu_dropdown[{{ i }}][target]" class="form-control">
+																{% for key,value  in menu_target %}
+																{% if sellegance_menu_dropdown[i].target == key %} 
+																	{% set current = 'selected' %}
+																{% else %}
+																	{% set current = '' %}
+																{% endif %}
+																	<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+																{% endfor %}
+															</select>
+														</td>
+													</tr>
+													{% endfor %} {# for i in 1..9  #}
+												</tbody>
+											</table>
+										</div>
+
+									</fieldset>
+									
+								</div>
+								
+								<div class="tab-pane" id="menu-blocks">
+
+									<fieldset>
+										
+										<table id="menublocks" class="table table-bordered">
+
+											<thead>
+												<tr>
+													<td class="text-left" width="">Content</td>
+													<td class="text-left" width="5%">Sort Order</td>
+													<td width="5%"></td>
+												</tr>
+											</thead>
+
+											<tbody>
+												{% set section_row = 1 %}
+												{% if sellegance_menu_blocks %}
+													{% for menu_block in sellegance_menu_blocks %}
+
+														<tr id="section-row{{ section_row }}">
+															
+															<td class="text-left">
+
+																<input type="hidden" name="sellegance_menu_blocks[{{ section_row }}][id]" value="{{ menu_block.id }}">
+
+																<div class="form-group">
+																	<label class="col-sm-2 control-label">Block <span class="badge">{{ section_row }}</span></label>
+																	<div class="col-sm-10">
+																		<p><div class="btn-group btn-toggle" data-toggle="buttons">
+																		{% if menu_block.status and menu_block.status == 1 %}
+																			<label class="btn btn-primary btn-sm active">
+																				<input type="radio" name="sellegance_menu_blocks[{{ section_row }}][status]" value="1" checked="checked">ON
+																			</label>
+																			<label class="btn btn-default btn-sm">
+																				<input type="radio" name="sellegance_menu_blocks[{{ section_row }}][status]" value="0">OFF
+																			</label>
+																		{% else %}
+																			<label class="btn btn-default btn-sm">
+																				<input type="radio" name="sellegance_menu_blocks[{{ section_row }}][status]" value="1">ON
+																			</label>
+																			<label class="btn btn-primary btn-sm active">
+																				<input type="radio" name="sellegance_menu_blocks[{{ section_row }}][status]" value="0" checked="checked">OFF
+																			</label>
+																		{% endif %}
+																		</div></p>
+																		<p>CSS id: <code>#menu_block{{ section_row }}</code></p>
+																</div>
+															</div>
+
+																<div class="form-group">
+																	<label class="col-sm-2 control-label">Visibility</label>
+																	<div class="col-sm-10">
+																		<select name="sellegance_menu_blocks[{{ section_row }}][visibility]" class="form-control">
+																			{% for key,value  in visibility %}
+																			{% if menu_block.visibility == key %} 
+																				{% set current = 'selected' %}
+																			{% else %}
+																				{% set current = '' %}
+																			{% endif %}
+																				<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+																			{% endfor %}
+																		</select>
+																	</div>
+																</div>
+
+																<div class="panel">
+
+																	<ul id="menu_blocks_{{ section_row }}" class="nav nav-tabs">
+																		{% for language in languages %}
+																			<li><a href="#custom_block_{{ section_row }}_{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+																		{% endfor %}
+																	</ul>
+
+																	<div class="tab-content">
+																			
+																		{% for language in languages %}
+
+																			<div id="custom_block_{{ section_row }}_{{ language.language_id }}" class="tab-pane">
+
+																				<div class="form-group">
+																						<label class="col-sm-2 control-label">{{ text_title }}</label>
+																						<div class="col-sm-10">
+																						<input type="text" name="sellegance_menu_blocks[{{ section_row }}][title][{{ language.language_id }}]" value="{{ menu_block.title[language.language_id] ? menu_block.title[language.language_id] }}" class="form-control" />
+																					</div>
+																				</div>
+
+																				<div class="form-group">
+																					<label class="col-sm-2 control-label">URL (optional)</label>
+																					<div class="col-sm-10">
+																						<input type="text" name="sellegance_menu_blocks[{{ section_row }}][url][{{ language.language_id }}]" value="{{ menu_block.url[language.language_id] ? menu_block.url[language.language_id] }}" class="form-control" />
+																					</div>
+																				</div>
+
+																				<div class="form-group">
+																					<label class="col-sm-2 control-label">Link tag</label>
+																					<div class="col-sm-10">
+																						<div class="row">
+																							<div class="col-sm-3">
+																								<span class="help-block">{{ entry_textcolor_caption }}</span>
+																								<input type="text" name="sellegance_menu_blocks[{{ section_row }}][tag][{{ language.language_id }}]" value="{{ menu_block.tag[language.language_id] ? menu_block.tag[language.language_id] }}" class="form-control" />
+																							</div>
+																							<div class="col-sm-2">
+																								<span class="help-block">{{ entry_background_caption }}</span>
+																								<input type="text" name="sellegance_menu_blocks[{{ section_row }}][tagcolor][{{ language.language_id }}]" value="{{ menu_block.tagcolor[language.language_id] ? menu_block.tagcolor[language.language_id] }}" size="6" class="color {required:false,hash:true}" />
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+															
+																				<div class="form-group">
+																					<label class="col-sm-2 control-label">{{ entry_text }}</label>
+																					<div class="col-sm-10">
+																						<textarea rows="6" name="sellegance_menu_blocks[{{ section_row }}][content][{{ language.language_id }}]" id="description-{{ section_row }}-{{ language.language_id }}" data-toggle="summernote">{{ menu_block.content[language.language_id] ? menu_block.content[language.language_id] }}</textarea>
+																					</div>
+																				</div>
+
+																			</div>
+															
+																		{% endfor %}
+
+																		<script type="text/javascript">
+																				$('#menu_blocks_{{ section_row }} li:first-child a').tab('show');
+																		</script>
+																		
+																	</div>
+
+																</div>
+
+															</td>
+
+															<td>
+																<input type="text" name="sellegance_menu_blocks[{{ section_row }}][sort]" value="{% if menu_block.sort[sort] %} {{ menu_block[sort] }} {% endif %}" class="form-control" />
+															</td>
+															<td class="text-center">
+																<button type="button" onclick="$('#section-row{{ section_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+															</td>
+														</tr>
+
+														{% set section_row = section_row + 1 %}
+
+													{% endfor %} {# for menu_block in sellegance_menu_blocks #}
+												{% endif %} {# if sellegance_menu_blocks != '' #}
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="2"></td>
+													<td class="text-center"><button type="button" onclick="addRow();" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+												</tr>
+											</tfoot>
+										</table>
+
+									</fieldset>
+
+								</div>
+
+								<div class="tab-pane" id="menu-infopages">
+
+									<fieldset>
+										
+										<legend>Information pages</legend>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{{ entry_menu_infopages_style }}</label>
+												<div class="col-sm-10">
+													{% if sellegance_menu_infopages == '' %} {% set sellegance_menu_infopages = 'vertical' %} {% endif %}
+													<select name="sellegance_menu_infopages" class="form-control">
+														{% for key,value  in menu_infopages_style %}
+														{% if sellegance_menu_infopages == key %} 
+															{% set current = 'selected' %}
+														{% else %}
+															{% set current = '' %}
+														{% endif %}
+															<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+														{% endfor %}
+												</select>
+												</div>
+											</div>
+
+											<div class="form-group">
+											<label class="col-sm-2 control-label">Top link title</label>
+											<div class="col-sm-10">
+											<span class="help-block">Only in <em>Vertical</em> mode</span>
+												{% for language in languages %}
+													<div class="input-group">
+														<input type="text" name="sellegance_infopages_top_title[{{ language.language_id }}]" id="sellegance_infopages_top_title_{{ language.language_id }}" value="{{ sellegance_infopages_top_title[language.language_id] ? sellegance_infopages_top_title[language.language_id] }}" class="form-control" />
+														<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Information pages menu tag <span title="Only in vertical mode" data-toggle="tooltip"></span></label>
+											<div class="col-sm-10">
+												<div class="row">
+													<div class="col-sm-3">
+														<span class="help-block">{{ entry_textcolor_caption }}</span>
+														{% for language in languages %}
+															<div class="input-group">
+																<input type="text" name="sellegance_infopages_tag[{{ language.language_id }}]" id="sellegance_infopages_tag_{{ language.language_id }}" value="{{ sellegance_infopages_tag[language.language_id] ? sellegance_infopages_tag[language.language_id] }}" class="form-control" />
+																<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+															</div>
+														{% endfor %}
+													</div>
+													<div class="col-sm-2">
+														<span class="help-block">{{ entry_background_caption }}</span>
+														<input type="text" name="sellegance_infopages_tag_color" value="{{ sellegance_infopages_tag_color }}" size="6" class="color {required:false,hash:true}" />
+													</div>
+												</div>
+
+												<span class="help-block">Only in vertical mode</span>
+
+											</div>
+										</div>
+
+									</fieldset>
+
+								</div>
+
+							</div>                  
+						 
+						</div>
+
+						<div class="tab-pane fade" id="header_settings">
+
+							<fieldset>
+								
+								<legend>{{ entry_header_layout_sub }}</legend>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="sellegance_logo_position">{{ entry_logo_position }} <span title="{{ entry_logo_position_help }}" data-toggle="tooltip"></span></label>
+									<div class="col-sm-10">
+										<select name="sellegance_logo_position" class="form-control">
+											{% for key,value  in logo_position %}
+											{% if sellegance_logo_position == key %} 
+												{% set current = 'selected' %}
+											{% else %}
+												{% set current = '' %}
+											{% endif %}
+												<option value="{{ key }}" {{ current }} >{{ value }}</option>	
+											{% endfor %}
+										</select>
+										<span class="help-block">{{ entry_logo_position_help }}</span>
+									</div>
+								</div>
+
+								<legend>{{ entry_searchbox_sub }}</legend>
+									
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="sellegance_searchbox_regular">{{ entry_searchbox_regular }}</label>
+									<div class="col-sm-10">
+
+										<div class="btn-group btn-toggle" data-toggle="buttons">
+											{% if sellegance_searchbox_regular == 1 %}
+												<label class="btn btn-primary btn-sm active">
+													<input type="radio" name="sellegance_searchbox_regular" value="1" checked="checked">ON
+												</label>
+												<label class="btn btn-default btn-sm">
+													<input type="radio" name="sellegance_searchbox_regular" value="0">OFF
+												</label>
+											{% else %}
+												<label class="btn btn-default btn-sm">
+													<input type="radio" name="sellegance_searchbox_regular" value="1">ON
+												</label>
+												<label class="btn btn-primary btn-sm active">
+													<input type="radio" name="sellegance_searchbox_regular" value="0" checked="checked">OFF
+												</label>
+											{% endif %}
+										</div>
+										<span class="help-block">{{ entry_searchbox_regular_help }} </span>
+
+									</div>
+								</div>
+
+								<legend>{{ entry_footer_info_sub }}</legend>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="sellegance_header_info_text">Custom Text</label>
+									<div class="col-sm-10">
+										
+										<ul id="sellegance_header_info_text" class="nav nav-tabs">
+											{% for language in languages %}
+												<li><a href="#sellegance_header_info_text_{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">
+											{% for language in languages %}
+												<div id="sellegance_header_info_text_{{ language.language_id }}" class="tab-pane">
+													<textarea name="sellegance_header_info_text[{{ language.language_id }}]" id="sellegance_header_info_text-{{ language.language_id }}" data-toggle="summernote" >{{ sellegance_header_info_text[language.language_id] ? sellegance_header_info_text[language.language_id] }}</textarea>
+												</div>
+											{% endfor %}
+										</div>
+
+										<script type="text/javascript">
+											$('#sellegance_header_info_text li:first-child a').tab('show');
+										</script> 
+
+										<p class="help-block">{{ entry_header_info_text_help }}</p>
+										
+									</div>
+								</div>
+
+							</fieldset>
+
+						</div>	
+
+						<div class="tab-pane fade" id="footer_settings">
+
+							<fieldset>
+
+								<legend>{{ entry_footer_bold }}</legend>	
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="sellegance_footer_modules">Modules per row</label>
+									<div class="col-sm-10">
+										<select name="sellegance_footer_modules" class="form-control">
+											{% for i in 1..4 %}
+												{% if sellegance_footer_modules == i %}
+													{% set currentpat = 'selected' %}
+												{% else %}
+													{% set currentpat = '' %}
+												{% endif %}
+												<option value="{{ i }}" {{ currentpat }}>{{ i }}</option> 
+											{% endfor %}
+										</select>
+										<span class="help-block">Number of columns to show footer modules.</span>
+									</div>
+								</div>
+
+								<legend>{{ entry_footer_info_sub }}</legend>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="sellegance_footer_info_text">{{ entry_footer_info_text }}</label>
+									<div class="col-sm-10">
+										
+										<ul id="sellegance_footer_info_text" class="nav nav-tabs">
+											{% for language in languages %}
+												<li><a href="#sellegance_footer_info_text_{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">
+											{% for language in languages %}
+												<div id="sellegance_footer_info_text_{{ language.language_id }}" class="tab-pane">
+													<textarea name="sellegance_footer_info_text[{{ language.language_id }}]" id="sellegance_footer_info_text-{{ language.language_id }}" data-toggle="summernote" >{{ sellegance_footer_info_text[language.language_id] ? sellegance_footer_info_text[language.language_id] }}</textarea>
+												</div>
+											{% endfor %}
+										</div>
+
+										<script type="text/javascript">
+											
+											$('#sellegance_footer_info_text li:first-child a').tab('show');
+
+										</script> 
+
+										<p class="help-block">{{ entry_footer_info_text_help }}</p>
+										
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="sellegance_copyright">{{ entry_copyright_text }}</label>
+									<div class="col-sm-10">
+										
+										<ul id="sellegance_copyright" class="nav nav-tabs">
+											{% for language in languages %}
+												<li><a href="#sellegance_copyright_{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">
+											{% for language in languages %}
+												<div id="sellegance_copyright_{{ language.language_id }}" class="tab-pane">
+													<textarea name="sellegance_copyright[{{ language.language_id }}]" id="sellegance_copyright-{{ language.language_id }}" data-toggle="summernote" >{{ sellegance_copyright[language.language_id] ? sellegance_copyright[language.language_id] }}</textarea>
+												</div>
+											{% endfor %}
+										</div>
+
+										<script type="text/javascript">
+											
+											$('#sellegance_copyright li:first-child a').tab('show');
+
+										</script> 
+
+										<p class="help-block">{{ entry_copyright_text_help }}</p>
+										
+									</div>
+								</div>
+
+							</fieldset>				
+
+						</div>
+
+						
+
+						<div class="tab-pane fade" id="social_settings">
+
+							<fieldset>
+								<legend>{{ entry_social_settings_sub }}</legend>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="sellegance_social_header">{{ entry_social_header }}</label>
+									<div class="col-sm-10">
+
+										<div class="btn-group btn-toggle" data-toggle="buttons">
+											{% if sellegance_social_header == 1 %}
+												<label class="btn btn-primary btn-sm active">
+													<input type="radio" name="sellegance_social_header" value="1" checked="checked">ON
+												</label>
+												<label class="btn btn-default btn-sm">
+													<input type="radio" name="sellegance_social_header" value="0">OFF
+												</label>
+											{% else %}
+												<label class="btn btn-default btn-sm">
+													<input type="radio" name="sellegance_social_header" value="1">ON
+												</label>
+												<label class="btn btn-primary btn-sm active">
+													<input type="radio" name="sellegance_social_header" value="0" checked="checked">OFF
+												</label>
+											{% endif %}
+										</div>
+
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="sellegance_social_footer">{{ entry_social_footer }}</label>
+									<div class="col-sm-10">
+
+										<div class="btn-group btn-toggle" data-toggle="buttons">
+											{% if sellegance_social_footer == 1 %}
+												<label class="btn btn-primary btn-sm active">
+													<input type="radio" name="sellegance_social_footer" value="1" checked="checked">ON
+												</label>
+												<label class="btn btn-default btn-sm">
+													<input type="radio" name="sellegance_social_footer" value="0">OFF
+												</label>
+											{% else %}
+												<label class="btn btn-default btn-sm">
+													<input type="radio" name="sellegance_social_footer" value="1">ON
+												</label>
+												<label class="btn btn-primary btn-sm active">
+													<input type="radio" name="sellegance_social_footer" value="0" checked="checked">OFF
+												</label>
+											{% endif %}
+										</div>
+
+									</div>
+								</div>
+
+								<legend>{{ entry_social_icons_sub }}</legend>
+
+								<div class="table-responsive">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th width="20%">Social Media</th>
+												<th width="60%">URL <span class="customhelp">including http://</span></th>
+												<th width="20%">Target</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for key,value in social_media %}
+												<tr>
+													<td><label class="control-label">{{ value }}</label>
+														<input type="hidden" name="sellegance_social[{{ key }}][class]" value="{{ key }}"></input></td>
+													<td><input type="text" name="sellegance_social[{{ key }}][url]" value="{{ sellegance_social[key].url ? sellegance_social[key].url }}" class="form-control" />
+														{% if key == 'facebook' %}
+															<label class="control-label">Show widget on Footer</label>
+															<div class="btn-group btn-toggle" data-toggle="buttons">
+																{% if sellegance_facebook_widget == 1 %}
+																	<label class="btn btn-primary btn-sm active">
+																		<input type="radio" name="sellegance_facebook_widget" value="1" checked="checked">ON
+																	</label>
+																	<label class="btn btn-default btn-sm">
+																		<input type="radio" name="sellegance_facebook_widget" value="0">OFF
+																	</label>
+																{% else %}
+																	<label class="btn btn-default btn-sm">
+																		<input type="radio" name="sellegance_facebook_widget" value="1">ON
+																	</label>
+																	<label class="btn btn-primary btn-sm active">
+																		<input type="radio" name="sellegance_facebook_widget" value="0" checked="checked">OFF
+																	</label>
+																{% endif %}
+															</div>
+														{% endif %}
+													</td>
+													<td>
+														<select name="sellegance_social[{{ key }}][target]" class="form-control">
+															{% for key2,value2 in menu_target %}
+															{% if sellegance_social[key].target == key2 %} 
+																{% set current = 'selected' %}
+															{% else %}
+																{% set current = '' %}
+															{% endif %}
+															<option value="{{ key2 }}" {{ current }} >{{ value2 }}</option>
+															{% endfor %}
+														</select>
+													</td>
+												</tr>
+											{% endfor %}
+										</tbody>
+
+									</table>
+								</div>
+
+								<legend>Custom Icons</legend>
+
+									<div class="table-responsive">
+										<table class="table table-hover">
+											<thead>
+												<tr>
+												<th width="20%">Font Awesome icon name<br> <span class="customhelp" style="text-transform:none;">(ie. <code>whatsapp</code>) <a href="//fontawesome.io/icons/" target="_blank">view icons <i class="fa fa-external-link"></i></a><br>Paste the icon name exactly as it appears</span></th>
+												<th width="60%">URL <span class="customhelp">including http://</span></th>
+												<th width="20%">Target</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for i in 1..5 %}
+												<tr>
+													<td><input type="text" name="sellegance_custom_icon[{{ i }}][class]" value="{{ sellegance_custom_icon[i].class ? sellegance_custom_icon[i].class }}" class="form-control" /></td>
+													<td>
+														<input type="text" name="sellegance_custom_icon[{{ i }}][url]" value="{{ sellegance_custom_icon[i].url ? sellegance_custom_icon[i].url }}" class="form-control" /></td>
+													<td>
+														<select name="sellegance_custom_icon[{{ i }}][target]" class="form-control">
+															{% for key,value  in menu_target %}
+																{% if sellegance_custom_icon[i].target == key %} 
+																	{% set current = 'selected' %}
+																{% else %}
+																	{% set current = '' %}
+																{% endif %}
+																<option value="{{ key }}" {{ current }} >{{ value }}</option>
+															{% endfor %}
+														</select>
+													</td>
+												</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+									
+								</fieldset>
+
+							</div>
+
+						<div class="tab-pane fade" id="custom_code_settings">
+
+							<ul class="nav nav-pills">
+								<li class="active"><a href="#custom-css" data-toggle="tab">{{ entry_css_tab }}</a></li>
+								<li><a href="#custom-js" data-toggle="tab">{{ entry_js_tab }}</a></li>
+							</ul>
+
+							<div class="tab-content">
+								<div class="tab-pane active" id="custom-css">
+
+									<fieldset>
+										<legend>{{ entry_custom_stylesheet_sub }}</legend>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_custom_stylesheet">{{ entry_custom_stylesheet }}</label>
+											<div class="col-sm-10">
+
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_custom_stylesheet == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_custom_stylesheet" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_custom_stylesheet" value="0">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_custom_stylesheet" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_custom_stylesheet" value="0" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+												<span class="help-block">{{ entry_custom_stylesheet_help }}</span>
+
+											</div>
+										</div>
+
+										<legend>{{ entry_custom_css_sub }}</legend>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_custom_css_status">Enable custom CSS</label>
+											<div class="col-sm-10">
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_custom_css_status == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_custom_css_status" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_custom_css_status" value="2">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_custom_css_status" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_custom_css_status" value="2" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+												<span class="help-block"></span>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_custom_css">{{ entry_custom_css }}</label>
+											<div class="col-sm-10">
+												<textarea name="sellegance_custom_css" id="sellegance_custom_css" rows="30" class="summernotecode">{{ sellegance_custom_css }}</textarea>
+												<span class="help-block">{{ entry_custom_css_help }}</span>
+
+											</div>
+										</div>
+
+									</fieldset>
+
+								</div>
+
+								<div class="tab-pane" id="custom-js">
+
+									<fieldset>
+
+										<legend>{{ entry_custom_js_sub }}</legend>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_custom_js_status">Enable custom JavaScript</label>
+											<div class="col-sm-10">
+												<div class="btn-group btn-toggle" data-toggle="buttons">
+													{% if sellegance_custom_js_status == 1 %}
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_custom_js_status" value="1" checked="checked">ON
+														</label>
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_custom_js_status" value="2">OFF
+														</label>
+													{% else %}
+														<label class="btn btn-default btn-sm">
+															<input type="radio" name="sellegance_custom_js_status" value="1">ON
+														</label>
+														<label class="btn btn-primary btn-sm active">
+															<input type="radio" name="sellegance_custom_js_status" value="2" checked="checked">OFF
+														</label>
+													{% endif %}
+												</div>
+												<span class="help-block"></span>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="sellegance_custom_js">{{ entry_custom_js }}</label>
+											<div class="col-sm-10">
+												<textarea name="sellegance_custom_js" id="sellegance_custom_js" rows="30" class="summernotecode">{{ sellegance_custom_js }}</textarea>
+												<span class="help-block">{{ entry_custom_js_help }}</span>
+
+											</div>
+										</div>
+
+									</fieldset>
+
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+				</form>
+
+			</div><!-- .panel-body -->
+
+		</div><!-- .panel-default -->
+
+	</div><!-- .container-fluid -->
+
+</div><!-- #content -->
+
+
+<script type="text/javascript">
+
+	$('.btn-toggle').click(function() {
+			$(this).find('.btn').toggleClass('active');  
+			
+			if ($(this).find('.btn-primary').size()>0) {
+				$(this).find('.btn').toggleClass('btn-primary');
+			}
+			if ($(this).find('.btn-danger').size()>0) {
+				$(this).find('.btn').toggleClass('btn-danger');
+			}
+			if ($(this).find('.btn-success').size()>0) {
+				$(this).find('.btn').toggleClass('btn-success');
+			}
+			if ($(this).find('.btn-info').size()>0) {
+				$(this).find('.btn').toggleClass('btn-info');
+			}
+			
+			$(this).find('.btn').toggleClass('btn-default');
+				 
+	});
+
+</script>
+
+<script type="text/javascript"><!--
+var section_row = {{ section_row }};
+
+function addRow() {
+	html  = '<tr id="section-row' + section_row + '">';
+	
+	html += '<td class="text-left">';
+
+	html += '<input type="hidden" name="sellegance_menu_blocks[' + section_row + '][id]" value="' + section_row + '">';
+
+	html += '<div class="form-group">';
+	html += '	<label class="col-sm-2 control-label">Block <span class="badge">' + section_row + '</span></label>';
+	html += '	<div class="col-sm-10">';
+	html += '		<p><div class="btn-group btn-toggle" data-toggle="buttons">';
+	
+	html += '			<label class="btn btn-primary btn-sm active">';
+	html += '				<input type="radio" name="sellegance_menu_blocks[' + section_row + '][status]" value="1" checked="checked">ON';
+	html += '			</label>';
+	html += '			<label class="btn btn-default btn-sm">';
+	html += '				<input type="radio" name="sellegance_menu_blocks[' + section_row + '][status]" value="0">OFF';
+	html += '			</label>';
+	html += '		</div></p>';
+	html += '  <p>CSS id: <code>#menu_block' + section_row + '</code></p>';
+	html += '	</div>';
+	html += '</div>';
+
+	html += '<div class="form-group">';
+	html += '	<label class="col-sm-2 control-label">Visibility</label>';
+	html += '	<div class="col-sm-10">';
+	html += '		<select name="sellegance_menu_blocks[' + section_row + '][visibility]" class="form-control">';
+	{% for key,value  in visibility %}
+	html += '				<option value="{{ key }}">{{ value }}</option>	';
+	{% endfor %}
+	html += '		</select>';
+	html += '	</div>';
+	html += '</div>';
+
+	html += '<ul id="menu_blocks_' + section_row + '" class="nav nav-tabs">';
+	{% for language in languages %}
+	html += '		<li><a href="#custom_block_' + section_row + '_{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></a></li>';
+	{% endfor %}
+	html += '</ul>';
+
+	html += '<div class="tab-content">';
+	{% for language in languages %}
+	html += '	<div id="custom_block_' + section_row + '_{{ language.language_id }}" class="tab-pane">';
+	html += '<div class="form-group">';
+	html += '  <label class="col-sm-2 control-label">{{ text_title }}</label><div class="col-sm-10">';
+	html += '    <input type="text" name="sellegance_menu_blocks[' + section_row + '][title][{{ language.language_id }}]"  value="" class="form-control">';
+	html += '</div></div>';
+
+	html += '<div class="form-group">';
+	html += '  <label class="col-sm-2 control-label">URL (optional)</label><div class="col-sm-10">';
+	html += '    <input type="text" name="sellegance_menu_blocks[' + section_row + '][url][{{ language.language_id }}]" value="" class="form-control">';
+	html += '</div></div>';
+
+	html += '<div class="form-group">';
+	html += '		<label class="col-sm-2 control-label">Link tag</label>';
+	html += '		<div class="col-sm-10">';
+	html += '			<div class="row">';
+	html += '				<div class="col-sm-3">';
+	html += '					<span class="help-block">{{ entry_textcolor_caption }}</span>';
+	html += '					 <input type="text" name="sellegance_menu_blocks[' + section_row + '][tag][{{ language.language_id }}]" value="" class="form-control" />';
+	html += '				</div>';
+	html += '				<div class="col-sm-2">';
+	html += '					<span class="help-block">{{ entry_background_caption }}</span>';
+	html += '					<input type="text" name="sellegance_menu_blocks[' + section_row + '][tagcolor][{{ language.language_id }}]" value="" size="6" class="color {required:false,hash:true}" />';
+	html += '				</div>';
+	html += '			</div>';
+	html += '		</div>';
+	html += '</div>';
+
+	html += '<div class="form-group">';
+	html += '<label class="col-sm-2 control-label">{{ entry_text }}</label>';
+	html += '<div class="col-sm-10">';
+	html += '<textarea name="sellegance_menu_blocks[' + section_row + '][content][{{ language.language_id }}]" class="summernote" rows="6"></textarea>';
+	html += '</div></div></div>';
+	{% endfor %}
+
+	html += '</div>';
+
+	html += '</td>';
+
+	html += '<td>';
+		html += '<input type="text" name="sellegance_menu_blocks[' + section_row  + '][sort]; ?>]" value="0" class="form-control" />';
+	html += '</td>';
+
+	html += '  <td class="text-right"><button type="button" onclick="$(\'#section-row' + section_row  + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+	html += '</tr>';
+
+	$('#menublocks tbody').append(html);
+
+	$('#menu_blocks_' + section_row + ' li:first-child a').tab('show');
+	$('#section-row' + section_row + ' .summernote').summernote();
+	
+	jscolor.init();
+	
+	section_row++;
+}
+//--></script>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+
+		// Code View
+
+		var minLines = 9;
+		var startingValue = '/* Your custom CSS code */';
+		for (var i = 0; i < minLines; i++) {
+			startingValue += '\n';
+		}
+
+		var editor = CodeMirror.fromTextArea(document.getElementById("sellegance_custom_css"), {
+		  theme: 'monokai',
+		  //lineNumbers: true,
+		  styleActiveLine: true,
+		  lineWrapping: true,
+		  mode: 'css',
+		});
+		editor.setSize("100%",500);
+		//editor.setValue(startingValue);
+		
+		var editor2 = CodeMirror.fromTextArea(document.getElementById("sellegance_custom_js"), {
+		  theme: 'monokai',
+		  //lineNumbers: true,
+		  styleActiveLine: true,
+		  lineWrapping: true,
+		  mode: 'css',
+		});
+
+		// Google Fonts
+
+		var link = "<link href='//fonts.googleapis.com/css?family={{ sellegance_title_font }}' id='title_googlefont' rel='stylesheet' type='text/css'>";
+				$('head').append(link);
+		var link = "<link href='//fonts.googleapis.com/css?family={{ sellegance_body_font }}' id='body_googlefont' rel='stylesheet' type='text/css'>";
+				$('head').append(link);
+		var link = "<link href='//fonts.googleapis.com/css?family={{ sellegance_small_font }}' id='small_googlefont' rel='stylesheet' type='text/css'>";
+				$('head').append(link);
+
+		$('#sellegance_title_font').change(function(){
+				$('head #title_googlefont').remove();
+				var link = "<link href='//fonts.googleapis.com/css?family="+$(this).val()+"' id='title_googlefont' rel='stylesheet' type='text/css'>";
+				$('head').append(link);
+				
+				var fontname = 	$(this).val().replace(/\+/g," ");
+				
+				$('#title_font_preview').css("font-family",'"'+fontname+'"');
+			
+		});
+
+		$('#sellegance_body_font').change(function(){
+				$('head #body_googlefont').remove();
+				var link = "<link href='//fonts.googleapis.com/css?family="+$(this).val()+"' id='body_googlefont' rel='stylesheet' type='text/css'>";
+				$('head').append(link);
+				
+				var fontname = 	$(this).val().replace(/\+/g," ");
+				
+				$('#body_font_preview').css("font-family",'"'+fontname+'"');
+			
+		});
+
+		$('#sellegance_small_font').change(function(){
+				$('head #small_googlefont').remove();
+				var link = "<link href='//fonts.googleapis.com/css?family="+$(this).val()+"' id='small_googlefont' rel='stylesheet' type='text/css'>";
+				$('head').append(link);
+				
+				var fontname = 	$(this).val().replace(/\+/g," ");
+				
+				$('#small_font_preview').css("font-family",'"'+fontname+'"');
+			
+		});
+		
+		$('.size_select').change(function(){
+
+			var id = $(this).attr('id');
+
+			if (id == 'sellegance_title_font_size' ) { $('#title_font_preview').css("font-size",$(this).val()+'px'); }
+			if (id == 'sellegance_body_font_size' ) { $('#body_font_preview').css("font-size",$(this).val()+'px'); }
+			if (id == 'sellegance_small_font_size' ) { $('#small_font_preview').css("font-size",$(this).val()+'px'); }
+			
+		});
+	});
+</script>
+
+<link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
+<link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
+<script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script> 
+<script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script> 
+<script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script> 
+<script type="text/javascript" src="view/javascript/codemirror/mode/css.js"></script> 
+<script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+<link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+<script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script> 
+<script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+<script type="text/javascript" src="view/javascript/jscolor/jscolor.js"></script> 
+
+{{ footer }}

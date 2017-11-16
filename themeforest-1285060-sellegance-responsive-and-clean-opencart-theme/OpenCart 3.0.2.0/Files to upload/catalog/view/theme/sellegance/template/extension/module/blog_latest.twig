@@ -1,0 +1,52 @@
+<div class="box blog_latest product-slider">
+	<div class="contentset center">
+		<h4 class="inner"><span>{{ heading_title_latest }}</span></h4>
+	</div>
+	<div class="box-content latest">
+		{% if posts %}
+		<div class="blog_grid_holder latest column-{{ columns }} carousel-{{ carousel }} {{ module }}">
+			{% for blog in posts %}
+				<div class="blog_item">
+					{% if blog.image and thumb %}
+					<div class="image zoom_image_container">
+						<a href="{{ blog.href }}"><img src="{{ blog.image }}" class="zoom_image img-responsive" alt="{{ blog.title }}" title="{{ blog.title }}" /></a>
+					</div>
+					{% endif %}
+
+					<div class="blog_summary">
+					
+						<h2 class="blog_title"><a href="{{ blog.href }}">{{ blog.title }}</a></h2>
+						<div class="blog_stats">
+						{% if date_added_status %}
+							<span class="blog_date"><b class="hl">{{ blog.date_added_full }}</b></span>
+						{% endif %}
+						{% if comments_count_status %}
+							<span class="comment_count"><i class="fa fa-comments"></i> <b class="hl">{{ blog.comment_total }}</b></span>
+						{% endif %}
+						</div>
+
+						{% if not characters == '0' %}
+							<p>{{ blog.description }}</p>
+						{% endif %}
+
+					</div>
+			  </div>
+			{% endfor %}
+		</div>
+	{% endif %}
+	</div>
+</div>
+
+{% if carousel %}
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.blog_grid_holder.carousel-1.{{ module }}').owlCarousel({
+		itemsCustom: [ [0, 1], [500, 2], [767, 3], [979,{{ columns }}]],
+		pagination: true,
+		navigation:true,
+		navigationText: ['<i class="fa fa-angle-left fa-5x"></i>', '<i class="fa fa-angle-right fa-5x"></i>'],
+		slideSpeed:500
+	});
+});
+</script>
+{% endif %}

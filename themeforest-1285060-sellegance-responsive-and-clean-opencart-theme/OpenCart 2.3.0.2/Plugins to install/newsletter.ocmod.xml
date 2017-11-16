@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Newsletter - Sellegance</name>
+	<code>newsletter</code>
+	<version>2.1</version>
+	<author>everthemes.com</author>
+
+	<file path="admin/model/customer/customer.php">
+		<operation>
+			<search index="1"><![CDATA[
+				return $query->rows;
+			]]></search>
+			<add position="replace"><![CDATA[
+				if ($this->config->get('newsletter_global_status') && !empty($data['filter_newsletter']) && isset($data['start']) && $data['start'] == 0) {
+					$query1 = $this->db->query("SELECT * FROM " . DB_PREFIX . "newsletter");
+					
+					return array_merge($query1->rows, $query->rows);
+				} else {
+					return $query->rows;
+				}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="admin/language/*/common/column_left.php">
+		<operation error="skip">
+			<search><![CDATA[
+			// Text
+			]]></search>
+			<add position="after"><![CDATA[
+				// Extra Tabs text
+				$_['text_newsletter'] = 'Newsletter Subscribers';
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="admin/controller/common/column_left.php">
+		<operation error="skip">
+			<search><![CDATA[
+				if ($catalog) {
+			]]></search>
+			<add position="before" trim="true"><![CDATA[
+				if ($this->user->hasPermission('access', 'extension/newsletter')) {		
+					$catalog[] = array(
+						'name'	   => $this->language->get('text_newsletter'),
+						'href'     => $this->url->link('extension/newsletter', 'token=' . $this->session->data['token'], true),
+						'children' => array()		
+					);					
+				}
+				]]>
+			</add>
+		</operation>
+	</file>
+
+	<file path="admin/controller/marketing/contact.php">
+		<operation>
+			<search><![CDATA[
+				$mail->setHtml($message);
+			]]></search>
+			<add position="before"><![CDATA[
+				if ($this->config->get('newsletter_global_status') && $this->request->post['to'] == 'newsletter') {
+					$message1 = $message;
+					$message = str_replace('{unsubscribe_link}', HTTP_CATALOG . 'index.php?route=extension/module/newsletter/unsubscribe&id=' . md5('newsletter' . $email), $message1);
+				}
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/model/account/customer.php">
+		<operation error="skip">
+			<search><![CDATA[
+				public function addCustomer($data) {
+			]]></search>
+			<add position="after"><![CDATA[
+				if ($this->config->get('newsletter_global_status') && !empty($data['email'])) {
+					$this->db->query("DELETE FROM " . DB_PREFIX . "newsletter WHERE email = '" . $this->db->escape($data['email']) . "'");
+				}
+			]]></add>
+		</operation>
+	</file>
+
+</modification>

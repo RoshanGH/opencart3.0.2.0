@@ -1,0 +1,38 @@
+<modification>
+
+	<id>Subcategory Thumbnails</id>
+	<version>1.1</version>
+	<vqmver>2.1</vqmver>
+	<author>everthemes.com</author>
+	
+	<file name="admin/view/template/module/sellegance.tpl">
+		<operation>
+			<search position="replace"><![CDATA[
+				$subcat_thumb = 0;
+				]]></search>
+			<add><![CDATA[
+				$subcat_thumb = 1;
+				]]></add>
+		</operation>
+	</file>
+
+	<file name="catalog/controller/product/category.php">
+		<operation>
+			<search position="after" index="1" ><![CDATA[
+				$product_total = $this->model_catalog_product->getTotalProducts($data);]]></search>
+			<add><![CDATA[
+				$thumb_width = $this->config->get('sellegance_subcat_thumb_width');
+				$thumb_height = $this->config->get('sellegance_subcat_thumb_height');
+				$image = $this->model_tool_image->resize($result['image'], $thumb_width, $thumb_height);
+				]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[
+				$this->data['categories'][] = array(]]></search>
+			<add><![CDATA[
+				'thumb' => $image,
+				]]></add>
+		</operation>
+	</file>
+	
+</modification>

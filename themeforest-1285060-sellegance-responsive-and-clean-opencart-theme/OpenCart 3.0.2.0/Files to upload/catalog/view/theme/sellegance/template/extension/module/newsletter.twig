@@ -1,0 +1,38 @@
+<div class="newsletter">
+	<h3 class="newsletter_heading{{ module }}">{{ heading_title }}</h3>
+	<div class="box-content">
+		<p class="contrast_font intro">{{ entry_email }}</p>
+
+		<div class="input-group">
+			<input type="text" value="" placeholder="{{ text_email }}" name="email" id="newsletter_email{{ module }}" class="form-control">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="button" id="button-newsletter{{ module }}" data-toggle="tooltip" data-placement="top" title="{{ button_join }}"><i class="fa fa-envelope"></i></button>
+			</span>
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript"><!--
+$('#newsletter_email{{ module }}').on('keydown', function(e) {
+	if (e.keyCode == 13) {
+		$('#button-newsletter{{ module }}').trigger('click');
+	}
+});
+$('#button-newsletter{{ module }}').on('click', function() {
+	$.ajax({
+		url: 'index.php?route=extension/module/newsletter/validate',
+		type: 'post',
+		data: $('#newsletter_email{{ module }}'),
+		dataType: 'json',
+		success: function(json) {
+			if (json['error']) {
+				$('.newsletter_heading{{ module }}').after('<div class="alert alert-danger alert-dismissible fade in">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+			} else {
+				$('.newsletter_heading{{ module }}').after('<div class="alert alert-success alert-dismissible fade in">' + json['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				$('#newsletter_email').val('');
+			}
+		}
+	});	
+});
+//--></script> 

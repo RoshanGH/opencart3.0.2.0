@@ -1,0 +1,167 @@
+<modification>
+	
+	<id>Miscellaneous template options</id>
+	<version>1.1.1</version>
+	<vqmver>2.1</vqmver>
+	<author>everthemes.com</author>
+
+	<!-- Make banner width available in carousel template file -->
+	
+	<file name="catalog/controller/module/carousel.php">
+		<operation>
+			<search position="after"><![CDATA[$this->data['scroll'] = $setting['scroll'];]]></search>
+			<add><![CDATA[
+				$this->data['width'] = $setting['width'];
+				]]></add>
+		</operation>
+	</file>
+
+	<!-- Use Bootstrap pagination style -->
+
+	<file name="system/library/pagination.php">
+		
+		<operation>
+			<search position="replace" offset="3" ><![CDATA[public $text_first = '|&lt;';]]></search>
+			<add><![CDATA[
+				public $text_first = '&laquo;';
+				public $text_last = '&raquo';
+				public $text_next = '&rsaquo;';
+				public $text_prev = '&lsaquo;';]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[$output .= ' .... ';]]></search>
+			<add><![CDATA[$output .= '<b>....</b>';]]></add>
+		</operation>
+
+	</file>
+
+	<!-- Add multilanguage support on the Slideshow -->
+
+	<file name="catalog/controller/common/home.php">
+		<operation>
+			<search position="after"><![CDATA[
+			public function index() {
+			]]></search>
+			<add><![CDATA[
+			$this->load->model('localisation/language');
+
+			$languages = $this->model_localisation_language->getLanguages();
+			foreach ($languages as $language) {
+				if ($language['code'] == $this->session->data['language']) {
+					$this->data['language_id'] = $language['language_id'];
+				}
+			}
+				]]></add>
+		</operation>
+	</file>
+	
+	<!-- Login text -->
+
+	<file name="catalog/controller/common/header.php">
+		<operation>
+			<search position="after"><![CDATA[$this->language->load('common/header');]]></search>
+				<add><![CDATA[
+		  $this->language->load('module/sellegance');
+		  ]]></add>
+		</operation>
+	  <operation>
+			<search position="replace"><![CDATA[$this->language->get('text_welcome')]]></search>
+			<add><![CDATA[
+		  $this->language->get('text_welcome_short')
+		  ]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[$this->language->get('text_logged')]]></search>
+			<add><![CDATA[
+		  $this->language->get('text_logged_short')
+		  ]]></add>
+		</operation>
+
+		<!-- megamenu -->
+
+		<operation>
+			<search position="after"><![CDATA[$this->data['name'] = $this->config->get('config_name');]]></search>
+			<add><![CDATA[
+			$this->data['informations'] = array();
+
+			foreach ($this->model_catalog_information->getInformations() as $result) {
+				if ($result['bottom']) {
+					$this->data['informations'][] = array(
+						'title' => $result['title'],
+						'href'  => $this->url->link('information/information', 'information_id=' . $result['information_id'])
+					);
+				}
+	    	}
+		  ]]></add>
+		</operation>
+
+		<operation>
+			<search position="after"><![CDATA[$this->load->model('catalog/product');]]></search>
+			<add><![CDATA[
+			$this->load->model('catalog/manufacturer');
+			$this->load->model('tool/image');
+			$results = $this->model_catalog_manufacturer->getManufacturers();
+			foreach ($results as $result) {	
+				if ($result['image']) {
+							$image = $result['image'];
+						} else {
+							$image = 'no_image.jpg';
+						}			
+				$this->data['manufacturers'][] = array(
+					'name' => $result['name'],
+					'image' => $this->model_tool_image->resize($image, 100, 50),
+					'href' => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id'])
+				);
+			}
+		  ]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[$product_total = $this->model_catalog_product->getTotalProducts($data);]]></search>
+			<add><![CDATA[
+		  	$children_level_2 = $this->model_catalog_category->getCategories($child['category_id']);
+			$children_data_level_2 = array();
+			foreach ($children_level_2 as $child_level_2) {
+				$data_level_2 = array(
+					'filter_category_id'  => $child_level_2['category_id'],
+					'filter_sub_category' => true
+				);
+				$product_total_level_2 = '';
+				if ($this->config->get('config_product_count')) {
+					$product_total_level_2 = ' (' . $this->model_catalog_product->getTotalProducts($data_level_2) . ')';
+				}
+
+				$children_data_level_2[] = array(
+					'name'  =>  $child_level_2['name'],
+					'href'  => $this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_level_2['category_id']),
+					'id' => $category['category_id']. '_' . $child['category_id']. '_' . $child_level_2['category_id']
+				);
+			}
+		  ]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA['name'  => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $product_total . ')' : ''),]]></search>
+			<add><![CDATA[
+			'name'  => $child['name'],
+			'id' => $category['category_id']. '_' . $child['category_id'],
+			'children_level_2' => $children_data_level_2,
+		  ]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[$this->data['categories'][] = array(]]></search>
+			<add><![CDATA[
+			$this->load->model('tool/image');
+            $image = empty($category['image']) ? 'no_image.jpg' : $category['image'];
+            $thumb = $this->model_tool_image->resize($image, 100, 100);
+            $this->data['categories'][] = array(
+            'thumb'    => $thumb,
+		  ]]></add>
+		</operation>
+
+	</file>
+	
+</modification>

@@ -1,0 +1,17 @@
+{% if comments %}
+	{% for comment in comments %}
+		<div class="blog_comment row">
+		 	<div class="col-sm-3"><b>{{ comment.name }}</b><div class="date_added small">{{ comment.date_added }}</div></div>
+		 	<div class="col-sm-9">
+		 		<p>{{ comment.comment }}</p>
+		 	</div>
+		</div>
+	{% endfor %}
+	<div class="text-right">{{ pagination }}</div>
+{% else %}
+	<div class="blog_comment">
+		<div class="empty white">
+			<div class="note-light">{{ text_no_comment }}</div>
+		</div>
+	</div>
+{% endif %}

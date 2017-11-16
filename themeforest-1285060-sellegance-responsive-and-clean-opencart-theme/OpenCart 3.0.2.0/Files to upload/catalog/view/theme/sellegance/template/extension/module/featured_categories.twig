@@ -1,0 +1,45 @@
+<div id="featured_categories{{ module }}" class="category-slider top-arrows">
+	
+	<div class="contentset center">
+		<h4 class="inner"><span>{{ heading_title }}</span></h4>
+	</div>
+
+	<div class="owl-carousel">
+		{% for category in categories %}
+		<div class="item">
+			<div class="inner product-thumb">
+				<div class="image">
+
+					<div class="quickview"><a class="btn btn-link btn-quickview" title="" href="{{ category.href }}">{{ text_browse }} <i class="fa fa-long-arrow-right"></i></a></div>
+					
+					<div class="thumb"><a href="{{ category.href }}"><img src="{{ category.thumb }}" alt="{{ category.name }}" title="{{ category.name }}" class="img-responsive" /></a></div>
+
+				</div>
+				
+				<div class="caption">
+					<h4 class="catname"><a href="{{ category.href }}">{{ category.name }}</a></h4>
+					{% if category.display_description_status == '1' %}
+						<p class="catdesc">{{ category.description }}</p>
+					{% endif %}
+				</div>
+
+			</div><!-- .inner -->
+		</div><!-- .item -->
+		{% endfor %}
+	</div><!-- .owl-carousel -->
+
+</div>
+
+<script type="text/javascript"><!--
+$(document).ready(function() {
+	$('#featured_categories{{ module }} .owl-carousel').owlCarousel({
+		items: 5,
+		itemsMobile:[479,2],
+		{% if sellegance_carousel_autoplay == 1 %} autoPlay: 3000, {% endif %}
+		navigation: true,
+		navigationText: ['<i class="fa fa-angle-left fa-5x"></i>', '<i class="fa fa-angle-right fa-5x"></i>'],
+		pagination: true,
+		loop:true
+	});
+});
+--></script>

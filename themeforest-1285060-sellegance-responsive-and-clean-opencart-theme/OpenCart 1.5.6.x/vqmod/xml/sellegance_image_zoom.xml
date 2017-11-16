@@ -1,0 +1,43 @@
+﻿<modification>
+	
+	<id>Product Image Zoom</id>
+	<version>1.2</version>
+	<vqmver>2.1</vqmver>
+	<author>everthemes.com</author>
+
+	<file path="catalog/controller/product/" name="product.php,quickview.php">
+
+		<operation>
+			<search position="before"><![CDATA[
+				$this->data['images'] = array();
+			]]></search>
+			<add><![CDATA[
+			    if ($product_info['image']) {
+				$this->data['small'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('config_image_additional_width'), $this->config->get('config_image_additional_height'));
+			} else {
+				$this->data['small'] = '';
+			}
+			]]></add>
+		</operation>
+
+		<operation>
+			<search position="after"><![CDATA[
+				'popup' => $this->model_tool_image->resize($result['image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')),
+			]]></search>
+			<add><![CDATA[
+				'small' => $this->model_tool_image->resize($result['image'], $this->config->get('config_image_additional_width'), $this->config->get('config_image_additional_height')),
+			]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[
+				'thumb' => $this->model_tool_image->resize($result['image'], $this->config->get('config_image_additional_width'), $this->config->get('config_image_additional_height'))
+			]]></search>
+			<add><![CDATA[
+				'thumb' => $this->model_tool_image->resize($result['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'))
+			]]></add>
+		</operation>
+
+	</file>
+	
+</modification>

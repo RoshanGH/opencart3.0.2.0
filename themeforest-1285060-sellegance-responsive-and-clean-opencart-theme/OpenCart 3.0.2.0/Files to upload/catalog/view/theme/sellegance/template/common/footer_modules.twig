@@ -1,0 +1,20 @@
+{% set moduleid = 1 %}
+
+{% if not sellegance_footer_modules %}
+	{% set sellegance_footer_modules = 3 %}
+{% endif %}
+
+{% if modules %}
+	<div class="footer_modules">
+		<div class="container-inner">
+			<div class="footer_modules_wrapper row">
+				{% for module in modules %}
+					<div id="mod-{{ moduleid }}" class="col-sm-{{ 12/sellegance_footer_modules }}">
+						{{ module }}
+					</div>
+					{% set moduleid = moduleid + 1 %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endif %}

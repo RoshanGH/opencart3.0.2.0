@@ -1,0 +1,90 @@
+{{ header }}
+
+<div class="centralbox">
+		<div class="container">
+			<div class="container-inner">
+
+	{{ content_top }}
+	
+	<header class="page-header">
+		<h1>{{ heading_title }}</h1>
+	</header>
+
+	<ul class="breadcrumb">
+		{% for breadcrumb in breadcrumbs %}
+		<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+	</ul>
+
+	{% if column_left and column_right %}
+		{% set class = 'col-sm-6 middle sideleft' %}
+	{% elseif column_left or column_right %}
+		{% set class = 'col-sm-9' %}
+	{% else %}
+		{% set class = 'col-sm-12' %}
+	{% endif %}
+	
+	<div class="row">
+
+		{{ column_left }}
+
+		<div id="content" class="{{ class }} blog-category">
+			
+			<div class="blog blog_list mainborder">
+		
+				<div class="main_description">
+				{{ blog_category_description }}
+				</div>
+
+				{% if blogs %}
+				<div class="blog_grid_holder column-{{ list_columns }}">
+
+					{% for blog in blogs %}
+						<div class="blog_item">
+						
+							<h2 class="blog_title"><a href="{{ blog.href }}">{{ blog.title }}</a></h2>
+							<div class="blog_stats">
+								{% if date_added_status %}<span><b class="hl">{{ blog.date_added_full }}</b></span>{% endif %}
+								{% if author_status %}<span><b class="text">{{ text_posted_by }}</b> <b class="hl">{{ blog.author }}</b></span>{% endif %}
+								{% if page_view_status %}<span><b class="text">{{ text_read }}</b> <b class="hl">{{ blog.count_read }}</b></span>{% endif %}
+								{% if comments_count_status %}<span class="comment_count"><i class="fa fa-comments"></i> <b class="hl">{{ blog.comment_total }}</b></span>{% endif %}
+							</div> <!-- blog-stats ends -->
+
+							{% if blog.image %}
+								<div class="image zoom_image_container">
+									<a href="{{ blog.href }}"><img src="{{ blog.image }}" class="img-responsive" alt="{{ blog.title }}" title="{{ blog.title }}" /></a>
+								</div>
+							{% endif %}
+							
+							<div class="blog_summary">
+								<p>{{ blog.short_description }}</p>
+								<p><a href="{{ blog.href }}" class="btn btn-primary btn-sm">{{ text_read_more }}</a></p>
+							</div> <!-- summary ends -->
+
+						</div> <!-- item ends -->
+					{% endfor %}
+						
+				</div>
+
+			<div class="row">
+				<div class="col-sm-6 text-left">{{ results }}</div>
+				<div class="col-sm-6 text-right">{{ pagination }}</div>
+			</div>
+
+			{% else %}
+				
+				<div>{{ text_no_results }}</div>
+
+			{% endif %}
+		
+				</div>
+
+			</div> <!-- #content -->
+			
+			{{ column_right }}
+
+	</div> <!-- .row -->
+
+	{{ content_bottom }}
+
+{{ footer }}
